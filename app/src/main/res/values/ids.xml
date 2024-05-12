@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+        <resources>
+                <item type="id" name="settings_settings_title" />
+                <item type="id" name="settings_notification_sound_checkbox" />
+                <item type="id" name="settings_vibration_checkbox" />
+                <item type="id" name="settings_dark_mode_checkbox" />
+                <item type="id" name="settings_language_spinner" />
+                <item type="id" name="settings_save_button" />
+        </resources>

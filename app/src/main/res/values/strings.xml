@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name" translatable="false">Cheapy</string>
+    <string name="login_speakeasy" translatable="false">SpeakEasy</string>
+    <string name="login_plsSignIn" translatable="false">Sign in to your account</string>
+    <string name="login_username" translatable="false">Username</string>
+    <string name="login_password" translatable="false">Password</string>
+    <string name="login_rmb" translatable="false">Remember me</string>
+    <string name="login_signIn" translatable="false">Sign in</string>
+    <string name="login_dnt" translatable="false">Don\'t have an account?</string>
+    <string name="login_signUp" translatable="false">Sign up</string>
+    <string name="main_SpeakEasy" translatable="false">Speak Easy</string>
+    <string name="SignUp_username" translatable="false">*Username</string>
+    <string name="SignUp_name" translatable="false">*Name</string>
+    <string name="SignUp_enter_text" translatable="false">Enter text</string>
+    <string name="SignUp_next" translatable="false">Next</string>
+    <string name="SignUp_sign_up" translatable="false">Sign Up</string>
+    <string name="SignUp_Basic_info" translatable="false">Basic info:</string>
+    <string name="ContactInfo_phone" translatable="false">Phone</string>
+    <string name="ContactInfo_mail" translatable="false">Mail</string>
+    <string name="ContactInfo_Contact_info" translatable="false">Contact Info:</string>
+    <string name="ContactInfo_contact_info" translatable="false">Contact Info</string>
+    <string name="Gender_Gender" translatable="false">Gender:</string>
+    <string name="Gender_gender" translatable="false">Gender</string>
+    <string name="spinner_title" translatable="false">Select Gender</string>
+    <string name="Password_loginDetails" translatable="false">Login Details</string>
+    <string name="LoginDetails_password" translatable="false">*Password</string>
+    <string name="LoginDetails_confirm_password" translatable="false">*Confirm Password</string>
+    <string name="login_details_title" translatable="false">Login Details:</string>
+    <string name="Password_enter_text" translatable="false">Enter text</string>
+    <string name="Password_prev" translatable="false">Prev</string>
+    <string name="Password_next" translatable="false">Next</string>
+    <string name="SignUp_prev" translatable="false">Prev</string>
+    <string name="LoginDetails_submit" translatable="false">Submit</string>
+    <string name="error_passwords_do_not_match" translatable="false">Passwords do not match</string>
+    <string name="error_missing_uppercase" translatable="false">Must add one UPPERCASE letter</string>
+    <string name="error_missing_lowercase" translatable="false">Must add one lowercase letter</string>
+    <string name="error_missing_number" translatable="false">Must add one number</string>
+    <string name="error_missing_special_symbol" translatable="false">Must add one special symbol: @$! % * ? &amp;</string>
+    <string name="BaseUrl" translatable="false">http://10.0.2.2:5000/api/</string>
+    <string name="default_server_address" translatable="false">10.0.2.2:5000</string>
+    <string name="settings_messages_header" translatable="false">Messages</string>
+    <string name="settings_server_title" translatable="false">Your server</string>
+    <string name="settings_theme_header" translatable="false">Theme</string>
+    <string name="settings_dark_mode_summary" translatable="false">Use dark mode</string>
+    <string name="settings_dark_mode_title" translatable="false">Dark mode</string>
+    <string name="Settings_settings_title" translatable="false">Chat App Settings</string>
+    <string name="Settings_notification_sound_option" translatable="false">Enable Notification Sound</string>
+    <string name="Settings_vibration_option" translatable="false">Enable Vibration</string>
+    <string name="Settings_dark_mode_option" translatable="false">Dark Mode</string>
+    <string name="Settings_language_option" translatable="false">Language</string>
+    <string name="Settings_save_server" translatable="false">Save Server</string>
+    <string name="settings_back" translatable="false">back</string>
+    <string name="settings_server_address" translatable="false">Server Address</string>
+    <string name="settings_enter_server_address" translatable="false">Enter full server url address</string>
+    <item name="Settings_notification_sound_checkbox" type="id" />
+</resources>
