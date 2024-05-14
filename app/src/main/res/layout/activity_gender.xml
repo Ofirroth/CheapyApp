@@ -18,9 +18,9 @@
         <LinearLayout
             android:id="@+id/GenderContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="40dp"
+            android:layout_height="665dp"
             android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
             android:background="@color/Sign_up_container"
             android:orientation="vertical"
             android:padding="20dp">
@@ -39,8 +39,7 @@
                     android:id="@+id/profile_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                     />
+                    android:scaleType="centerCrop" />
 
             </androidx.cardview.widget.CardView>
 
@@ -75,9 +74,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="25dp"
+                    android:background="@color/white"
                     android:entries="@array/spinner_items"
                     android:paddingStart="10dp"
-                    android:background="@color/white"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 

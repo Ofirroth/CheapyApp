@@ -39,9 +39,9 @@
         <activity
             android:name=".Sign_up.ContactInfoActivity"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".LoginActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
 <!--        <activity-->
 <!--            android:name=".SettingActivity"-->
 <!--            android:exported="false" />-->
