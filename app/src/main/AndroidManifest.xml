@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 
-
     <application
         android:name=".Cheapy"
         android:allowBackup="true"
@@ -40,9 +39,9 @@
         <activity
             android:name=".Sign_up.ContactInfoActivity"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".LoginActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
 <!--        <activity-->
 <!--            android:name=".SettingActivity"-->
 <!--            android:exported="false" />-->

@@ -25,7 +25,7 @@
             <LinearLayout
                 android:id="@+id/signupContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="665dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
                 android:background="@color/Sign_up_container"
@@ -36,10 +36,9 @@
                     android:id="@+id/backButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_action_back"
                     android:background="?android:attr/selectableItemBackground"
                     android:contentDescription="Back"
-                    />
+                    android:src="@drawable/ic_action_back" />
 
 
                 <androidx.cardview.widget.CardView
@@ -117,6 +116,21 @@
 
                 </LinearLayout>
 
+                <Button
+                    android:id="@+id/buttonNext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@color/Sign_up_button"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="@string/SignUp_next"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
                 <LinearLayout
                     android:id="@+id/fieldBtns"
                     android:layout_width="match_parent"
@@ -124,20 +138,6 @@
                     android:layout_marginTop="40dp"
                     android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/buttonNext"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@color/Sign_up_button"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:text="@string/SignUp_next"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
                 </LinearLayout>
 
 
