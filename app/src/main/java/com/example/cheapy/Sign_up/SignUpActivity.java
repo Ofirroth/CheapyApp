@@ -103,6 +103,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isInputValid()) {
+
                     EditText editTextName = binding.SignUpName;
                     EditText editTextUserName = binding.SignUpUsername;
                     String inputName = editTextName.getText().toString().trim();
