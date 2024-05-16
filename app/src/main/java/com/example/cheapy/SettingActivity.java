@@ -57,7 +57,7 @@ public class SettingActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> onBackPressed());
         settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Set default values for the preferences (before creating a listener!)
-        //PreferenceManager.setDefaultValues(this, R.xml.root_preferences, true);
+        PreferenceManager.setDefaultValues(this, R.xml.root_preferences, true);
         SharedPreferences.OnSharedPreferenceChangeListener listener = (preferences, key) -> {
             if (key.equals("dark_mode")) {
                 changeTheme(preferences.getBoolean(key, false));
