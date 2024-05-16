@@ -64,7 +64,8 @@
                 android:layout_height="136dp"
                 android:padding="30dp"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 
         </LinearLayout>
