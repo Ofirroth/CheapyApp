@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Cheapy</string>
-    <string name="login_speakeasy" translatable="false">SpeakEasy</string>
+    <string name="login_cheapy" translatable="false">Cheapy</string>
     <string name="login_plsSignIn" translatable="false">Sign in to your account</string>
     <string name="login_username" translatable="false">Username</string>
     <string name="login_password" translatable="false">Password</string>
@@ -8,7 +8,7 @@
     <string name="login_signIn" translatable="false">Sign in</string>
     <string name="login_dnt" translatable="false">Don\'t have an account?</string>
     <string name="login_signUp" translatable="false">Sign up</string>
-    <string name="main_SpeakEasy" translatable="false">Speak Easy</string>
+    <string name="main_Cheapy" translatable="false">Cheapy</string>
     <string name="SignUp_username" translatable="false">*Username</string>
     <string name="SignUp_name" translatable="false">*Name</string>
     <string name="SignUp_enter_text" translatable="false">Enter text</string>

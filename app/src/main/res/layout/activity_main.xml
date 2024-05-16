@@ -30,7 +30,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/main_SpeakEasy"
+            android:text="@string/main_Cheapy"
             android:textSize="50dp"
             android:gravity="center"
             android:textColor="@color/MainActivity_title_color"

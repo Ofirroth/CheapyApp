@@ -24,9 +24,9 @@
             <LinearLayout
                 android:id="@+id/contactInfoContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="40dp"
+                android:layout_height="665dp"
                 android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
                 android:background="@color/Sign_up_container"
                 android:orientation="vertical"
                 android:padding="20dp">
@@ -37,11 +37,10 @@
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center"
-                    app:cardCornerRadius="75dp"
-                    app:cardElevation="4dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    >
+                    app:cardCornerRadius="75dp"
+                    app:cardElevation="4dp">
 
                     <ImageView
                         android:id="@+id/profile_image"
@@ -56,25 +55,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@color/Sign_up_text_color"
                     android:text="@string/ContactInfo_contact_info"
+                    android:textColor="@color/Sign_up_text_color"
                     android:textSize="35sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:id="@+id/contactInfoForm"
-                    android:layout_marginTop="35dp"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
+                    android:layout_marginTop="35dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/contact_info"
-                        android:layout_marginTop="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/Sign_up_text_color"
+                        android:layout_marginTop="20dp"
                         android:text="@string/ContactInfo_Contact_info"
+                        android:textColor="@color/Sign_up_text_color"
                         android:textSize="25sp"
                         android:textStyle="bold" />
 
@@ -94,9 +93,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
+                        android:gravity="center"
                         android:hint="@string/ContactInfo_phone"
                         android:minHeight="48dp"
-                        android:gravity="center"
                         android:padding="20dp"
                         android:textColor="@color/Sign_up_text_color"
                         android:textSize="15sp"
@@ -123,7 +122,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginStart="15dp"
-                            android:layout_marginTop="15dp"
+                            android:layout_marginTop="20dp"
                             android:layout_weight="1"
                             android:background="@color/Sign_up_button"
                             android:paddingLeft="15dp"
@@ -138,7 +137,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginStart="15dp"
-                            android:layout_marginTop="15dp"
+                            android:layout_marginTop="5dp"
                             android:layout_weight="1"
                             android:background="@color/Sign_up_button"
                             android:paddingStart="15dp"

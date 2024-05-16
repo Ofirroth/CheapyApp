@@ -30,9 +30,6 @@ public class UserAPI {
     private MutableLiveData<User> user;
 
 
-
-
-
     public UserAPI() {
         /////////////
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
