@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
         FloatingActionButton settingsButton = binding.settingsButton;
         settingsButton.setOnClickListener(v -> {
             // Start the SettingActivity
-            Intent intentSettings = new Intent(LoginActivity.this, com.example.cheapy.SettingActivity.class);
+            Intent intentSettings = new Intent(LoginActivity.this, SettingActivity.class);
             intentSettings.putExtra("camefrom","login");
             startActivity(intentSettings);
         });
@@ -99,13 +99,13 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
                                     "details not correct", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(),
-                                    "error", Toast.LENGTH_SHORT).show();
+                                    "error ", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
                 catch (Exception e) {
                     Toast.makeText(getApplicationContext(),
-                            "error:", Toast.LENGTH_SHORT).show();
+                            "error ", Toast.LENGTH_SHORT).show();
                 }
             }
         });
