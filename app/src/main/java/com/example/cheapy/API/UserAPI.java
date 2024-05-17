@@ -1,5 +1,6 @@
 package com.example.cheapy.API;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;

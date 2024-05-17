@@ -14,7 +14,7 @@ import com.example.cheapy.Sign_up.SignUpActivity;
 import com.example.cheapy.databinding.ActivityLoginBinding;
 import com.example.cheapy.isReturn;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-//import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class LoginActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
 
@@ -27,9 +27,9 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
     private String newToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(LoginActivity.this, instanceIdResult -> {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(LoginActivity.this, instanceIdResult -> {
              newToken = instanceIdResult.getToken();
-        });*/
+        });
 
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
@@ -88,8 +88,7 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
                     userAPI.signIn(username, password,newToken, callback -> {
                         if (callback == 200) {
                             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
-                            Log.e("token", userToken);
-                            Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
                             intent.putExtra("token", "Bearer " + userToken);
                             intent.putExtra("activeUserName", activeUserName);
                             isReturn.getInstance().setIsReturn(false);
@@ -104,8 +103,7 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
                     });
                 }
                 catch (Exception e) {
-                    Toast.makeText(getApplicationContext(),
-                            "error ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
                 }
             }
         });
