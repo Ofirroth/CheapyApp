@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.81151e4d.css",
+    "main.js": "/static/js/main.c81e6a33.js",
+    "static/media/backgroundchat.png": "/static/media/backgroundchat.f100e5ec11b4eb6bf10d.png",
+    "static/media/whatsApp.jpeg": "/static/media/whatsApp.a907fa0a73f082b619cb.jpeg",
+    "static/media/trump.jpg": "/static/media/trump.d132d7afee71ae3dcea6.jpg",
+    "static/media/eli.png": "/static/media/eli.c3b926a17da70b195f9c.png",
+    "static/media/backblue.jpg": "/static/media/backblue.9180bc2e7fdc2c99acb0.jpg",
+    "static/media/Biden.jpg": "/static/media/Biden.077029a6e63900733e04.jpg",
+    "index.html": "/index.html",
+    "static/media/check-square-fill.svg": "/static/media/check-square-fill.78acac9ae06d0afd1e26.svg",
+    "main.81151e4d.css.map": "/static/css/main.81151e4d.css.map",
+    "main.c81e6a33.js.map": "/static/js/main.c81e6a33.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.81151e4d.css",
+    "static/js/main.c81e6a33.js"
+  ]
+}
