@@ -51,6 +51,8 @@
 
         <activity android:name=".Home_page.HomePageActivity" />
 
+        <activity android:name=".Cart.CartActivity" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

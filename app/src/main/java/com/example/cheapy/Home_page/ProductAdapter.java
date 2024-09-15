@@ -1,19 +1,15 @@
 package com.example.cheapy.Home_page;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cheapy.Cart.CartManager;
 import com.example.cheapy.R;
-
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
@@ -31,42 +27,51 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return new ProductViewHolder(view);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = productList.get(position);
         holder.productName.setText(product.getName());
         holder.productImage.setImageResource(product.getImageResourceId());
-        holder.productPrice.setText(product.getPrice());
 
-        // Set up hover/touch listener to show the add to cart button
-        holder.itemView.setOnHoverListener((v, event) -> {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_HOVER_ENTER:
-                    holder.addToCartButton.setVisibility(View.VISIBLE);
-                    break;
-                case MotionEvent.ACTION_HOVER_EXIT:
-                    holder.addToCartButton.setVisibility(View.GONE);
-                    break;
+        // Convert the double price to a formatted string
+        String formattedPrice = String.format("₪%.2f", product.getPrice());
+        holder.productPrice.setText(formattedPrice);
+
+        holder.productQuantity.setText(String.valueOf(product.getQuantity()));
+
+        // Update visibility of minus button based on quantity
+        if (product.getQuantity() > 0) {
+            holder.minusButton.setVisibility(View.VISIBLE);
+        } else {
+            holder.minusButton.setVisibility(View.GONE);
+        }
+
+        // Handle "+" button click
+        holder.plusButton.setOnClickListener(v -> {
+            int newQuantity = product.getQuantity() + 1;
+            product.setQuantity(newQuantity);
+
+            // Update CartManager with the new product or updated quantity
+            CartManager.getInstance().addProduct(product);
+
+            // Update the displayed quantity
+            holder.productQuantity.setText(String.valueOf(newQuantity));
+            holder.minusButton.setVisibility(View.VISIBLE); // Show minus button if quantity > 0
+        });
+
+        holder.minusButton.setOnClickListener(v -> {
+            int newQuantity = product.getQuantity() - 1;
+            if (newQuantity > 0) {
+                product.setQuantity(newQuantity);
+                holder.productQuantity.setText(String.valueOf(newQuantity));
+                CartManager.getInstance().addProduct(product); // Update CartManager with the decreased quantity
+            } else {
+                // If quantity is zero, remove product from the cart
+                CartManager.getInstance().removeProduct(product);
+                holder.minusButton.setVisibility(View.GONE);
             }
-            return true;
         });
 
-        // Alternatively, for touch interaction
-        holder.itemView.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                holder.addToCartButton.setVisibility(View.VISIBLE);
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                holder.addToCartButton.setVisibility(View.GONE);
-            }
-            return true;
-        });
-
-        // Handle click on the Add to Cart button
-        holder.addToCartButton.setOnClickListener(v -> {
-            // Handle add to cart logic
-            Toast.makeText(v.getContext(), product.getName() + " added to cart", Toast.LENGTH_SHORT).show();
-        });
     }
 
     @Override
@@ -75,15 +80,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        TextView productName, productPrice;
-        ImageView productImage, addToCartButton;
+        TextView productName, productPrice, productQuantity;
+        ImageView productImage, plusButton, minusButton;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             productName = itemView.findViewById(R.id.productName);
             productImage = itemView.findViewById(R.id.productImage);
             productPrice = itemView.findViewById(R.id.productPrice);
-            addToCartButton = itemView.findViewById(R.id.addToCartButton);
+            productQuantity = itemView.findViewById(R.id.productQuantity);
+            plusButton = itemView.findViewById(R.id.plusButton);
+            minusButton = itemView.findViewById(R.id.minusButton);
         }
     }
 }

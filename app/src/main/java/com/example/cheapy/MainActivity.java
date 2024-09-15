@@ -6,6 +6,7 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cheapy.Cart.CartActivity;
 import com.example.cheapy.Home_page.HomePageActivity;
 
 public class MainActivity extends AppCompatActivity {
