@@ -69,10 +69,12 @@
     <string name="shopping_cart">Shopping Cart</string>
     <string name="personal_area">Personal Area</string>
     <item name="Settings_notification_sound_checkbox" type="id" />
-
+    <string name="checkout">Checkout</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="text_hint"><b>Search...</b></string>
     <string name="my_profile">My Profile</string>
+    <string name="product_price">15₪</string>
+    <string name="add_to_cart">add to cart</string>
 </resources>

@@ -42,5 +42,5 @@
     <color name="menu_nav_bar">#49B0AC</color>
     <color name="button_background">#EDD281</color>
     <color name="my_search_background_color">#D2E5E5</color>
-
+    <color name="whiteBodyColor">#FFFFFF</color>
 </resources>
