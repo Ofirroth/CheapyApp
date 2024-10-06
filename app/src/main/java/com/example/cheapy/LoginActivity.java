@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 import com.example.cheapy.API.UserAPI;
+import com.example.cheapy.Home_page.HomePageActivity;
+import com.example.cheapy.Sign_up.CityActivity;
 import com.example.cheapy.Sign_up.SignUpActivity;
 import com.example.cheapy.databinding.ActivityLoginBinding;
 import com.example.cheapy.isReturn;
@@ -88,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
                     userAPI.signIn(username, password,newToken, callback -> {
                         if (callback == 200) {
                             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
                             intent.putExtra("token", "Bearer " + userToken);
                             intent.putExtra("activeUserName", activeUserName);
                             isReturn.getInstance().setIsReturn(false);

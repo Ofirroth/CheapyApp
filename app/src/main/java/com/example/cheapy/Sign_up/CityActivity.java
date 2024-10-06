@@ -12,8 +12,11 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -21,16 +24,18 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.example.cheapy.databinding.ActivityGenderBinding;
+import com.example.cheapy.R;
+import com.example.cheapy.databinding.ActivityCityBinding;
 import com.example.cheapy.isReturn;
 
 import java.io.ByteArrayOutputStream;
 
-public class GenderActivity extends AppCompatActivity {
-    private ActivityGenderBinding binding;
+public class CityActivity extends AppCompatActivity {
+    private ActivityCityBinding binding;
     private String imageString = "";
     private Bitmap selectedImageBitmap;
     private String selectedImage;
+    private String selectedCity;
     private String username;
     private String name;
     private ImageView imageView; // Declare the ImageView as a class member
@@ -40,7 +45,7 @@ public class GenderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityGenderBinding.inflate(getLayoutInflater());
+        binding = ActivityCityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         CardView cardView = binding.cardViewProfileImage;
         imageView = binding.profileImage; // Assign the ImageView reference
@@ -80,6 +85,22 @@ public class GenderActivity extends AppCompatActivity {
                     }
                 });
 
+        Spinner citySpinner = findViewById(R.id.spinner);
+        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                selectedCity = parentView.getItemAtPosition(position).toString();
+                //TextView selectedCityText = findViewById(R.id.City);
+                //selectedCityText.setText(selectedCity);
+                // Handle the selected city (e.g., save it, display it, etc.)
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Handle no selection, if needed
+            }
+        });
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,9 +115,10 @@ public class GenderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start the next activity
-                Intent intent = new Intent(GenderActivity.this, PasswordActivity.class);
+                Intent intent = new Intent(CityActivity.this, PasswordActivity.class);
                 intent.putExtra("username", username);
                 intent.putExtra("name", name);
+                intent.putExtra("city", selectedCity);
                 if (selectedImageBitmap != null) {
                     Log.e("photo", selectedImageBitmap.toString());
                     imageString = encodeImage(selectedImageBitmap); // Convert bitmap to string

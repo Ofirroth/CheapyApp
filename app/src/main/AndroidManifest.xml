@@ -34,7 +34,7 @@
             android:name=".Sign_up.PasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".Sign_up.GenderActivity"
+            android:name=".Sign_up.CityActivity"
             android:exported="false" />
         <activity
             android:name=".Sign_up.ContactInfoActivity"

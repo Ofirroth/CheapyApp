@@ -108,7 +108,7 @@ public class ContactInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start the next activity
-                Intent intent = new Intent(ContactInfoActivity.this, GenderActivity.class);
+                Intent intent = new Intent(ContactInfoActivity.this, CityActivity.class);
                 intent.putExtra("username", username);
                 intent.putExtra("name", name);
                 if (selectedImageBitmap != null) {
