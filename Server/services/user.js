@@ -2,14 +2,14 @@ const User = require('../models/user')
 const UserPassName = require('../models/UserPassName')
 const jwt = require('jsonwebtoken');
 
-const createUser = async (username, password, displayName, profilePic) => {
+const createUser = async (username, password, displayName, profilePic, city) => {
     try {
         const users = await getAllUsers();
         const user = users.find((user) => user.username === username);
         if (!user) {
-            const newUserPass = new UserPassName({ username: username, password: password, displayName: displayName, profilePic: profilePic });
+            const newUserPass = new UserPassName({ username: username, password: password, displayName: displayName, profilePic: profilePic, city:city });
             UserPassName.create(newUserPass);
-            const newuser = new User({ username: username, displayName: displayName, profilePic: profilePic });
+            const newuser = new User({ username: username, displayName: displayName, profilePic: profilePic, city:city });
             const savedUser = await User.create(newuser);
             return savedUser;
         }

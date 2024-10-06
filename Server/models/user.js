@@ -13,6 +13,10 @@ const User = new Schema({
     profilePic:{
         type: String,
         nullable: true
-    }
+    },
+    city:{
+            type: String,
+            nullable: true
+        }
 });
 module.exports = mongoose.model('User', User);

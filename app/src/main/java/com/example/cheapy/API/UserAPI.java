@@ -64,8 +64,8 @@ public class UserAPI {
     }
 
 
-    public void register(String username, String password, String name, String profilePicture, CallBackFlag callBackFlag) {
-        Call<ResponseBody> signupCall = userServiceAPI.signup(Map.of("username", username, "password", password, "displayName", name, "profilePic", profilePicture));
+    public void register(String username, String password, String name, String profilePicture, String city, CallBackFlag callBackFlag) {
+        Call<ResponseBody> signupCall = userServiceAPI.signup(Map.of("username", username, "password", password, "displayName", name, "profilePic", profilePicture, "city", city));
         signupCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
