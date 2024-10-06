@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="product_price">15₪</string>
+    <string name="add_to_cart">add to cart</string>
+    <string name="remove_from_cart">remove from cart</string>
+</resources>

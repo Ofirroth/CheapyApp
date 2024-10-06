@@ -1,0 +1,83 @@
+<!-- Example XML for each product item in the RecyclerView -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <!-- Product Image -->
+    <ImageView
+        android:id="@+id/productImage"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/vegetables_and_fruits"
+        android:src="@drawable/product_1" />
+
+    <!-- Product Name -->
+    <TextView
+        android:id="@+id/productName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/productImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/vegetables_and_fruits"
+        android:textSize="14sp"
+        android:textColor="@color/black" />
+
+    <!-- Product Price -->
+    <TextView
+        android:id="@+id/productPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/productName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:text="@string/product_price"
+        android:textSize="12sp"
+        android:textColor="@color/black" />
+
+    <!-- Quantity, Minus and Plus Buttons in a Horizontal Layout -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/productPrice"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <!-- Minus Button -->
+        <ImageView
+            android:id="@+id/minusButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_minus"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/remove_from_cart"
+            android:visibility="gone"
+            android:elevation="4dp" />
+
+        <!-- Product Quantity -->
+        <TextView
+            android:id="@+id/productQuantity"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="14sp"
+            android:textColor="@color/black" />
+
+        <!-- Plus Button -->
+        <ImageView
+            android:id="@+id/plusButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_plus"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/add_to_cart"
+            android:elevation="4dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

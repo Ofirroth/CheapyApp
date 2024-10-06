@@ -34,9 +34,13 @@
     <color name="background_icon">#FFFFFF</color>
     <color name="dis_color">#1f1f1f</color>
     <color name="message_content">#1f1f1f</color>
-    <color name="message_time">@android:color/darker_gray</color>
+    <color name="message_time">@color/Sign_up_container</color>
     <color name="message_content_night">#FFFFFF</color>
     <color name="message_time_night">#FFFFFF</color>
     <color name="hints_message">#1f1f1f</color>
-
+    <color name="category_color">#49B0AC</color>
+    <color name="menu_nav_bar">#49B0AC</color>
+    <color name="button_background">#EDD281</color>
+    <color name="my_search_background_color">#D2E5E5</color>
+    <color name="whiteBodyColor">#FFFFFF</color>
 </resources>

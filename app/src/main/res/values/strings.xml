@@ -52,5 +52,34 @@
     <string name="settings_back" translatable="false">back</string>
     <string name="settings_server_address" translatable="false">Server Address</string>
     <string name="settings_enter_server_address" translatable="false">Enter full server url address</string>
+    <string name="recommended_for_you">Recommended for You</string>
+    <string name="category">Category</string>
+    <string name="add_filter">add filter</string>
+    <string name="my_lists">My Lists</string>
+    <string name="shopping_history">Shopping History</string>
+    <string name="filter">filter</string>
+    <string name="search">search</string>
+    <string name="frequently_purchased_items">Frequently Purchased Items</string>
+    <string name="menu">Menu</string>
+    <string name="vegetables_and_fruits">Vegetables and Fruits</string>
+    <string name="weekly_specials">Weekly Specials</string>
+    <string name="home">Home</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="notifications">Notification</string>
+    <string name="shopping_cart">Shopping Cart</string>
+    <string name="personal_area">Personal Area</string>
     <item name="Settings_notification_sound_checkbox" type="id" />
+    <string name="checkout">Checkout</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="text_hint"><b>Search...</b></string>
+    <string name="my_profile">My Profile</string>
+    <string name="product_price">15₪</string>
+    <string name="add_to_cart">add to cart</string>
+    <string name="remove_from_cart">remove from cart</string>
+    <string name="quantity">quantity</string>
+    <string name="product_name">product name</string>
+    <string name="product_image">product image</string>
+    <string name="return_home">return</string>
 </resources>
