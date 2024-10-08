@@ -1,5 +1,6 @@
 package com.example.cheapy.Home_page;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,12 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cheapy.Cart.CartActivity;
 import com.example.cheapy.Cart.CartManager;
-import com.example.cheapy.Home_page.ProductAdapter;
-import com.example.cheapy.Home_page.Product;
+import com.example.cheapy.adapters.ProductAdapter;
+import com.example.cheapy.entities.Product;
 import com.example.cheapy.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomePageActivity extends AppCompatActivity {
@@ -67,6 +67,7 @@ public class HomePageActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume() {
         super.onResume();

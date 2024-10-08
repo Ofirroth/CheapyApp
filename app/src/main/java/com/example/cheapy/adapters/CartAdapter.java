@@ -1,4 +1,4 @@
-package com.example.cheapy.Cart;
+package com.example.cheapy.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.cheapy.Home_page.Product;
+import com.example.cheapy.entities.Product;
 import com.example.cheapy.R;
 
 import java.util.List;

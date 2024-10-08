@@ -1,4 +1,4 @@
-package com.example.ap2_speakeasy.converts;
+package com.example.cheapy.converts;
 
 import androidx.room.TypeConverter;
 import com.google.gson.Gson;

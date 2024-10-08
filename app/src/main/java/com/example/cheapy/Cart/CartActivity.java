@@ -2,15 +2,14 @@ package com.example.cheapy.Cart;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cheapy.Cart.CartManager;
-import com.example.cheapy.Home_page.Product;
+import com.example.cheapy.adapters.CartAdapter;
+import com.example.cheapy.entities.Product;
 import com.example.cheapy.R;
 
 import java.util.ArrayList;
