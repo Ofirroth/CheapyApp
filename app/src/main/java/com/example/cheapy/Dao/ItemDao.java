@@ -13,13 +13,12 @@ import java.util.List;
 
 @Dao
 public interface ItemDao {
-    @Query("SELECT * FROM item")
+    @Query("SELECT * FROM Item")
     //getmessages
     List<Item> getItems();
-
-    @Query("SELECT * FROM item WHERE category = :id ORDER BY id")
+    @Query("SELECT * FROM Item WHERE category = :category ORDER BY id")
     //getallmessageswithcontact
-    LiveData<List<Item>> getAllItemsFromCategory(int id);
+    LiveData<List<Item>> getAllItemsFromCategory(String category);
 
     @Insert
     void insert(Item... items);

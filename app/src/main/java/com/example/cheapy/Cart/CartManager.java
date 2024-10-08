@@ -1,16 +1,16 @@
 package com.example.cheapy.Cart;
 
-import com.example.cheapy.entities.Product;
+import com.example.cheapy.entities.Item;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CartManager {
     private static CartManager instance;
-    private List<Product> cartProducts;
+    private List<Item> cartItems;
 
     private CartManager() {
-        cartProducts = new ArrayList<>();
+        cartItems = new ArrayList<>();
     }
 
     public static synchronized CartManager getInstance() {
@@ -20,41 +20,41 @@ public class CartManager {
         return instance;
     }
 
-    public void addProduct(Product product) {
+    public void addProduct(Item item) {
         boolean productExists = false;
-        for (Product p : cartProducts) {
-            if (p.getName().equals(product.getName())) {
+        for (Item p : cartItems) {
+            if (p.getName().equals(item.getName())) {
                 p.setQuantity(p.getQuantity() + 1);
                 productExists = true;
                 break;
             }
         }
         if (!productExists) {
-            product.setQuantity(1);
-            cartProducts.add(product);
+            item.setQuantity(1);
+            cartItems.add(item);
         }
     }
 
-    public void removeProduct(Product product) {
-        cartProducts.remove(product);
+    public void removeProduct(Item item) {
+        cartItems.remove(item);
     }
 
-    public List<Product> getCartProducts() {
-        return cartProducts;
+    public List<Item> getCartProducts() {
+        return cartItems;
     }
 
     public double getTotalPrice() {
         double total = 0.0;
-        for (Product product : cartProducts) {
-            total += product.getPrice() * product.getQuantity();
+        for (Item item : cartItems) {
+            total += item.getPrice() * item.getQuantity();
         }
         return total;
     }
 
     public int getTotalItemCount() {
         int total = 0;
-        for (Product product : cartProducts) {
-            total += product.getQuantity();
+        for (Item item : cartItems) {
+            total += item.getQuantity();
         }
         return total;
     }

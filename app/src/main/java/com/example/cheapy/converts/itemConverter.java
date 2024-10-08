@@ -10,7 +10,6 @@ public class itemConverter {
     public static Item fromJsonString(String value) {
         return new Gson().fromJson(value, Item.class);
     }
-
     @TypeConverter
     public static String toJsonString(Item item) {
         return new Gson().toJson(item);

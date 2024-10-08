@@ -1,4 +1,4 @@
-<!-- Example XML for each product item in the RecyclerView -->
+<!-- Example XML for each item item in the RecyclerView -->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="8dp">
 
-        <!-- Minus Button -->
+        <!-- Minus Button
         <ImageView
             android:id="@+id/minusButton"
             android:layout_width="24dp"
@@ -56,7 +56,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/remove_from_cart"
             android:visibility="gone"
-            android:elevation="4dp" />
+            android:elevation="4dp" /> -->
 
         <!-- Product Quantity -->
         <TextView
@@ -68,7 +68,7 @@
             android:textSize="14sp"
             android:textColor="@color/black" />
 
-        <!-- Plus Button -->
+        <!-- Plus Button
         <ImageView
             android:id="@+id/plusButton"
             android:layout_width="24dp"
@@ -76,7 +76,7 @@
             android:src="@drawable/ic_plus"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/add_to_cart"
-            android:elevation="4dp" />
+            android:elevation="4dp" /> -->
 
     </LinearLayout>
 

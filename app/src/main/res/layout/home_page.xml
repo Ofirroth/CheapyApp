@@ -134,7 +134,7 @@
 
     <!-- Add RecyclerView for Products -->
 
-    <androidx.recyclerview.widget.RecyclerView
+    <!--<androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProducts"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -144,7 +144,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvWeeklyDiscounts"
         app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/item_product" />
+        tools:listitem="@layout/item_product" /> -->
+
+    <ListView
+        android:id="@+id/listViewProducts"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvWeeklyDiscounts"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnShoppingHistory"

@@ -7,17 +7,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.cheapy.entities.Product;
+
+import com.example.cheapy.entities.Item;
 import com.example.cheapy.R;
 
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
-    private List<Product> cartProducts;
+    private List<Item> cartItems;
 
-    public CartAdapter(List<Product> cartProducts) {
-        this.cartProducts = cartProducts;
+    public CartAdapter(List<Item> cartItems) {
+        this.cartItems = cartItems;
     }
 
     @NonNull
@@ -29,17 +30,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
-        Product product = cartProducts.get(position);
-        holder.productName.setText(product.getName());
-        holder.productPrice.setText(String.format("₪ %.2f", product.getPrice()));
-        holder.productQuantity.setText(String.valueOf(product.getQuantity()));
+        Item item = cartItems.get(position);
+        holder.productName.setText(item.getName());
+        holder.productPrice.setText(String.format("₪ %.2f", item.getPrice()));
+        //holder.productQuantity.setText(String.valueOf(item.getQuantity()));
 
         // Handle click events or any other functionality
     }
 
     @Override
     public int getItemCount() {
-        return cartProducts.size();
+        return cartItems.size();
     }
 
     public static class CartViewHolder extends RecyclerView.ViewHolder {
