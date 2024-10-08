@@ -18,6 +18,10 @@ const Item = new Schema({
     store: {
         type: Store
         nullable: true
+    },
+    category: {
+        type: String,
+        nullable: true
     }
 });
 module.exports = mongoose.model('Item', Item);

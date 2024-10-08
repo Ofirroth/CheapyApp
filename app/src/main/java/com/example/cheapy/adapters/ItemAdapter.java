@@ -1,9 +1,11 @@
 package com.example.cheapy.adapters;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -11,18 +13,45 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cheapy.Cart.CartManager;
 import com.example.cheapy.R;
-import com.example.cheapy.entities.Product;
+import com.example.cheapy.entities.Item;
 
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+public class ItemAdapter extends ArrayAdapter<Item> {
+    LayoutInflater inflater;
+    private List<Item> itemList;
 
-    private List<Product> productList;
-
-    public ProductAdapter(List<Product> productList) {
-        this.productList = productList;
+    public ItemAdapter(Context context, List<Item> itemList) {
+        super(context, 0, itemList);
+        this.inflater = LayoutInflater.from(context);
     }
 
+    @NonNull
+    @Override
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        Item item = getItem(position);
+        convertView = inflater.inflate(R.layout.item_product, parent, false);
+        TextView name = convertView.findViewById(R.id.productName);
+        ImageView imageView = convertView.findViewById(R.id.productImage);
+        TextView price = convertView.findViewById(R.id.productPrice);
+        TextView quantity = convertView.findViewById(R.id.productQuantity);
+        name.setText(item.getName());
+        price.setText(String.valueOf(item.getPrice()));
+        //quantity.setText(0);
+
+
+        return convertView;
+    }
+
+    public void setItems(List<Item> items) {
+        this.clear();
+        if (items != null) {
+            addAll(items);
+        }
+        notifyDataSetChanged();
+    }
+
+    /**
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -32,18 +61,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Product product = productList.get(position);
-        holder.productName.setText(product.getName());
-        holder.productImage.setImageResource(product.getImageResourceId());
+        Item item = itemList.get(position);
+        holder.productName.setText(item.getName());
+        holder.productImage.setImageResource(Integer.parseInt(item.getImageResource()));
 
-        @SuppressLint("DefaultLocale") String formattedPrice = String.format("₪%.2f", product.getPrice());
+        @SuppressLint("DefaultLocale") String formattedPrice = String.format("₪%.2f", item.getPrice());
         holder.productPrice.setText(formattedPrice);
 
         // Set the current product quantity
-        holder.productQuantity.setText(String.valueOf(product.getQuantity()));
+        holder.productQuantity.setText(String.valueOf(item.getQuantity()));
 
         // Show or hide the minus button based on the quantity
-        if (product.getQuantity() > 0) {
+        if (item.getQuantity() > 0) {
             holder.minusButton.setVisibility(View.VISIBLE);
         } else {
             holder.minusButton.setVisibility(View.GONE);
@@ -55,10 +84,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         // Set the click listener for the "+" button
         holder.plusButton.setOnClickListener(v -> {
-            int newQuantity = product.getQuantity() + 1;
-            product.setQuantity(newQuantity);
+            int newQuantity = item.getQuantity() + 1;
+            item.setQuantity(newQuantity);
 
-            CartManager.getInstance().addProduct(product);
+            CartManager.getInstance().addProduct(item);
 
             holder.productQuantity.setText(String.valueOf(newQuantity));
             holder.minusButton.setVisibility(View.VISIBLE);
@@ -66,15 +95,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         // Set the click listener for the "-" button
         holder.minusButton.setOnClickListener(v -> {
-            int newQuantity = product.getQuantity() - 1;
+            int newQuantity = item.getQuantity() - 1;
             if (newQuantity > 0) {
-                product.setQuantity(newQuantity);
+                item.setQuantity(newQuantity);
                 holder.productQuantity.setText(String.valueOf(newQuantity));
-                CartManager.getInstance().addProduct(product);
+                CartManager.getInstance().addProduct(item);
             } else {
-                product.setQuantity(0);
+                item.setQuantity(0);
                 holder.productQuantity.setText("0");
-                CartManager.getInstance().removeProduct(product);
+                CartManager.getInstance().removeProduct(item);
                 holder.minusButton.setVisibility(View.GONE);
             }
         });
@@ -82,7 +111,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return itemList.size();
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
@@ -98,5 +127,5 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             plusButton = itemView.findViewById(R.id.plusButton);
             minusButton = itemView.findViewById(R.id.minusButton);
         }
-    }
+    }**/
 }

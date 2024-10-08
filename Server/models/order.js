@@ -7,7 +7,18 @@ const Schema = mongoose.Schema;
 
 const Order = new Schema({
     cart: {
-        type: [Item.schema],
+        type: [
+            {
+                item: {
+                    type: Item,
+                    nullable: true
+                },
+                quantity: {
+                    type: Number,
+                    nullable: true
+                }
+            }
+        ]
     }
     confirmDate: {
         type: Date,

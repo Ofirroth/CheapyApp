@@ -1,31 +1,61 @@
 package com.example.cheapy.entities;
-
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
+import androidx.room.PrimaryKey;
 
 import com.example.cheapy.converts.itemConverter;
-
-import java.util.Map;
 
 @Entity
 @TypeConverters(itemConverter.class)
 public class Item {
+
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private String name;
-    private int price;
+    private final String name;
+    private final String imageResource;
+    private double price;
+    private Store store;
+    private String category;
+    private int quantity;
 
-    private int category;
-    /*
-    // True if the message was sent by the current user
-    private Map<String,String> sender;
-    // The contact id of the user the current user is chatting with
-    private int contactId;
-    */
-    public Item(String name, int price, int category) {
+    public Item(String name, String imageResource, double price, Store store, String category, int quantity) {
         this.name = name;
+        this.imageResource = imageResource;
         this.price = price;
+        this.store = store;
+        this.category = category;
+        this.quantity = quantity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getImageResource() {
+        return imageResource;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {  // Setter for price
+        this.price = price;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -37,27 +67,11 @@ public class Item {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getCategory() {
-        return category;
-    }
-
-    public void setCategory(int category) {
-        this.category = category;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

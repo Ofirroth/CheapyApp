@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cheapy.adapters.CartAdapter;
-import com.example.cheapy.entities.Product;
+import com.example.cheapy.entities.Item;
 import com.example.cheapy.R;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class CartActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private CartAdapter cartAdapter;
-    private List<Product> cartProducts;
+    private List<Item> cartItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +43,18 @@ public class CartActivity extends AppCompatActivity {
 
     private void updateCartProductList() {
         // Get the list of all products from CartManager
-        List<Product> allProducts = CartManager.getInstance().getCartProducts();
+        List<Item> allItems = CartManager.getInstance().getCartProducts();
 
         // Filter products with quantity > 0
-        cartProducts = new ArrayList<>();
-        for (Product product : allProducts) {
-            if (product.getQuantity() > 0) {
-                cartProducts.add(product);
-            }
-        }
+        cartItems = new ArrayList<>();
+//        for (Item item : allItems) {
+//            if (item.getQuantity() > 0) {
+//                cartItems.add(item);
+//            }
+//        }
 
         // Create and set the adapter with the filtered product list
-        cartAdapter = new CartAdapter(cartProducts);
+        cartAdapter = new CartAdapter(cartItems);
         recyclerView.setAdapter(cartAdapter);
     }
 

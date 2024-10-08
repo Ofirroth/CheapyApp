@@ -79,7 +79,7 @@
     <string name="add_to_cart">add to cart</string>
     <string name="remove_from_cart">remove from cart</string>
     <string name="quantity">quantity</string>
-    <string name="product_name">product name</string>
-    <string name="product_image">product image</string>
+    <string name="product_name">item name</string>
+    <string name="product_image">item image</string>
     <string name="return_home">return</string>
 </resources>
