@@ -1,16 +1,16 @@
-package com.example.cheapy.Home_page;
+package com.example.cheapy.entities;
 
 public class Product {
-    private String name;
-    private int imageResourceId;
+    private final String name;
+    private final int imageResourceId;
     private int quantity;
-    private double price;  // Change to double
+    private double price;
 
     public Product(String name, int imageResourceId, double price) {
         this.name = name;
         this.imageResourceId = imageResourceId;
-        this.price = price;  // Ensure price is passed as a double
-        this.quantity = 0; // Default quantity
+        this.price = price;
+        this.quantity = 0;
     }
 
     public String getName() {
@@ -22,7 +22,7 @@ public class Product {
     }
 
     public double getPrice() {
-        return price;  // Now returns a double
+        return price;
     }
 
     public int getQuantity() {

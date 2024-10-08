@@ -1,6 +1,6 @@
 package com.example.cheapy.Cart;
 
-import com.example.cheapy.Home_page.Product;
+import com.example.cheapy.entities.Product;
 
 import java.util.ArrayList;
 import java.util.List;
