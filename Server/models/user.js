@@ -1,4 +1,6 @@
 const mongoose =require ('mongoose');
+const Order = require('./order');
+const Group = require('./group');
 const Schema = mongoose.Schema;
 
 const User = new Schema({
@@ -17,6 +19,19 @@ const User = new Schema({
     city:{
             type: String,
             nullable: true
-        }
+    },
+    orderHistory: {
+        type: [Order.schema],
+        nullable: true
+    },
+    order: {
+        type: Order,
+        nullable: true
+    },
+    group: {
+        type: Group,
+        nullable: true
+    }
+
 });
 module.exports = mongoose.model('User', User);
