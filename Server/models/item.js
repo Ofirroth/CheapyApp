@@ -1,27 +1,35 @@
-const mongoose =require ('mongoose');
+const mongoose = require('mongoose');
 const Store = require('./store');
+const Category = require('./category');
+
 const Schema = mongoose.Schema;
 
 const Item = new Schema({
-    name:{
-           type:  String,
-           nullable: false
+    name: {
+        type: String,
+        required: true
     },
-    itemPic:{
-           type: String,
-           nullable: true
+    itemPic: {
+        type: String,
+        required: false
     },
     price: {
         type: Number,
-        nullable: false
+        required: true
     },
     store: {
-        type: Store
-        nullable: true
+        type: Schema.Types.ObjectId,
+        ref: 'Store',
+        required: false
     },
     category: {
         type: String,
-        nullable: true
-    }
+        required: true
+    },
+    subCategory: {
+            type: String,
+            required: false
+      }
 });
+
 module.exports = mongoose.model('Item', Item);

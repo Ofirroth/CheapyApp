@@ -42,7 +42,7 @@ public class ItemRepository {
 
     public void reload() {
         ItemAPI itemAPI = new ItemAPI();
-        itemAPI.getItemsByCategory(itemListData, token, "1");
+        itemAPI.getItems(itemListData, token);
         itemDao.delete();
         List<Item> itemsList = itemListData.getValue();
         itemListData.postValue(itemsList);
@@ -60,7 +60,7 @@ public class ItemRepository {
         protected void onActive() {
             super.onActive();
             new Thread(() -> {
-                itemAPI.getItemsByCategory(this,token, "1");
+                itemAPI.getItems(this,token);
             }).start();
         }
     }

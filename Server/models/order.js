@@ -1,4 +1,4 @@
-const mongoose =require ('mongoose');
+const mongoose = require('mongoose');
 const User = require('./user');
 const Item = require('./item');
 const Group = require('./group');
@@ -10,32 +10,36 @@ const Order = new Schema({
         type: [
             {
                 item: {
-                    type: Item,
-                    nullable: true
+                    type: Schema.Types.ObjectId,
+                    ref: 'Item',
+                    required: true
                 },
                 quantity: {
                     type: Number,
-                    nullable: true
+                    required: true
                 }
             }
         ]
-    }
+    },
     confirmDate: {
         type: Date,
-        nullable: true
-    }
+        required: false
+    },
     store: {
-        type: Store,
-        nullable: true
-    }
+        type: Schema.Types.ObjectId,
+        ref: 'Store',
+        required: false
+    },
     user: {
-        type: User,
-        nullable: true
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: false
     },
     group: {
-        type: Group,
-        nullable: true
+        type: Schema.Types.ObjectId,
+        ref: 'Group',
+        required: false
     }
-
 });
+
 module.exports = mongoose.model('Order', Order);

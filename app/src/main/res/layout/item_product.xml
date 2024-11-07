@@ -1,4 +1,4 @@
-<!-- Example XML for each item item in the RecyclerView -->
+<!-- Example XML for each item item -->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
@@ -10,9 +10,7 @@
         android:id="@+id/productImage"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/vegetables_and_fruits"
-        android:src="@drawable/product_1" />
+        android:layout_centerHorizontal="true"/>
 
     <!-- Product Name -->
     <TextView
@@ -22,7 +20,6 @@
         android:layout_below="@id/productImage"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:text="@string/vegetables_and_fruits"
         android:textSize="14sp"
         android:textColor="@color/black" />
 

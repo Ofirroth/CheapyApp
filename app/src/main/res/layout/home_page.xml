@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Home_page.HomePageActivity"
-    android:background="@color/light_grey"
-    >
+    android:background="@color/light_grey">
 
     <!-- Toolbar -->
 
@@ -24,7 +23,6 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
     </LinearLayout>
 
     <!-- Categories Horizontal Scroll -->
@@ -46,15 +44,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
             <!-- Example category item, repeat as necessary -->
-
-            <!-- Add more categories as needed -->
         </LinearLayout>
     </HorizontalScrollView>
 
     <!-- Frequent Items Container -->
-
 
     <TextView
         android:id="@+id/tvWeeklyDiscounts"
@@ -78,9 +72,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-       />
-
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Bottom Navigation -->
 
@@ -129,27 +121,17 @@
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
-
     </LinearLayout>
 
-    <!-- Add RecyclerView for Products -->
-
-    <!--<androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewProducts"
+    <!-- Add GridView for Products -->
+    <GridView
+        android:id="@+id/gridViewProducts"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvWeeklyDiscounts"
-        app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/item_product" /> -->
-
-    <ListView
-        android:id="@+id/listViewProducts"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:numColumns="3"
+        android:columnWidth="100dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -164,7 +146,6 @@
         android:background="@color/button_background"
         android:text="@string/shopping_history"
         android:textColor="@color/black"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.245"
@@ -206,8 +187,6 @@
             android:contentDescription="@string/menu"
             android:padding="16dp"
             android:src="@drawable/ic_menu" />
-
-
     </androidx.appcompat.widget.Toolbar>
 
     <ImageView

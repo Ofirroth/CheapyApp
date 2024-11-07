@@ -82,4 +82,6 @@
     <string name="product_name">item name</string>
     <string name="product_image">item image</string>
     <string name="return_home">return</string>
+    <string name="search_icon">Search</string>
+
 </resources>

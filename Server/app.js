@@ -27,6 +27,12 @@ app.use('/api/Users', users);
 const token = require('./routes/token');
 app.use('/api/Tokens',token);
 
+const item = require('./routes/item');
+app.use('/api/Item',item);
+
+const category = require('./routes/category');
+app.use('/api/Category',category);
+
 const chat = require('./routes/chat');
 const { Socket } = require('dgram');
 app.use('/api/Chats',chat);
