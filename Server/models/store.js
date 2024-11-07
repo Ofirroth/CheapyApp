@@ -1,15 +1,15 @@
-const mongoose =require ('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Store = new Schema({
-    name:{
-            type: String,
-            nullable: true
-        },
-    city:{
-                type: String,
-                nullable: true
-        }
-
+    name: {
+        type: String,
+        required: true
+    },
+    city: {
+        type: String,
+        required: true
+    }
 });
+
 module.exports = mongoose.model('Store', Store);

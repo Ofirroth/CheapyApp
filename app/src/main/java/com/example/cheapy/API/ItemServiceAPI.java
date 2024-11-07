@@ -15,13 +15,13 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ItemServiceAPI {
-    @GET("Chats/")
+    @GET("Item/")
     Call<List<Item>> getItems(@Header("Authorization")String token);
 
-    @GET("Chats/{name}")
+    @GET("Item/{name}")
     Call<Item> getItem(@Header("Authorization")String token,@Path("name") String name);
 
-    @GET("Chats/{category}")
+    @GET("Item/{category}")
     Call<List<Item>> getItemByCategory(@Header("Authorization")String token,@Path("category") String category);
 
 }

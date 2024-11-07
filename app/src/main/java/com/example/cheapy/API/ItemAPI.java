@@ -47,6 +47,33 @@ public class ItemAPI {
         responeAnswer = new MutableLiveData<>();
     }
 
+    public void getItems(MutableLiveData<List<Item>> itemsListData, String token) {
+        Call<List<Item>> call = itemServiceAPI.getItems(token);
+        call.enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                if (response.isSuccessful()) {
+                    itemsListData.setValue(response.body());
+                } else {
+                    Toast.makeText(Cheapy.context,
+                            "Error:" + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+                String err = t.getMessage();
+                if (err != null) {
+                    Toast.makeText(Cheapy.context,
+                            "Error:" + err, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Cheapy.context,
+                            "Error:", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     public void getItemsByCategory(MutableLiveData<List<Item>> itemsListData, String token, String category) {
         Call<List<Item>> call = itemServiceAPI.getItemByCategory(token, category);
         call.enqueue(new Callback<List<Item>>() {

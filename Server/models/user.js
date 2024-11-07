@@ -1,37 +1,40 @@
-const mongoose =require ('mongoose');
-const Order = require('./order');
-const Group = require('./group');
+const mongoose = require('mongoose');
+const Order = require('./order');  // Import the Order model
+const Group = require('./group');  // Import the Group model
 const Schema = mongoose.Schema;
 
 const User = new Schema({
-    username:{
-        type:  String,
-        nullable: true
+    username: {
+        type: String,
+        required: true
     },
     displayName: {
         type: String,
-        nullable: true
+        required: false
     },
-    profilePic:{
+    profilePic: {
         type: String,
-        nullable: true
+        required: false
     },
-    city:{
-            type: String,
-            nullable: true
+    city: {
+        type: String,
+        required: false
     },
     orderHistory: {
-        type: [Order.schema],
-        nullable: true
+        type: [Schema.Types.ObjectId],  // Use ObjectId to reference Order
+        ref: 'Order',                    // Reference the Order model
+        required: false
     },
     order: {
-        type: Order,
-        nullable: true
+        type: Schema.Types.ObjectId,     // Use ObjectId to reference Order
+        ref: 'Order',                    // Reference the Order model
+        required: false
     },
     group: {
-        type: Group,
-        nullable: true
+        type: Schema.Types.ObjectId,     // Use ObjectId to reference Group
+        ref: 'Group',                    // Reference the Group model
+        required: false
     }
-
 });
+
 module.exports = mongoose.model('User', User);

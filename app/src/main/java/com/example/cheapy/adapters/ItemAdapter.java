@@ -1,7 +1,10 @@
 package com.example.cheapy.adapters;
-
+import com.bumptech.glide.Glide;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,23 +27,51 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     public ItemAdapter(Context context, List<Item> itemList) {
         super(context, 0, itemList);
         this.inflater = LayoutInflater.from(context);
+        this.itemList = itemList;
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        Item item = getItem(position);
-        convertView = inflater.inflate(R.layout.item_product, parent, false);
-        TextView name = convertView.findViewById(R.id.productName);
-        ImageView imageView = convertView.findViewById(R.id.productImage);
-        TextView price = convertView.findViewById(R.id.productPrice);
-        TextView quantity = convertView.findViewById(R.id.productQuantity);
-        name.setText(item.getName());
-        price.setText(String.valueOf(item.getPrice()));
-        //quantity.setText(0);
+        // ViewHolder pattern
+        ViewHolder viewHolder;
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.item_product, parent, false);
+            viewHolder = new ViewHolder();
+            viewHolder.name = convertView.findViewById(R.id.productName);
+            viewHolder.imageView = convertView.findViewById(R.id.productImage);
+            viewHolder.price = convertView.findViewById(R.id.productPrice);
+            viewHolder.quantity = convertView.findViewById(R.id.productQuantity);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
 
+        Item item = getItem(position);
+
+        // In the getView() method
+        if (item != null) {
+            viewHolder.name.setText(item.getName());
+            viewHolder.price.setText(String.format("₪%.2f", item.getPrice()));
+
+            String imageResource = item.getImageResource();
+            Glide.with(convertView.getContext())
+                    .load(imageResource)
+                    .into(viewHolder.imageView);
+
+            viewHolder.quantity.setText(String.valueOf(item.getQuantity()));
+        }
 
         return convertView;
+    }
+
+
+    // ViewHolder to optimize ListView performance
+    private static class ViewHolder {
+        TextView name;
+        ImageView imageView;
+        TextView price;
+        TextView quantity;
     }
 
     public void setItems(List<Item> items) {

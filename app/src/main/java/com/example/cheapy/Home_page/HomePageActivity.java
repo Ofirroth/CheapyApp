@@ -3,15 +3,20 @@ package com.example.cheapy.Home_page;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cheapy.Cart.CartActivity;
 import com.example.cheapy.Cart.CartManager;
+import com.example.cheapy.CategoriesActivity;
 import com.example.cheapy.Dao.AppDB;
 import com.example.cheapy.Dao.ItemDao;
 import com.example.cheapy.DatabaseManager;
@@ -38,27 +43,30 @@ public class HomePageActivity extends AppCompatActivity {
     private ItemAdapter adapter;
 
     private ItemViewModel viewModel;
-    private List<Item> items; // Declare productList as a member variable
+    private List<Item> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = HomePageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Intent intent = getIntent();
 
-        // Initialize RecyclerView
-        //RecyclerView recyclerView = findViewById(R.id.recyclerViewProducts);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        if (intent != null) {
+            activeUserName = getIntent().getStringExtra("activeUserName");
+            userToken = getIntent().getStringExtra("token");
+        }
 
-        // Initialize the product list
-        initializeProductList(); // Call a method to initialize the list
+        // Setup the toolbar click listener to navigate to CategoriesActivity
+        ImageView toolbar = binding.menuButton;  // Get the toolbar
+        toolbar.setOnClickListener(v -> {
+            Intent nintent = new Intent(HomePageActivity.this, CategoriesActivity.class);
+            nintent.putExtra("activeUserName", activeUserName);
+            nintent.putExtra("token", userToken);
+            startActivity(nintent);
+        });
 
-        // Create and set the adapter
-        //adapter = new ItemAdapter(items);
-        //recyclerView.setAdapter(adapter);
-
-        // Set up the bottom navigation view
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        BottomNavigationView bottomNavigationView = binding.bottomNavigationView;
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
 
@@ -78,25 +86,20 @@ public class HomePageActivity extends AppCompatActivity {
         });
 
         this.db = DatabaseManager.getDatabase();
-
         this.itemDao = db.itemDao();
-        this.viewModel = new ItemViewModel(userToken);
+        this.viewModel = new ItemViewModel(this.userToken);
         this.items = new ArrayList<>();
 
-        items.add(new Item("טחינה אחווה", String.valueOf(R.drawable.product_1), 4.80, new Store("rami","holon"), "1",0));
-        items.add(new Item("טל העמק 9%", String.valueOf(R.drawable.product_2), 16.80, new Store("rami","holon"), "1",0));
-
-        ListView lvItems = binding.listViewProducts;
-        adapter = new ItemAdapter(getApplicationContext(), (ArrayList<Item>) this.items);
-        //adapter.setNightMode(isNightMode);
-
-        //viewModel.getItems().observe(this, adapter::setItems);
-
+        //initializeProductList();
+        GridView lvItems = binding.gridViewProducts;
+        adapter = new ItemAdapter(getApplicationContext(), this.items);
+        this.viewModel.getItems().observe(this, adapter::setItems);;
         lvItems.setAdapter(adapter);
+
+        //adapter.setNightMode(isNightMode);
+        //viewModel.getItems().observe(this, adapter::setItems);
         //lvItems.setClickable(true);
-
         //binding.searchEditText.addTextChangedListener(this);
-
         //MutableLiveData<String> contactFirebase = SingeltonFireBase.getContactFirebase();
         //MutableLiveData<Message> messageMutableLiveData = SingeltonFireBase.getMessageFirebase();
 
@@ -112,23 +115,11 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });**/
     }
-
-    private void initializeProductList() {
-        items = CartManager.getInstance().getCartProducts();
-        if (items.isEmpty()) {
-            // Populate with initial products if cart is empty
-            items.add(new Item("טחינה אחווה", String.valueOf(R.drawable.product_1), 4.80, new Store("rami","holon"), "1",0));
-            items.add(new Item("טל העמק 9%", String.valueOf(R.drawable.product_2), 16.80, new Store("rami","holon"), "1",0));
-        }
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume() {
         super.onResume();
-        // Update the product list and cart state when returning to the HomePage
-        items = CartManager.getInstance().getCartProducts();
-        adapter.notifyDataSetChanged(); // Refresh RecyclerView
+        this.viewModel.reload();
     }
 }
 
