@@ -35,6 +35,21 @@ public class CartManager {
         }
     }
 
+    public void decreaseProductQuantity(Product product) {
+        for (Product p : cartProducts) {
+            if (p.getName().equals(product.getName())) {
+                int newQuantity = p.getQuantity() - 1;
+                if (newQuantity > 0) {
+                    p.setQuantity(newQuantity);
+                } else {
+                    p.setQuantity(0);
+                    cartProducts.remove(p);
+                }
+                break;
+            }
+        }
+    }
+
     public void removeProduct(Product product) {
         cartProducts.remove(product);
     }

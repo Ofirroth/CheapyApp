@@ -39,45 +39,32 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         @SuppressLint("DefaultLocale") String formattedPrice = String.format("₪%.2f", product.getPrice());
         holder.productPrice.setText(formattedPrice);
 
-        // Set the current product quantity
         holder.productQuantity.setText(String.valueOf(product.getQuantity()));
 
-        // Show or hide the minus button based on the quantity
         if (product.getQuantity() > 0) {
             holder.minusButton.setVisibility(View.VISIBLE);
         } else {
             holder.minusButton.setVisibility(View.GONE);
         }
 
-        // Remove any existing click listeners before adding new ones
         holder.plusButton.setOnClickListener(null);
         holder.minusButton.setOnClickListener(null);
 
-        // Set the click listener for the "+" button
         holder.plusButton.setOnClickListener(v -> {
-            int newQuantity = product.getQuantity() + 1;
-            product.setQuantity(newQuantity);
-
             CartManager.getInstance().addProduct(product);
-
-            holder.productQuantity.setText(String.valueOf(newQuantity));
+            holder.productQuantity.setText(String.valueOf(product.getQuantity()));
             holder.minusButton.setVisibility(View.VISIBLE);
         });
 
-        // Set the click listener for the "-" button
         holder.minusButton.setOnClickListener(v -> {
-            int newQuantity = product.getQuantity() - 1;
-            if (newQuantity > 0) {
-                product.setQuantity(newQuantity);
-                holder.productQuantity.setText(String.valueOf(newQuantity));
-                CartManager.getInstance().addProduct(product);
-            } else {
-                product.setQuantity(0);
-                holder.productQuantity.setText("0");
-                CartManager.getInstance().removeProduct(product);
+            CartManager.getInstance().decreaseProductQuantity(product);
+            holder.productQuantity.setText(String.valueOf(product.getQuantity()));
+
+            if (product.getQuantity() <= 0) {
                 holder.minusButton.setVisibility(View.GONE);
             }
         });
+
     }
 
     @Override

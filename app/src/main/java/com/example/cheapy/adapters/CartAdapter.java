@@ -34,7 +34,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.productPrice.setText(String.format("₪ %.2f", product.getPrice()));
         holder.productQuantity.setText(String.valueOf(product.getQuantity()));
 
-        // Handle click events or any other functionality
     }
 
     @Override

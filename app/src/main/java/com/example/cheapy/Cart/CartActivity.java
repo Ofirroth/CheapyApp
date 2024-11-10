@@ -26,14 +26,11 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        // Initialize RecyclerView
         recyclerView = findViewById(R.id.recyclerViewCart);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Get cart products from a shared cart manager or singleton class
         updateCartProductList();
 
-        // Update total price and quantity
         updateCartDetails();
 
         ImageButton returnHomeButton = findViewById(R.id.btnReturnHome);
@@ -42,10 +39,8 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void updateCartProductList() {
-        // Get the list of all products from CartManager
         List<Product> allProducts = CartManager.getInstance().getCartProducts();
 
-        // Filter products with quantity > 0
         cartProducts = new ArrayList<>();
         for (Product product : allProducts) {
             if (product.getQuantity() > 0) {
@@ -53,7 +48,6 @@ public class CartActivity extends AppCompatActivity {
             }
         }
 
-        // Create and set the adapter with the filtered product list
         cartAdapter = new CartAdapter(cartProducts);
         recyclerView.setAdapter(cartAdapter);
     }
@@ -70,7 +64,6 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh the cart product list when returning to the CartActivity
         updateCartProductList();
         updateCartDetails();
     }
