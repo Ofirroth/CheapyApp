@@ -16,10 +16,23 @@ const User = new Schema({
         type: String,
         required: false
     },
-    city: {
+    homeAddress: {
         type: String,
         required: false
     },
+    workAddress: {
+            type: String,
+            required: false
+        },
+        mail: {
+                type: String,
+                required: false
+            },
+            phone: {
+                    type: String,
+                    required: false
+                },
+
     orderHistory: {
         type: [Schema.Types.ObjectId],  // Use ObjectId to reference Order
         ref: 'Order',                    // Reference the Order model

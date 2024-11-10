@@ -5,11 +5,19 @@ public class User {
     private String username;
     private String displayName;
     private String profilePic;
+    private String homeAddress;
+    private String workAddress;
+    private String mail;
+    private String phone;
 
-    public User( String username,String displayName, String profilePic) {
+    public User( String username,String displayName, String profilePic, String homeAddress, String workAddress, String mail, String phone) {
         this.displayName = displayName;
         this.profilePic = profilePic;
         this.username=username;
+        this.homeAddress = homeAddress;
+        this.workAddress = workAddress;
+        this.phone = phone;
+        this.mail = mail;
     }
 
 
@@ -43,5 +51,37 @@ public class User {
 
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(String homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public String getWorkAddress() {
+        return workAddress;
+    }
+
+    public void setWorkAddress(String workAddress) {
+        this.workAddress = workAddress;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

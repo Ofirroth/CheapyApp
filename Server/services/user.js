@@ -2,15 +2,15 @@ const User = require('../models/user')
 const UserPassName = require('../models/UserPassName')
 const jwt = require('jsonwebtoken');
 
-const createUser = async (username, password, displayName, profilePic, city) => {
+const createUser = async (username, password, displayName, profilePic, homeAddress, workAddress, mail, phone) => {
     try {
         const users = await getAllUsers();
         const user = users.find((user) => user.username === username);
         if (!user) {
-            const newUserPass = new UserPassName({ username: username, password: password, displayName: displayName, profilePic: profilePic, city:city });
+            const newUserPass = new UserPassName({ username: username, password: password, displayName: displayName, profilePic: profilePic, workAddress:workAddress, workAddress:workAddress, mail:mail, phone:phone });
             UserPassName.create(newUserPass);
-            const newuser = new User({ username: username, displayName: displayName, profilePic: profilePic, city:city });
-            const savedUser = await User.create(newuser);
+            const newUser = new User({ username: username, displayName: displayName, profilePic: profilePic, homeAddress:homeAddress, workAddress:workAddress, mail:mail, phone:phone });
+            const savedUser = await User.create(newUser);
             return savedUser;
         }
         //in case there is already user in this name

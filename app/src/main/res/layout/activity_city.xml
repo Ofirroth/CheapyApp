@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/CityPage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/ic_launcher_background"
         android:gravity="center"
         android:orientation="vertical"
@@ -18,7 +18,7 @@
         <LinearLayout
             android:id="@+id/CityContainer"
             android:layout_width="match_parent"
-            android:layout_height="665dp"
+            android:layout_height="692dp"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="40dp"
             android:background="@color/Sign_up_container"
@@ -40,7 +40,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop" />
-
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -48,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/City_city"
+                android:text="כתובות"
                 android:textColor="@color/Sign_up_text_color"
                 android:textSize="35sp"
                 android:textStyle="bold" />
@@ -56,7 +55,7 @@
             <LinearLayout
                 android:id="@+id/CityForm"
                 android:layout_width="match_parent"
-                android:layout_height="209dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -64,30 +63,53 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="35dp"
-                    android:text="@string/City_City"
+                    android:text="הכנס כתובת בית"
                     android:textColor="@color/Sign_up_text_color"
                     android:textSize="25sp"
                     android:textStyle="bold" />
 
                 <Spinner
-                    android:id="@+id/spinner"
+                    android:id="@+id/editHomeAddress"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:background="@color/Sign_up_text_color"
                     android:entries="@array/spinner_items"
-                    android:paddingStart="10dp"
+                    android:gravity="center"
+                    android:hint="כתובת עבודה"
+                    android:padding="20dp"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/City2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:text="הכנס כתובת עבודה"
+                    android:textColor="@color/Sign_up_text_color"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 
+                <Spinner
+                    android:id="@+id/editWorkAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:background="@color/Sign_up_text_color"
+                    android:entries="@array/spinner_items"
+                    android:gravity="center"
+                    android:hint="כתובת עבודה"
+                    android:padding="20dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/fieldBtns"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="125dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -100,8 +122,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
                         android:layout_weight="1"
                         android:background="@color/Sign_up_button"
                         android:paddingLeft="15dp"
@@ -115,8 +135,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="15dp"
                         android:layout_weight="1"
                         android:background="@color/Sign_up_button"
                         android:paddingLeft="15dp"
@@ -129,4 +147,5 @@
 
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>
