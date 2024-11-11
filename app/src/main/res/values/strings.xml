@@ -36,8 +36,8 @@
     <string name="error_missing_lowercase" translatable="false">Must add one lowercase letter</string>
     <string name="error_missing_number" translatable="false">Must add one number</string>
     <string name="error_missing_special_symbol" translatable="false">Must add one special symbol: @$! % * ? &amp;</string>
-    <string name="BaseUrl" translatable="false">http://10.0.2.2:5000/api/</string>
-    <string name="default_server_address" translatable="false">10.0.2.2:5000</string>
+    <string name="BaseUrl" translatable="false">http://10.0.2.2:5001/api/</string>
+    <string name="default_server_address" translatable="false">10.0.2.2:5001</string>
     <string name="settings_messages_header" translatable="false">Messages</string>
     <string name="settings_server_title" translatable="false">Your server</string>
     <string name="settings_theme_header" translatable="false">Theme</string>
@@ -53,6 +53,7 @@
     <string name="settings_server_address" translatable="false">Server Address</string>
     <string name="settings_enter_server_address" translatable="false">Enter full server url address</string>
     <string name="recommended_for_you">Recommended for You</string>
+    <string name="itemQuantity">Quantity</string>
     <string name="category">Category</string>
     <string name="add_filter">add filter</string>
     <string name="my_lists">My Lists</string>

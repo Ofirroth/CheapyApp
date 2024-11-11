@@ -4,13 +4,20 @@ import androidx.room.TypeConverters;
 import androidx.room.PrimaryKey;
 
 import com.example.cheapy.converts.itemConverter;
+import com.google.gson.annotations.SerializedName;
 
 @Entity
 @TypeConverters(itemConverter.class)
 public class Item {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+
+    @SerializedName("id")
+    private int categoryId;
+
+    @SerializedName("_id")
+    private String id;
+
     private final String name;
     private final String imageResource;
     private double price;
@@ -59,12 +66,20 @@ public class Item {
         this.category = category;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public int getQuantity() {

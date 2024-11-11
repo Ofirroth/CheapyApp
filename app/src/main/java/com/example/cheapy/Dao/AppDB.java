@@ -12,7 +12,7 @@ import com.example.cheapy.converts.userConvert;
 import com.example.cheapy.entities.Item;
 import com.example.cheapy.entities.Store;
 
-@Database(entities = {Category.class, Item.class, Store.class}, version = 3)
+@Database(entities = {Category.class, Item.class, Store.class}, version = 4)
 @TypeConverters({userConvert.class, itemConverter.class, storeConverter.class, categoryConverter.class})
  public abstract class AppDB extends RoomDatabase {
     public static final String DATABASE_NAME = "27018ChatDB.db";
