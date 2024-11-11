@@ -15,7 +15,7 @@ public class ItemViewModel extends ViewModel {
 
     public ItemViewModel(String token) {
             this.itemsRepository = new ItemRepository(token);
-            this.items = itemsRepository.getItemsByCategory();
+            this.items = itemsRepository.getItems();
         }
 
         public LiveData<List<Item>> getItems() {
@@ -24,6 +24,6 @@ public class ItemViewModel extends ViewModel {
         }
 
         public void reload() {
-            this.items = itemsRepository.getItemsByCategory();
+            this.items = itemsRepository.getItems();
         }
 }

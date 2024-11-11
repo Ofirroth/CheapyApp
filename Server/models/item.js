@@ -18,8 +18,7 @@ const Item = new Schema({
         required: true
     },
     store: {
-        type: Schema.Types.ObjectId,
-        ref: 'Store',
+        type: Store
         required: false
     },
     category: {

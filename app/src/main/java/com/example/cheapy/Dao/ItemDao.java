@@ -16,9 +16,8 @@ public interface ItemDao {
     @Query("SELECT * FROM Item")
     //getmessages
     List<Item> getItems();
-    @Query("SELECT * FROM Item WHERE category = :category ORDER BY id")
-    //getallmessageswithcontact
-    LiveData<List<Item>> getAllItemsFromCategory(String category);
+    @Query("SELECT * FROM Item WHERE categoryId = :categoryId")
+    LiveData<List<Item>> getItemsByCategory(int categoryId);
 
     @Insert
     void insert(Item... items);

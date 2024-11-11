@@ -27,9 +27,12 @@ public class ItemRepository {
         this.itemAPI = new ItemAPI();
     }
 
-    public LiveData<List<Item>> getItemsByCategory() {
+    public LiveData<List<Item>> getItems() {
         reload();
         return itemListData;
+    }
+    public LiveData<List<Item>> getItemsByCategory(int categoryId) {
+        return itemDao.getItemsByCategory(categoryId);
     }
 
     /**public void insertContact(String username) {
