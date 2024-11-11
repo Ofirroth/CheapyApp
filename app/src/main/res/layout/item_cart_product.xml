@@ -6,14 +6,17 @@
     android:padding="8dp">
 
     <!-- Product Image -->
+
+    <!-- Product Name -->
+
     <ImageView
         android:id="@+id/productImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentStart="true"
+        android:layout_marginStart="73dp"
         android:contentDescription="@string/product_image" />
 
-    <!-- Product Name -->
     <TextView
         android:id="@+id/productName"
         android:layout_width="wrap_content"

@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.cheapy.Cheapy;
 import com.example.cheapy.entities.Item;
 import com.example.cheapy.R;
 
@@ -33,7 +35,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         Item item = cartItems.get(position);
         holder.productName.setText(item.getName());
         holder.productPrice.setText(String.format("₪ %.2f", item.getPrice()));
-        //holder.productQuantity.setText(String.valueOf(item.getQuantity()));
+        holder.productQuantity.setText(String.valueOf(item.getQuantity()));
+        // Load image using Glide
+        Glide.with(Cheapy.context)
+                .load(item.getImageResource())
+                .into(holder.productImage);
+
 
         // Handle click events or any other functionality
     }

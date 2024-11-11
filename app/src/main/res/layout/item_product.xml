@@ -6,13 +6,13 @@
     android:padding="8dp">
 
     <!-- Product Image -->
+
+    <!-- Product Name -->
     <ImageView
         android:id="@+id/productImage"
         android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_height="120dp" />
 
-    <!-- Product Name -->
     <TextView
         android:id="@+id/productName"
         android:layout_width="wrap_content"
@@ -44,37 +44,42 @@
         android:orientation="horizontal"
         android:layout_marginTop="8dp">
 
-        <!-- Minus Button
+        <!-- Minus Button as TextView -->
         <ImageView
             android:id="@+id/minusButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:gravity="center"
             android:src="@drawable/ic_minus"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:textSize="12sp"
+            android:textColor="@color/black"
             android:contentDescription="@string/remove_from_cart"
             android:visibility="gone"
-            android:elevation="4dp" /> -->
+            android:elevation="4dp" />
 
         <!-- Product Quantity -->
         <TextView
             android:id="@+id/productQuantity"
-            android:layout_width="36dp"
+            android:layout_width="14dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="0"
-            android:textSize="14sp"
+            android:text="@string/itemQuantity"
+            android:textSize="12sp"
             android:textColor="@color/black" />
 
-        <!-- Plus Button
+        <!-- Plus Button as TextView -->
         <ImageView
             android:id="@+id/plusButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:gravity="center"
             android:src="@drawable/ic_plus"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:textSize="12sp"
+            android:textColor="@color/black"
             android:contentDescription="@string/add_to_cart"
-            android:elevation="4dp" /> -->
+            android:elevation="4dp" />
 
     </LinearLayout>
+
 
 </RelativeLayout>

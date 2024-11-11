@@ -19,7 +19,7 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.CONNECTION_STRING + "ChatDB", {
     useNewURLParser: true,
     useUnifiedTopology: true
-});
+    });
 
 const users =require ('./routes/user');
 app.use('/api/Users', users);

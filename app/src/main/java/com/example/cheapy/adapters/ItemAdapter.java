@@ -1,19 +1,17 @@
 package com.example.cheapy.adapters;
-import com.bumptech.glide.Glide;
-import android.annotation.SuppressLint;
+
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
+import androidx.annotation.NonNull;
+
+import com.bumptech.glide.Glide;
 import com.example.cheapy.Cart.CartManager;
 import com.example.cheapy.R;
 import com.example.cheapy.entities.Item;
@@ -21,27 +19,29 @@ import com.example.cheapy.entities.Item;
 import java.util.List;
 
 public class ItemAdapter extends ArrayAdapter<Item> {
-    LayoutInflater inflater;
+    private Context context;
     private List<Item> itemList;
 
     public ItemAdapter(Context context, List<Item> itemList) {
         super(context, 0, itemList);
-        this.inflater = LayoutInflater.from(context);
+        this.context = context;
         this.itemList = itemList;
     }
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        // ViewHolder pattern
+    public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
+
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_product, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_product, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.name = convertView.findViewById(R.id.productName);
-            viewHolder.imageView = convertView.findViewById(R.id.productImage);
-            viewHolder.price = convertView.findViewById(R.id.productPrice);
-            viewHolder.quantity = convertView.findViewById(R.id.productQuantity);
+            viewHolder.productName = convertView.findViewById(R.id.productName);
+            viewHolder.productImage = convertView.findViewById(R.id.productImage);
+            viewHolder.productPrice = convertView.findViewById(R.id.productPrice);
+            viewHolder.productQuantity = convertView.findViewById(R.id.productQuantity);
+            viewHolder.plusButton = convertView.findViewById(R.id.plusButton);
+            viewHolder.minusButton = convertView.findViewById(R.id.minusButton);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -49,114 +49,66 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         Item item = getItem(position);
 
-        // In the getView() method
         if (item != null) {
-            viewHolder.name.setText(item.getName());
-            viewHolder.price.setText(String.format("₪%.2f", item.getPrice()));
+            viewHolder.productName.setText(item.getName());
+            viewHolder.productPrice.setText(String.format("₪%.2f", item.getPrice()));
+            viewHolder.productQuantity.setText(String.valueOf(item.getQuantity()));
+            if (item.getQuantity() > 0) {
+                viewHolder.minusButton.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.minusButton.setVisibility(View.GONE);
+            }
+            if (CartManager.getInstance().getProduct(item.getName()) != null){
+                int ItemQuantity = CartManager.getInstance().getProduct(item.getName()).getQuantity();
+                viewHolder.productQuantity.setText(String.valueOf(ItemQuantity));
+                if (ItemQuantity > 0) {
+                    viewHolder.minusButton.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.minusButton.setVisibility(View.GONE);
+                }
+            }
 
-            String imageResource = item.getImageResource();
-            Glide.with(convertView.getContext())
-                    .load(imageResource)
-                    .into(viewHolder.imageView);
+            // Load image using Glide
+            Glide.with(context)
+                    .load(item.getImageResource())
+                    .into(viewHolder.productImage);
 
-            viewHolder.quantity.setText(String.valueOf(item.getQuantity()));
+
+            viewHolder.plusButton.setOnClickListener(v -> {
+                CartManager.getInstance().addProduct(item);
+                itemList.add(item);
+                Log.d("ItemAdapter", "Added item: " + item.getName() + " new quantity: " + item.getQuantity());
+                Log.d("ItemAdapter", "Added item: " + item.getName() + " new quantity: " + CartManager.getInstance().getProduct(item.getName()).getQuantity());
+                viewHolder.productQuantity.setText(String.valueOf(CartManager.getInstance().getProduct(item.getName()).getQuantity()));
+                viewHolder.minusButton.setVisibility(View.VISIBLE);
+            });
+
+            viewHolder.minusButton.setOnClickListener(v -> {
+                CartManager.getInstance().decreaseProductQuantity(item);
+                Log.d("ItemAdapter", "Decreased item: " + item.getName() + " new quantity: " + item.getQuantity());
+                viewHolder.productQuantity.setText(String.valueOf(item.getQuantity()));
+
+                if (item.getQuantity() <= 0) {
+                    item.setQuantity(0);
+                    viewHolder.productQuantity.setText("0");
+                    viewHolder.minusButton.setVisibility(View.GONE);
+                }
+            });
         }
 
         return convertView;
     }
 
-
-    // ViewHolder to optimize ListView performance
     private static class ViewHolder {
-        TextView name;
-        ImageView imageView;
-        TextView price;
-        TextView quantity;
+        TextView productName, productPrice, productQuantity;
+        ImageView productImage, plusButton, minusButton;
     }
 
     public void setItems(List<Item> items) {
-        this.clear();
+        clear();
         if (items != null) {
             addAll(items);
         }
         notifyDataSetChanged();
     }
-
-    /**
-    @NonNull
-    @Override
-    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
-        return new ProductViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Item item = itemList.get(position);
-        holder.productName.setText(item.getName());
-        holder.productImage.setImageResource(Integer.parseInt(item.getImageResource()));
-
-        @SuppressLint("DefaultLocale") String formattedPrice = String.format("₪%.2f", item.getPrice());
-        holder.productPrice.setText(formattedPrice);
-
-        // Set the current product quantity
-        holder.productQuantity.setText(String.valueOf(item.getQuantity()));
-
-        // Show or hide the minus button based on the quantity
-        if (item.getQuantity() > 0) {
-            holder.minusButton.setVisibility(View.VISIBLE);
-        } else {
-            holder.minusButton.setVisibility(View.GONE);
-        }
-
-        // Remove any existing click listeners before adding new ones
-        holder.plusButton.setOnClickListener(null);
-        holder.minusButton.setOnClickListener(null);
-
-        // Set the click listener for the "+" button
-        holder.plusButton.setOnClickListener(v -> {
-            int newQuantity = item.getQuantity() + 1;
-            item.setQuantity(newQuantity);
-
-            CartManager.getInstance().addProduct(item);
-
-            holder.productQuantity.setText(String.valueOf(newQuantity));
-            holder.minusButton.setVisibility(View.VISIBLE);
-        });
-
-        // Set the click listener for the "-" button
-        holder.minusButton.setOnClickListener(v -> {
-            int newQuantity = item.getQuantity() - 1;
-            if (newQuantity > 0) {
-                item.setQuantity(newQuantity);
-                holder.productQuantity.setText(String.valueOf(newQuantity));
-                CartManager.getInstance().addProduct(item);
-            } else {
-                item.setQuantity(0);
-                holder.productQuantity.setText("0");
-                CartManager.getInstance().removeProduct(item);
-                holder.minusButton.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return itemList.size();
-    }
-
-    public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        TextView productName, productPrice, productQuantity;
-        ImageView productImage, plusButton, minusButton;
-
-        public ProductViewHolder(@NonNull View itemView) {
-            super(itemView);
-            productName = itemView.findViewById(R.id.productName);
-            productImage = itemView.findViewById(R.id.productImage);
-            productPrice = itemView.findViewById(R.id.productPrice);
-            productQuantity = itemView.findViewById(R.id.productQuantity);
-            plusButton = itemView.findViewById(R.id.plusButton);
-            minusButton = itemView.findViewById(R.id.minusButton);
-        }
-    }**/
 }
