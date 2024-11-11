@@ -1,5 +1,10 @@
 package com.example.cheapy.Cart;
 
+import android.util.Log;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.cheapy.entities.Item;
 
 import java.util.ArrayList;
@@ -8,10 +13,13 @@ import java.util.List;
 public class CartManager {
     private static CartManager instance;
     private List<Item> cartItems;
+    private MutableLiveData<List<Item>> cartLiveData = new MutableLiveData<>();
 
     private CartManager() {
         cartItems = new ArrayList<>();
+        cartLiveData.setValue(cartItems);
     }
+
 
     public static synchronized CartManager getInstance() {
         if (instance == null) {
@@ -20,11 +28,17 @@ public class CartManager {
         return instance;
     }
 
+    public LiveData<List<Item>> getCartLiveData() {
+        return cartLiveData;
+    }
+
+
     public void addProduct(Item item) {
         boolean productExists = false;
-        for (Item p : cartItems) {
-            if (p.getName().equals(item.getName())) {
-                p.setQuantity(p.getQuantity() + 1);
+        for (Item i : cartItems) {
+            if ((i.getName().equals(item.getName()))){
+                i.setQuantity(i.getQuantity() + 1);
+                Log.d("CartManager: " , String.valueOf(i.getQuantity()));
                 productExists = true;
                 break;
             }
@@ -33,14 +47,39 @@ public class CartManager {
             item.setQuantity(1);
             cartItems.add(item);
         }
+        Log.d("CartManager", "Cart updated: " + cartItems.toString());
+        cartLiveData.setValue(cartItems);
     }
 
-    public void removeProduct(Item item) {
-        cartItems.remove(item);
+    public void decreaseProductQuantity(Item item) {
+        for (Item i : cartItems) {
+            if ((i.getName().equals(item.getName()))) {
+                int newQuantity = i.getQuantity() - 1;
+                if (newQuantity > 0) {
+                    i.setQuantity(newQuantity);
+                } else {
+                    i.setQuantity(0);
+                    cartItems.remove(i);
+                }
+                break;
+            }
+        }
+        cartLiveData.setValue(cartItems);
     }
+
 
     public List<Item> getCartProducts() {
         return cartItems;
+    }
+
+    public Item getProduct (String name) {
+        for (Item item : cartItems){
+            if (item.getName().equals(name)){
+                return item;
+            }
+        }
+
+        return null;
     }
 
     public double getTotalPrice() {

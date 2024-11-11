@@ -3,6 +3,7 @@ package com.example.cheapy.Home_page;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -20,6 +21,7 @@ import com.example.cheapy.CategoriesActivity;
 import com.example.cheapy.Dao.AppDB;
 import com.example.cheapy.Dao.ItemDao;
 import com.example.cheapy.DatabaseManager;
+import com.example.cheapy.adapters.CartAdapter;
 import com.example.cheapy.adapters.ItemAdapter;
 import com.example.cheapy.databinding.HomePageBinding;
 import com.example.cheapy.entities.Item;
@@ -45,6 +47,9 @@ public class HomePageActivity extends AppCompatActivity {
     private ItemViewModel viewModel;
     private List<Item> items;
 
+    private CartAdapter cartAdapter;
+    private CartManager cartManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +62,6 @@ public class HomePageActivity extends AppCompatActivity {
             userToken = getIntent().getStringExtra("token");
         }
 
-        // Setup the toolbar click listener to navigate to CategoriesActivity
         ImageView toolbar = binding.menuButton;  // Get the toolbar
         toolbar.setOnClickListener(v -> {
             Intent nintent = new Intent(HomePageActivity.this, CategoriesActivity.class);
@@ -90,11 +94,22 @@ public class HomePageActivity extends AppCompatActivity {
         this.viewModel = new ItemViewModel(this.userToken);
         this.items = new ArrayList<>();
 
-        //initializeProductList();
         GridView lvItems = binding.gridViewProducts;
         adapter = new ItemAdapter(getApplicationContext(), this.items);
         this.viewModel.getItems().observe(this, adapter::setItems);;
         lvItems.setAdapter(adapter);
+
+        CartManager.getInstance().getCartLiveData().observe(this, updatedItems -> {
+            for (Item updatedItem : updatedItems) {
+                for (Item homePageItem : items) {
+                    if (homePageItem.getName().equals(updatedItem.getName())) {
+                        homePageItem.setQuantity(updatedItem.getQuantity());
+                        break;
+                    }
+                }
+            }
+            adapter.notifyDataSetChanged();  // Refresh the adapter
+        });
 
         //adapter.setNightMode(isNightMode);
         //viewModel.getItems().observe(this, adapter::setItems);
@@ -115,11 +130,12 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });**/
     }
+
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume() {
-        super.onResume();
-        this.viewModel.reload();
+            super.onResume();
+
     }
 }
 
