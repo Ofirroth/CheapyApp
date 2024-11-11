@@ -54,6 +54,10 @@ public class ItemAPI {
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
                 if (response.isSuccessful()) {
                     itemsListData.setValue(response.body());
+                    assert response.body() != null;
+                    Log.d("response:" ,itemsListData.getValue().get(0).getId());
+                    Log.d("response:" ,String.valueOf(itemsListData.getValue().get(0).getCategoryId()));
+
                 } else {
                     Toast.makeText(Cheapy.context,
                             "Error:" + response.message(), Toast.LENGTH_SHORT).show();

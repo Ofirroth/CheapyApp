@@ -58,8 +58,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             } else {
                 viewHolder.minusButton.setVisibility(View.GONE);
             }
-            if (CartManager.getInstance().getProduct(item.getName()) != null){
-                int ItemQuantity = CartManager.getInstance().getProduct(item.getName()).getQuantity();
+            if (CartManager.getInstance().getProduct(item.getId()) != null){
+                int ItemQuantity = CartManager.getInstance().getProduct(item.getId()).getQuantity();
                 viewHolder.productQuantity.setText(String.valueOf(ItemQuantity));
                 if (ItemQuantity > 0) {
                     viewHolder.minusButton.setVisibility(View.VISIBLE);
@@ -76,17 +76,13 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
             viewHolder.plusButton.setOnClickListener(v -> {
                 CartManager.getInstance().addProduct(item);
-                itemList.add(item);
-                Log.d("ItemAdapter", "Added item: " + item.getName() + " new quantity: " + item.getQuantity());
-                Log.d("ItemAdapter", "Added item: " + item.getName() + " new quantity: " + CartManager.getInstance().getProduct(item.getName()).getQuantity());
-                viewHolder.productQuantity.setText(String.valueOf(CartManager.getInstance().getProduct(item.getName()).getQuantity()));
+                viewHolder.productQuantity.setText(String.valueOf(CartManager.getInstance().getProduct(item.getId()).getQuantity()));
                 viewHolder.minusButton.setVisibility(View.VISIBLE);
             });
 
             viewHolder.minusButton.setOnClickListener(v -> {
                 CartManager.getInstance().decreaseProductQuantity(item);
-                Log.d("ItemAdapter", "Decreased item: " + item.getName() + " new quantity: " + item.getQuantity());
-                viewHolder.productQuantity.setText(String.valueOf(item.getQuantity()));
+                viewHolder.productQuantity.setText(String.valueOf(CartManager.getInstance().getProduct(item.getId()).getQuantity()));
 
                 if (item.getQuantity() <= 0) {
                     item.setQuantity(0);

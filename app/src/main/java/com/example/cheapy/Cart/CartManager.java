@@ -36,7 +36,9 @@ public class CartManager {
     public void addProduct(Item item) {
         boolean productExists = false;
         for (Item i : cartItems) {
-            if ((i.getName().equals(item.getName()))){
+            Log.d("CartManager: " , String.valueOf(i.getId()));
+            Log.d("CartManager: " , String.valueOf(item.getId()));
+            if ((i.getId().equals(item.getId()))){
                 i.setQuantity(i.getQuantity() + 1);
                 Log.d("CartManager: " , String.valueOf(i.getQuantity()));
                 productExists = true;
@@ -53,7 +55,7 @@ public class CartManager {
 
     public void decreaseProductQuantity(Item item) {
         for (Item i : cartItems) {
-            if ((i.getName().equals(item.getName()))) {
+            if ((i.getId().equals(item.getId()))) {
                 int newQuantity = i.getQuantity() - 1;
                 if (newQuantity > 0) {
                     i.setQuantity(newQuantity);
@@ -72,9 +74,9 @@ public class CartManager {
         return cartItems;
     }
 
-    public Item getProduct (String name) {
+    public Item getProduct (String id) {
         for (Item item : cartItems){
-            if (item.getName().equals(name)){
+            if (item.getId().equals(id)){
                 return item;
             }
         }
