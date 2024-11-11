@@ -19,7 +19,7 @@ public class Cheapy extends Application {
         context = getApplicationContext();
         preferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         editor = preferences.edit();
-        urlServer = new MutableLiveData<>("http://10.0.2.2:5000");
+        urlServer = new MutableLiveData<>("http://10.0.2.2:5001");
     }
 
     public SharedPreferences getPreferences() {
