@@ -25,6 +25,7 @@ import com.example.cheapy.databinding.HomePageBinding;
 import com.example.cheapy.entities.Item;
 import com.example.cheapy.R;
 import com.example.cheapy.entities.Store;
+import com.example.cheapy.profilePageActivity;
 import com.example.cheapy.viewModels.ItemViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -71,7 +72,9 @@ public class HomePageActivity extends AppCompatActivity {
             int itemId = item.getItemId();
 
             if (itemId == R.id.navigationMyProfile) {
-                Intent profileIntent = new Intent(HomePageActivity.this, HomePageActivity.class);
+                Intent profileIntent = new Intent(HomePageActivity.this, profilePageActivity.class);
+                profileIntent.putExtra("activeUserName", activeUserName);
+                profileIntent.putExtra("token", userToken);
                 startActivity(profileIntent);
                 return true;
             } else if (itemId == R.id.navigationHome) {

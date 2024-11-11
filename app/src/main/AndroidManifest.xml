@@ -51,6 +51,7 @@
             android:exported="false" />
 
         <activity android:name=".CategoriesActivity" />
+        <activity android:name=".profilePageActivity" />
 
         <activity android:name=".Home_page.HomePageActivity" />
 

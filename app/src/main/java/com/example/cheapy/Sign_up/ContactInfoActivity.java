@@ -13,6 +13,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -107,12 +108,17 @@ public class ContactInfoActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditText editMail = binding.mail;
+                EditText editPhone = binding.phone;
+                String inputMail = editMail.getText().toString().trim();
+                String inputPhone = editPhone.getText().toString().trim();
                 // Start the next activity
                 Intent intent = new Intent(ContactInfoActivity.this, CityActivity.class);
                 intent.putExtra("username", username);
                 intent.putExtra("name", name);
+                intent.putExtra("mail", inputMail);
+                intent.putExtra("phone", inputPhone);
                 if (selectedImageBitmap != null) {
-                    Log.e("photo", selectedImageBitmap.toString());
                     imageString = encodeImage(selectedImageBitmap); // Convert bitmap to string
                     intent.putExtra("selectedImage", imageString);
                 }

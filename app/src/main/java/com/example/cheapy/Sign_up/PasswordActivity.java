@@ -36,8 +36,11 @@ public class PasswordActivity extends AppCompatActivity {
     private String profilePic;
     private String username;
     private String displayName;
-    private String city;
+    private String homeAddress;
+    private String workAddress;
     private String password;
+    private String mail;
+    private String phone;
     private Bitmap selectedImageBitmap;
     private String selectedImage;
 
@@ -69,7 +72,10 @@ public class PasswordActivity extends AppCompatActivity {
         if (intent != null) {
             username = intent.getStringExtra("username");
             displayName = intent.getStringExtra("name");
-            city = intent.getStringExtra("city");
+            mail = intent.getStringExtra("mail");
+            phone = intent.getStringExtra("phone");
+            homeAddress = intent.getStringExtra("Homecity");
+            workAddress = intent.getStringExtra("Workcity");
             selectedImage = getIntent().getStringExtra("selectedImage");
             selectedImageBitmap = decodeImage(selectedImage); // Convert string to bitmap
             if (selectedImageBitmap != null) {
@@ -251,7 +257,7 @@ public class PasswordActivity extends AppCompatActivity {
     }
     private void validateAll(){
         UserAPI userAPI = new UserAPI();
-        userAPI.register(username, password, displayName, selectedImage, city, (int callback) -> {
+        userAPI.register(username, password, displayName, selectedImage, homeAddress,workAddress,mail,phone, (int callback) -> {
             if (callback == 200) {
                 // Implement your logic here when the callback is complete and the boolean is true
                 Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();

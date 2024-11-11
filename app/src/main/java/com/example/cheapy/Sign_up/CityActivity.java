@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,7 +36,10 @@ public class CityActivity extends AppCompatActivity {
     private String imageString = "";
     private Bitmap selectedImageBitmap;
     private String selectedImage;
-    private String selectedCity;
+    private String homeCity;
+    private String workCity;
+    private String mail;
+    private String phone;
     private String username;
     private String name;
     private ImageView imageView; // Declare the ImageView as a class member
@@ -53,6 +57,8 @@ public class CityActivity extends AppCompatActivity {
             if (intent != null) {
                 username = intent.getStringExtra("username");
                 name = intent.getStringExtra("name");
+                mail = intent.getStringExtra("mail");
+                phone = intent.getStringExtra("phone");
                 selectedImage = getIntent().getStringExtra("selectedImage");
                 selectedImageBitmap = decodeImage(selectedImage); // Convert string to bitmap
                 if (selectedImageBitmap != null) {
@@ -84,15 +90,24 @@ public class CityActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-        Spinner citySpinner = findViewById(R.id.spinner);
-        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        Spinner homeSpinner = binding.editHomeAddress;
+        homeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                selectedCity = parentView.getItemAtPosition(position).toString();
-                //TextView selectedCityText = findViewById(R.id.City);
-                //selectedCityText.setText(selectedCity);
-                // Handle the selected city (e.g., save it, display it, etc.)
+                homeCity = parentView.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Handle no selection, if needed
+            }
+        });
+
+        Spinner workSpinner = binding.editWorkAddress;
+        workSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                workCity = parentView.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -118,7 +133,10 @@ public class CityActivity extends AppCompatActivity {
                 Intent intent = new Intent(CityActivity.this, PasswordActivity.class);
                 intent.putExtra("username", username);
                 intent.putExtra("name", name);
-                intent.putExtra("city", selectedCity);
+                intent.putExtra("mail", mail);
+                intent.putExtra("phone", phone);
+                intent.putExtra("Homecity", homeCity);
+                intent.putExtra("Workcity", workCity);
                 if (selectedImageBitmap != null) {
                     Log.e("photo", selectedImageBitmap.toString());
                     imageString = encodeImage(selectedImageBitmap); // Convert bitmap to string
