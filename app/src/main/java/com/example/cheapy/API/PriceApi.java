@@ -68,12 +68,15 @@ public class PriceApi {
     }
 
     public double getTotalPriceByStore(String token, String storeName, List<Item> items) {
+        Log.d("boo", "3.81");
         StoreTotalRequest request = new StoreTotalRequest(storeName, items);
+        Log.d("boo", "3.82");
         Call<Double> call = priceServiceApi.getTotalPriceByStore(token, request);
 
         try {
             Response<Double> response = call.execute(); // Synchronous call
             if (response.isSuccessful() && response.body() != null) {
+                Log.d("boo", "3.83");
                 return response.body(); // Return the total price as a double
             } else {
                 return 0.0; // Return 0.0 if there's an error or no response

@@ -1,6 +1,7 @@
 package com.example.cheapy.repositories;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -52,14 +53,32 @@ public class StoreRepository {
         storeListData.postValue(storeList);
     }
 
-    public void getTotalPriceByStore(String token, List<Item> items) {
-        List <Store> stores = storeDao.getAllStores();
-        assert stores != null;
-        for (Store store: stores) {
-            String storeName = store.getName();
-            double totalPrice = priceApi.getTotalPriceByStore(token, storeName, items);
-            store.setTotalPrice(totalPrice);
+    public double getTotalPriceByStore(String token, List<Item> items) {
+        reload();
+        Log.d("boo","3.8888");
+        List<Store> stores = storeDao.getAllStores();
+        Log.d("boo","3.999");
+        Log.d("boo",stores.toString());
+        if (stores.isEmpty()) {
+            Log.d("boo","3.2134");
         }
+        else  {
+            Log.d("boo",stores.get(0).getName());
+        }
+        Log.d("boo", "3.5");
+        double totalPrice = 0;
+        for (Store store: stores) {
+            Log.d("boo", "3.6");
+            String storeName = store.getName();
+            Log.d("boo", "3.7");
+            totalPrice = priceApi.getTotalPriceByStore(token, storeName, items);
+            Log.d("boo", "3.8");
+            store.setTotalPrice(totalPrice);
+            Log.d("boo", "3.9");
+            Log.d("boo", String.valueOf(totalPrice));
+        }
+        Log.d("boo","7");
+        return totalPrice;
     }
 
     class StoreListData extends MutableLiveData<List<Store>> {

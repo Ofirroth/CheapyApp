@@ -15,7 +15,7 @@ const getItemPriceByStore = async (req, res) => {
 const getTotalPriceByStore = async (req, res) => {
     try {
         const { storeName, items } = req.params;
-        const totalPrice = await itemService.getTotalPriceByStore(items, storeName);
+        const totalPrice = await priceService.getTotalPriceByStore(items, storeName);
         console.log(totalPrice);
         res.status(200).json({ totalPrice });
     } catch (error) {
