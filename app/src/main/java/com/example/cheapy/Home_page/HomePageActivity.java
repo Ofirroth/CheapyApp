@@ -85,6 +85,8 @@ public class HomePageActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.navigationCheckout) {
                 Intent cartIntent = new Intent(HomePageActivity.this, CartActivity.class);
+                cartIntent.putExtra("activeUserName", activeUserName);
+                cartIntent.putExtra("token", userToken);
                 startActivity(cartIntent);
                 return true;
             } else {

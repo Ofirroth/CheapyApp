@@ -24,11 +24,11 @@ import com.example.cheapy.entities.Item;
 
 import java.util.List;
 
-public class ItemAdapter extends ArrayAdapter<Item> {
+public class itemListAdapter extends ArrayAdapter<Item> {
     private Context context;
     private List<Item> itemList;
 
-    public ItemAdapter(Context context, List<Item> itemList) {
+    public itemListAdapter(Context context, List<Item> itemList) {
         super(context, 0, itemList);
         this.context = context;
         this.itemList = itemList;
@@ -40,7 +40,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_product, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_cart_product, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.productName = convertView.findViewById(R.id.productName);
             viewHolder.productImage = convertView.findViewById(R.id.productImage);
@@ -71,10 +71,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                     viewHolder.minusButton.setVisibility(View.GONE);
                 }
             }
+            //Log.d("boo", item.getImageResource());
             /**Glide.with(context)
-                    .load(item.getImageResource())
-                    .into(viewHolder.productImage);
-*/
+             .load(item.getImageResource())
+             .into(viewHolder.productImage);
+             */
             Glide.with(context)
                     .load(item.getImageResource())
                     .into(viewHolder.productImage);

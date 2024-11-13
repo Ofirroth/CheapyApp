@@ -1,6 +1,9 @@
 package com.example.cheapy.adapters;
 
 
+import static android.text.method.TextKeyListener.clear;
+import static java.util.Collections.addAll;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

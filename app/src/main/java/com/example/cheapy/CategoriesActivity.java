@@ -72,13 +72,18 @@ public class CategoriesActivity extends AppCompatActivity implements TextWatcher
             int itemId = item.getItemId();
 
             if (itemId == R.id.navigationMyProfile) {
-                Intent profileIntent = new Intent(CategoriesActivity.this, HomePageActivity.class);
+                Intent profileIntent = new Intent(CategoriesActivity.this, profilePageActivity.class);
+                profileIntent.putExtra("activeUserName", activeUserName);
+                profileIntent.putExtra("token", userToken);
                 startActivity(profileIntent);
                 return true;
             } else if (itemId == R.id.navigationHome) {
+                finish();
                 return true;
             } else if (itemId == R.id.navigationCheckout) {
                 Intent cartIntent = new Intent(CategoriesActivity.this, CartActivity.class);
+                cartIntent.putExtra("activeUserName", activeUserName);
+                cartIntent.putExtra("token", userToken);
                 startActivity(cartIntent);
                 return true;
             } else {

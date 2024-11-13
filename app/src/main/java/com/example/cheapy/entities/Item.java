@@ -18,6 +18,7 @@ public class Item {
     @NonNull
     private String id;
     private final String name;
+    @SerializedName("itemPic")
     private final String imageResource;
     private String category;
     private int quantity;

@@ -63,13 +63,18 @@ public class SubcategoriesActivity extends AppCompatActivity implements TextWatc
             int itemId = item.getItemId();
 
             if (itemId == R.id.navigationMyProfile) {
-                Intent profileIntent = new Intent(SubcategoriesActivity.this, HomePageActivity.class);
+                Intent profileIntent = new Intent(SubcategoriesActivity.this, profilePageActivity.class);
+                profileIntent.putExtra("activeUserName", activeUserName);
+                profileIntent.putExtra("token", userToken);
                 startActivity(profileIntent);
                 return true;
             } else if (itemId == R.id.navigationHome) {
+                finish();
                 return true;
             } else if (itemId == R.id.navigationCheckout) {
                 Intent cartIntent = new Intent(SubcategoriesActivity.this, CartActivity.class);
+                cartIntent.putExtra("activeUserName", activeUserName);
+                cartIntent.putExtra("token", userToken);
                 startActivity(cartIntent);
                 return true;
             } else {
@@ -108,6 +113,14 @@ public class SubcategoriesActivity extends AppCompatActivity implements TextWatc
     protected void onResume() {
         super.onResume();
         this.subCategoryViewModel.reload();
+    }
+    // Save a flag when finishing
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isFinishing()) {
+            finish();
+        }
     }
 
     @Override

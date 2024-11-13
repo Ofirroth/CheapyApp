@@ -17,6 +17,7 @@ import com.example.cheapy.Dao.ItemDao;
 import com.example.cheapy.Home_page.HomePageActivity;
 import com.example.cheapy.adapters.CategoryAdapter;
 import com.example.cheapy.adapters.ItemAdapter;
+import com.example.cheapy.adapters.itemListAdapter;
 import com.example.cheapy.databinding.ActivityCategoriesBinding;
 import com.example.cheapy.databinding.CategoryItemsBinding;
 import com.example.cheapy.databinding.HomePageBinding;
@@ -38,8 +39,7 @@ public class CategoryItemsActivity extends AppCompatActivity implements TextWatc
     private Boolean isNightMode = null;
     private AppDB db;
     private ItemDao itemDao;
-    private ItemAdapter itemAdapter;
-
+    private itemListAdapter itemAdapter;
     private ItemViewModel itemViewModel;
     private List<Item> items;
     private int categoryId;
@@ -63,13 +63,18 @@ public class CategoryItemsActivity extends AppCompatActivity implements TextWatc
             int itemId = item.getItemId();
 
             if (itemId == R.id.navigationMyProfile) {
-                Intent profileIntent = new Intent(CategoryItemsActivity.this, HomePageActivity.class);
+                Intent profileIntent = new Intent(CategoryItemsActivity.this, profilePageActivity.class);
+                profileIntent.putExtra("activeUserName", activeUserName);
+                profileIntent.putExtra("token", userToken);
                 startActivity(profileIntent);
                 return true;
             } else if (itemId == R.id.navigationHome) {
+                finish();
                 return true;
             } else if (itemId == R.id.navigationCheckout) {
                 Intent cartIntent = new Intent(CategoryItemsActivity.this, CartActivity.class);
+                cartIntent.putExtra("activeUserName", activeUserName);
+                cartIntent.putExtra("token", userToken);
                 startActivity(cartIntent);
                 return true;
             } else {
@@ -86,7 +91,7 @@ public class CategoryItemsActivity extends AppCompatActivity implements TextWatc
         binding.searchEditText.addTextChangedListener(this);
 
         GridView lvCategoriesItems = binding.gridViewCategoriesItems;
-        this.itemAdapter = new ItemAdapter(getApplicationContext(), this.items);
+        this.itemAdapter = new itemListAdapter(getApplicationContext(), this.items);
         this.itemViewModel.getItemsByCategory(categoryId).observe(this, itemAdapter::setItems);
         lvCategoriesItems.setAdapter(this.itemAdapter);
     }
@@ -96,6 +101,14 @@ public class CategoryItemsActivity extends AppCompatActivity implements TextWatc
     protected void onResume() {
         super.onResume();
         this.itemViewModel.getItemsByCategory(categoryId);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isFinishing()) {
+            finish();
+        }
     }
 
     @Override
