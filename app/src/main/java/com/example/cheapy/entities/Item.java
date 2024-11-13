@@ -19,16 +19,12 @@ public class Item {
     private String id;
     private final String name;
     private final String imageResource;
-    private double price;
-    private Store store;
     private String category;
     private int quantity;
 
-    public Item(String name, String imageResource, double price, Store store, String category, int quantity) {
+    public Item(String name, String imageResource, String category, int quantity) {
         this.name = name;
         this.imageResource = imageResource;
-        this.price = price;
-        this.store = store;
         this.category = category;
         this.quantity = quantity;
     }
@@ -39,22 +35,6 @@ public class Item {
 
     public String getImageResource() {
         return imageResource;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {  // Setter for price
-        this.price = price;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
     }
 
     public String getCategory() {

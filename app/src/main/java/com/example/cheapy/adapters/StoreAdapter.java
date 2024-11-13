@@ -1,5 +1,6 @@
 package com.example.cheapy.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.example.cheapy.viewModels.CartViewModel;
 import com.example.cheapy.viewModels.CartViewModelFactory;
 
 import java.text.BreakIterator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +44,6 @@ public class StoreAdapter extends ArrayAdapter<Store> {
 
     private Context context;
 
-    private CartViewModel cartViewModel;
 
     private String token;
 
@@ -55,8 +56,6 @@ public class StoreAdapter extends ArrayAdapter<Store> {
         this.token = token;
         this.stores = stores;
         this.inflater = LayoutInflater.from(context);
-        CartViewModelFactory factory = new CartViewModelFactory(token);
-        this.cartViewModel = new ViewModelProvider(owner, factory).get(CartViewModel.class);
 
     }
 
@@ -79,18 +78,7 @@ public class StoreAdapter extends ArrayAdapter<Store> {
         notifyDataSetChanged();
     }
 
-    public void displayTotalPrice(Store store) {
-        List<Item> storeItems = CartManager.getInstance().getCartProducts().stream()
-                .filter(item -> item.getStore() != null && item.getStore().getName().equals(store.getName())) // Ensure item and store are not null
-                .collect(Collectors.toList());
-
-        cartViewModel.fetchTotalPriceByStore(token, store.getName(), storeItems);
-        cartViewModel.getTotalPriceLiveData().observe((LifecycleOwner) context, total -> {
-            if (viewHolder != null && viewHolder.storeTotalPrice != null) {
-                viewHolder.storeTotalPrice.setText(String.format("₪ %.2f", total));
-            }
-        });
-    }
+    @SuppressLint("DefaultLocale")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Check if the convertView is null, if so, inflate a new view
@@ -111,7 +99,9 @@ public class StoreAdapter extends ArrayAdapter<Store> {
 
         viewHolder.storeName.setText(store.getName());
         viewHolder.storeCity.setText(store.getCity());
-        displayTotalPrice(store);
+        if (viewHolder != null && viewHolder.storeTotalPrice != null) {
+            viewHolder.storeTotalPrice.setText(String.format("₪ %.2f", store.getTotalPrice()));
+        }
 
         String imageResource = store.getImage();
         Glide.with(convertView.getContext())

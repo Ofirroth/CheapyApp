@@ -51,7 +51,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         if (item != null) {
             viewHolder.productName.setText(item.getName());
-            viewHolder.productPrice.setText(String.format("₪%.2f", item.getPrice()));
             viewHolder.productQuantity.setText(String.valueOf(item.getQuantity()));
             if (item.getQuantity() > 0) {
                 viewHolder.minusButton.setVisibility(View.VISIBLE);

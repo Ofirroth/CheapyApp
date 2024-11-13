@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.cheapy.entities.Item;
+import com.example.cheapy.entities.Store;
 import com.example.cheapy.repositories.StoreRepository;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class CartViewModel extends ViewModel {
         return totalPriceLiveData;
     }
 
-    public void fetchTotalPriceByStore(String token, String storeName, List<Item> items) {
-        storeRepository.getTotalPriceByStore(token, storeName, items, totalPriceLiveData);
+    public void fetchTotalPriceByStore(String token, List<Item> items) {
+        storeRepository.getTotalPriceByStore(token, items);
     }
 }

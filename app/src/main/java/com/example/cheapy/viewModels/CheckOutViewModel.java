@@ -23,6 +23,8 @@ public class CheckOutViewModel extends ViewModel {
     private StoreRepository storeRepository;
     private LiveData<List<Store>> storesLiveData;
 
+    private MutableLiveData<Double> totalPriceLiveData = new MutableLiveData<>();
+
 
     public CheckOutViewModel(String token) {
         storeRepository = new StoreRepository(token);
@@ -37,4 +39,13 @@ public class CheckOutViewModel extends ViewModel {
     public void reload() {
         this.storesLiveData = storeRepository.getAllStores();
     }
+
+    public LiveData<Double> getTotalPriceLiveData() {
+        return totalPriceLiveData;
+    }
+
+    public void fetchTotalPriceByStore(String token, List<Item> items) {
+           storeRepository.getTotalPriceByStore(token, items);
+    }
+
 }

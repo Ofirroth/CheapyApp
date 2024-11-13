@@ -91,13 +91,15 @@ public class CheckOutActivity extends AppCompatActivity {
             }
         });
 
-        this.viewModel.getStores().observe(this, storeAdapter::setStores);;
+        this.viewModel.getStores().observe(this, storeAdapter::setStores);
         lvItems.setAdapter(storeAdapter);
 
         this.btnProceedToCheckout = binding.btnProceedToCheckout;
 
         ImageButton returnHomeButton = binding.btnReturnHome;
         returnHomeButton.setOnClickListener(v -> finish());
+
+        calculateTotalForSelectedStore();
 
         btnProceedToCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +117,10 @@ public class CheckOutActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void calculateTotalForSelectedStore() {
+        List<Item> selectedStoreItems = new ArrayList<>(CartManager.getInstance().getCartProducts());
+        viewModel.fetchTotalPriceByStore(userToken, selectedStoreItems);
     }
     @SuppressLint("NotifyDataSetChanged")
     @Override

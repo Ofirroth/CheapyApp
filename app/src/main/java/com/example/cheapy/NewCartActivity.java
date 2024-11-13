@@ -19,6 +19,7 @@ import com.example.cheapy.adapters.ItemCartAdapter;
 import com.example.cheapy.databinding.ActivityCheckoutPageBinding;
 import com.example.cheapy.databinding.ActivityNewCartBinding;
 import com.example.cheapy.entities.Item;
+import com.example.cheapy.entities.Store;
 import com.example.cheapy.viewModels.CartViewModel;
 import com.example.cheapy.viewModels.CartViewModelFactory;
 
@@ -79,14 +80,11 @@ public class NewCartActivity extends AppCompatActivity {
 
     private void calculateTotalForSelectedStore() {
 
-        List<Item> selectedStoreItems = CartManager.getInstance().getCartProducts().stream()
-                .filter(item -> item.getStore().getName().equals(storeName))
-                .collect(Collectors.toList());
-
-        cartViewModel.fetchTotalPriceByStore(userToken, storeName, selectedStoreItems);
+        List<Item> selectedStoreItems = new ArrayList<>(CartManager.getInstance().getCartProducts());
+        cartViewModel.fetchTotalPriceByStore(userToken, selectedStoreItems);
         cartViewModel.getTotalPriceLiveData().observe(this, total -> {
             TextView totalPriceTextView = findViewById(R.id.totalPriceTextView);
-            totalPriceTextView.setText("Total for " + storeName + ": ₪" + String.format("%.2f", total));
+            totalPriceTextView.setText(storeName + ": ₪" + String.format("%.2f", total));
         });
     }
 
