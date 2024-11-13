@@ -20,6 +20,7 @@
     <color name="my_message_background">#c6e9f8</color>
     <color name="friend_message_background">@android:color/white</color>
     <color name="light_grey">#ECECEC</color>
+    <color name="dark_grey">#C0C0C0</color>
     <color name="window_texts">#1f1f1f</color>
     <color name="contact_color">#1f1f1f</color>
     <color name="my_message_background_night">#263F3D</color>

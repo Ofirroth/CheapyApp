@@ -30,6 +30,9 @@ app.use('/api/Tokens',token);
 const item = require('./routes/item');
 app.use('/api/Item',item);
 
+const store = require('./routes/store');
+app.use('/api/Store',store);
+
 const category = require('./routes/category');
 app.use('/api/Category',category);
 

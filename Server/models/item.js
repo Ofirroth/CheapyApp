@@ -18,8 +18,9 @@ const Item = new Schema({
         required: true
     },
     store: {
-        type: Store
-        required: false
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Store',
+            required: false
     },
     category: {
         type: String,
