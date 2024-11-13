@@ -1,4 +1,5 @@
 package com.example.cheapy.entities;
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.TypeConverters;
 import androidx.room.PrimaryKey;
@@ -9,15 +10,13 @@ import com.google.gson.annotations.SerializedName;
 @Entity
 @TypeConverters(itemConverter.class)
 public class Item {
-
-    @PrimaryKey(autoGenerate = true)
-
-    @SerializedName("id")
+    @SerializedName("categoryId")
     private int categoryId;
 
     @SerializedName("_id")
+    @PrimaryKey(autoGenerate = false)
+    @NonNull
     private String id;
-
     private final String name;
     private final String imageResource;
     private double price;

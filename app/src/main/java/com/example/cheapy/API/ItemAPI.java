@@ -78,8 +78,8 @@ public class ItemAPI {
         });
     }
 
-    public void getItemsByCategory(MutableLiveData<List<Item>> itemsListData, String token, String category) {
-        Call<List<Item>> call = itemServiceAPI.getItemByCategory(token, category);
+    public void getItemsByCategory(MutableLiveData<List<Item>> itemsListData, String token, int categoryId) {
+        Call<List<Item>> call = itemServiceAPI.getItemByCategory(token, categoryId);
         call.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {

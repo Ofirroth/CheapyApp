@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CategoriesActivity"
+    tools:context=".SubcategoriesActivity"
     android:background="@color/light_grey">
 
     <!-- Toolbar -->
@@ -60,7 +60,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:hint="חפש קטגוריות"
+            android:hint="חפש תת קטגוריות"
             android:paddingLeft="8dp"
             android:textColorHint="#bbb"
             android:textColor="@color/black"/>
@@ -76,7 +76,7 @@
 
     <!-- Categories Grid View -->
     <GridView
-        android:id="@+id/gridViewCategories"
+        android:id="@+id/gridViewSubCategories"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:numColumns="1"

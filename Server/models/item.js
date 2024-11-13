@@ -9,6 +9,10 @@ const Item = new Schema({
         type: String,
         required: true
     },
+    categoryId: {
+        type: Number,
+        required: true
+    },
     itemPic: {
         type: String,
         required: false
@@ -18,9 +22,9 @@ const Item = new Schema({
         required: true
     },
     store: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Store',
-            required: false
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Store',
+        required: false
     },
     category: {
         type: String,

@@ -6,70 +6,70 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.cheapy.Cart.CartActivity;
 import com.example.cheapy.Dao.AppDB;
 import com.example.cheapy.Dao.CategoryDao;
-import com.example.cheapy.Dao.ItemDao;
 import com.example.cheapy.Home_page.HomePageActivity;
 import com.example.cheapy.adapters.CategoryAdapter;
-import com.example.cheapy.adapters.ItemAdapter;
-import com.example.cheapy.databinding.ActivityCategoriesBinding;
-import com.example.cheapy.databinding.CategoryItemsBinding;
-import com.example.cheapy.databinding.HomePageBinding;
+import com.example.cheapy.adapters.SubCategoryAdapter;
+import com.example.cheapy.databinding.SubCategoriesBinding;
 import com.example.cheapy.entities.Category;
-import com.example.cheapy.entities.Item;
+import com.example.cheapy.entities.SubCategory;
 import com.example.cheapy.viewModels.CategoryViewModel;
-import com.example.cheapy.viewModels.ItemViewModel;
+import com.example.cheapy.viewModels.SubCategoryViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryItemsActivity extends AppCompatActivity implements TextWatcher {
+public class SubcategoriesActivity extends AppCompatActivity implements TextWatcher {
     String activeUserName;
-    private CategoryItemsBinding binding;
+    private SubCategoriesBinding binding;
 
     String userToken;
 
-    private Boolean isNightMode = null;
     private AppDB db;
-    private ItemDao itemDao;
-    private ItemAdapter itemAdapter;
-
-    private ItemViewModel itemViewModel;
-    private List<Item> items;
+    private CategoryDao categoryDao;
+    private SubCategoryViewModel subCategoryViewModel;
+    private List<SubCategory> subCategories;
     private int categoryId;
     private String categoryName;
+
+    private SubCategoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = CategoryItemsBinding.inflate(getLayoutInflater());
+        binding = SubCategoriesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Intent intent = getIntent();
 
         if (intent != null) {
             activeUserName = getIntent().getStringExtra("activeUserName");
             userToken = getIntent().getStringExtra("token");
-            categoryId = getIntent().getIntExtra("subCategoryId", -1);
-            categoryName = getIntent().getStringExtra("subCategoryName");
+            categoryId = getIntent().getIntExtra("categoryId", -1);
+            categoryName = getIntent().getStringExtra("categoryName");
         }
         BottomNavigationView bottomNavigationView = binding.bottomNavigationView;
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
 
             if (itemId == R.id.navigationMyProfile) {
-                Intent profileIntent = new Intent(CategoryItemsActivity.this, HomePageActivity.class);
+                Intent profileIntent = new Intent(SubcategoriesActivity.this, HomePageActivity.class);
                 startActivity(profileIntent);
                 return true;
             } else if (itemId == R.id.navigationHome) {
                 return true;
             } else if (itemId == R.id.navigationCheckout) {
-                Intent cartIntent = new Intent(CategoryItemsActivity.this, CartActivity.class);
+                Intent cartIntent = new Intent(SubcategoriesActivity.this, CartActivity.class);
                 startActivity(cartIntent);
                 return true;
             } else {
@@ -78,24 +78,36 @@ public class CategoryItemsActivity extends AppCompatActivity implements TextWatc
         });
 
         this.db = DatabaseManager.getDatabase();
-        this.itemDao = db.itemDao();
-        this.itemViewModel = new ItemViewModel(this.userToken);
-        this.items = new ArrayList<>();
-
+        this.categoryDao = db.categoryDao();
+        this.subCategoryViewModel = new SubCategoryViewModel(this.userToken, categoryId);
+        this.subCategories = new ArrayList<>();
+        setTitle(categoryName);
         binding.searchEditText.addTextChangedListener(this);
         binding.searchEditText.addTextChangedListener(this);
+        GridView lvCategories = binding.gridViewSubCategories;
+        this.adapter = new SubCategoryAdapter(getApplicationContext(), this.subCategories);
+        this.subCategoryViewModel.getSubcategoriesByCategoryId().observe(this, adapter::setSubCategories);
+        lvCategories.setAdapter(this.adapter);
 
-        GridView lvCategoriesItems = binding.gridViewCategoriesItems;
-        this.itemAdapter = new ItemAdapter(getApplicationContext(), this.items);
-        this.itemViewModel.getItemsByCategory(categoryId).observe(this, itemAdapter::setItems);
-        lvCategoriesItems.setAdapter(this.itemAdapter);
+        lvCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SubCategory clicked = subCategories.get(position);
+                Intent intent2 = new Intent(SubcategoriesActivity.this, CategoryItemsActivity.class);
+                intent2.putExtra("activeUserName", activeUserName);
+                intent2.putExtra("token", userToken);
+                intent2.putExtra("subCategoryId", clicked.getId());
+                intent2.putExtra("subCategoryName", clicked.getName());
+                startActivity(intent2);
+            }
+        });
     }
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume() {
         super.onResume();
-        this.itemViewModel.getItemsByCategory(categoryId);
+        this.subCategoryViewModel.reload();
     }
 
     @Override
@@ -109,26 +121,26 @@ public class CategoryItemsActivity extends AppCompatActivity implements TextWatc
         String query = s.toString().trim();
 
         // Filter the contacts based on the query
-        List<Item> filteredItems = new ArrayList<>();
+        List<String> filteredCategories = new ArrayList<>();
 
         // Update the contacts list with the current database contacts
-        items.clear();
-        items.addAll(this.itemViewModel.getItemsByCategory(categoryId).getValue());
+        categories.clear();
+        categories.addAll(viewModel.getAllCategories().getValue());
 
         if (query.isEmpty()) {
             // If the query is empty, show all contacts
-            filteredItems.addAll(items);
+            filteredCategories.addAll(sub);
         } else {
-            for (Item item : items) {
-                if (item.getName().toLowerCase().startsWith(query.toLowerCase())) {
-                    filteredItems.add(item);
+            for (String category : sub) {
+                if (category.toLowerCase().startsWith(query.toLowerCase())) {
+                    filteredCategories.add(category);
                 }
             }
         }
 
         // Update the contact list in the adapter
-        itemAdapter.setItems(filteredItems);
-        itemAdapter.notifyDataSetChanged();*/
+        adapter.setCategories(filteredCategories);
+        adapter.notifyDataSetChanged();*/
     }
 
     @Override
