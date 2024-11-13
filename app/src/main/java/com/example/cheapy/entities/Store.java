@@ -2,7 +2,6 @@ package com.example.cheapy.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-
 @Entity
 public class Store {
     @PrimaryKey(autoGenerate = true)
@@ -10,13 +9,24 @@ public class Store {
     private String name;
     private String city;
 
-    public Store(String name, String city) {
+    private String image;
+
+    public Store(String name, String city, String image) {
         this.name = name;
         this.city = city;
+        this.image = image;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getCity() {
@@ -40,4 +50,3 @@ public class Store {
         this.id = id;
     }
 }
-

@@ -49,6 +49,11 @@
         <activity
             android:name=".Sign_up.SignUpActivity"
             android:exported="false" />
+        <activity android:name=".CheckOutActivity">
+        </activity>
+
+        <activity android:name=".NewCartActivity">
+        </activity>
 
         <activity android:name=".CategoriesActivity" />
         <activity android:name=".profilePageActivity" />

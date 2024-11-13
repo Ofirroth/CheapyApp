@@ -1,18 +1,26 @@
 package com.example.cheapy.Cart;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.cheapy.R;
 import com.example.cheapy.entities.Item;
+import com.example.cheapy.entities.Store;
+import com.example.cheapy.viewModels.CartViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CartManager {
     private static CartManager instance;
     private List<Item> cartItems;
+
+    private CartViewModel cartViewModel;
+
     private MutableLiveData<List<Item>> cartLiveData = new MutableLiveData<>();
 
     private CartManager() {
@@ -36,8 +44,6 @@ public class CartManager {
     public void addProduct(Item item) {
         boolean productExists = false;
         for (Item i : cartItems) {
-            Log.d("CartManager: " , String.valueOf(i.getId()));
-            Log.d("CartManager: " , String.valueOf(item.getId()));
             if ((i.getId().equals(item.getId()))){
                 i.setQuantity(i.getQuantity() + 1);
                 Log.d("CartManager: " , String.valueOf(i.getQuantity()));
@@ -86,8 +92,18 @@ public class CartManager {
 
     public double getTotalPrice() {
         double total = 0.0;
+            for (Item item : cartItems) {
+                total += item.getPrice() * item.getQuantity();
+            }
+        return total;
+    }
+
+    public double getTotalPriceByStore(String storeName) {
+        double total = 0.0;
         for (Item item : cartItems) {
-            total += item.getPrice() * item.getQuantity();
+            if (item.getStore().getName().equals(storeName)) {
+                total += item.getPrice() * item.getQuantity();
+            }
         }
         return total;
     }

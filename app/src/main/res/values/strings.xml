@@ -84,5 +84,6 @@
     <string name="return_home">return</string>
     <string name="search_icon">Search</string>
     <string name="itemQuantity">0</string>
+    <string name="cart_icon">מספר מוצרים</string>
 
 </resources>

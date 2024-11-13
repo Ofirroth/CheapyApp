@@ -16,7 +16,7 @@ public interface StoreDao {
     @Query("SELECT * FROM Store")
     List<Store> getItems();
     @Query("SELECT * FROM Store ORDER BY id")
-    LiveData<List<Store>> getAllStores();
+    List<Store> getAllStores();
 
     @Insert
     void insert(Store... stores);

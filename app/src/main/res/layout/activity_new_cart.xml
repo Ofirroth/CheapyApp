@@ -46,6 +46,7 @@
 
             </FrameLayout>
 
+
             <TextView
                 android:id="@+id/itemCountBadge"
                 android:layout_width="24dp"
@@ -58,15 +59,17 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <!--            <TextView-->
-<!--                android:id="@+id/totalLabelTextView"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="8dp"-->
-<!--                android:layout_marginEnd="24dp"-->
-<!--                android:text="מספר מוצרים: "-->
-<!--                android:textColor="@android:color/black"-->
-<!--                android:textSize="22sp" />-->
+            <!-- Store Details Container -->
+            <TextView
+                android:id="@+id/totalPriceTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="$0.00"
+                android:textSize="24dp"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
 
         </LinearLayout>
 
@@ -78,7 +81,9 @@
             android:layout_alignParentRight="true"
             android:background="@color/button_background"
             android:textColor="@color/black"
-            android:text="לשלב הבא" />
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:text="בצע קנייה" />
     </LinearLayout>
 
     <ImageButton
