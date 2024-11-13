@@ -27,21 +27,12 @@
             android:layout_height="70dp"
             android:scaleType="centerCrop"/>
 
+        <!-- Subcategories Layout -->
         <LinearLayout
-            android:id="@+id/subCategoriesContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/subcategoryLayout"
             android:orientation="vertical"
-            android:visibility="gone">
-
-            <!-- Inner GridView for Subcategories -->
-            <GridView
-                android:id="@+id/gridViewSubCategories"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:numColumns="2"
-                android:horizontalSpacing="10dp"
-                android:verticalSpacing="10dp" />
-        </LinearLayout>
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </FrameLayout>

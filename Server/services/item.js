@@ -1,11 +1,11 @@
 const Item = require('../models/item');
 
-const getItemsByCategory = async (category) => {
+const getItemsByCategory = async (categoryId) => {
     try {
-        const items = await Item.find({ category }).populate('store');  // Populates store data
+        const items = await Item.find({ categoryId: categoryId });
         return items;
     } catch (error) {
-        throw new Error('Error fetching items');
+        throw new Error('Error fetching items by category');
     }
 };
 

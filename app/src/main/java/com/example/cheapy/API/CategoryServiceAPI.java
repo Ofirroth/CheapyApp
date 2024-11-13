@@ -1,6 +1,7 @@
 package com.example.cheapy.API;
 
 import com.example.cheapy.entities.Category;
+import com.example.cheapy.entities.SubCategory;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface CategoryServiceAPI {
     @GET("Category/{id}")
     Call<Category> getCategory(@Header("Authorization") String token, @Path("id") int id);
 
-    @GET("Category/subcategories/{category}")
-    Call<List<Category>> getSubCategories(@Header("Authorization") String token, @Path("category") String category);
+    @GET("Category/{category}")
+    Call<List<SubCategory>> getSubCategories(@Header("Authorization") String token, @Path("category") int category);
 
 }

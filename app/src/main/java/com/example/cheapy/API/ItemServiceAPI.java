@@ -22,6 +22,6 @@ public interface ItemServiceAPI {
     Call<Item> getItem(@Header("Authorization")String token,@Path("name") String name);
 
     @GET("Item/{category}")
-    Call<List<Item>> getItemByCategory(@Header("Authorization")String token,@Path("category") String category);
+    Call<List<Item>> getItemByCategory(@Header("Authorization")String token,@Path("category") int categoryId);
 
 }

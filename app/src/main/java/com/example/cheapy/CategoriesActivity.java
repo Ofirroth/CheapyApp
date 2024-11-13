@@ -5,7 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -30,8 +35,10 @@ import com.example.cheapy.viewModels.ItemViewModel;
 import com.example.cheapy.databinding.ActivityCategoriesBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CategoriesActivity extends AppCompatActivity implements TextWatcher {
 
@@ -59,6 +66,7 @@ public class CategoriesActivity extends AppCompatActivity implements TextWatcher
             activeUserName = getIntent().getStringExtra("activeUserName");
             userToken = getIntent().getStringExtra("token");
         }
+
         BottomNavigationView bottomNavigationView = binding.bottomNavigationView;
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -84,11 +92,24 @@ public class CategoriesActivity extends AppCompatActivity implements TextWatcher
         this.categories = new ArrayList<>();
         binding.searchEditText.addTextChangedListener(this);
         binding.searchEditText.addTextChangedListener(this);
-
         GridView lvCategories = binding.gridViewCategories;
         this.adapter = new CategoryAdapter(getApplicationContext(), this.categories);
         this.viewModel.getAllCategories().observe(this, adapter::setCategories);
         lvCategories.setAdapter(this.adapter);
+
+        lvCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Category clicked = categories.get(position);
+                Intent intent2 = new Intent(CategoriesActivity.this, SubcategoriesActivity.class);
+                intent2.putExtra("activeUserName", activeUserName);
+                intent2.putExtra("token", userToken);
+                intent2.putExtra("categoryId", clicked.getId());
+                intent2.putExtra("categoryName", clicked.getName());
+                startActivity(intent2);
+            }
+        });
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -108,28 +129,44 @@ public class CategoriesActivity extends AppCompatActivity implements TextWatcher
         // Get the search query
         String query = s.toString().trim();
 
-        // Filter the contacts based on the query
+        // Normalize the query to avoid different Unicode representations
+        query = Normalizer.normalize(query, Form.NFD);
+        query = query.replaceAll("[^\\p{ASCII}]", ""); // Remove diacritics if needed (for Hebrew it should not remove anything, but it's good for other languages)
+
+        // Filter the categories based on the normalized query
         List<Category> filteredCategories = new ArrayList<>();
 
-        // Update the contacts list with the current database contacts
+        // Update the categories list with the current database categories
         categories.clear();
         categories.addAll(viewModel.getAllCategories().getValue());
 
         if (query.isEmpty()) {
-            // If the query is empty, show all contacts
+            // If the query is empty, show all categories
             filteredCategories.addAll(categories);
         } else {
+
             for (Category category : categories) {
-                if (category.getName().toLowerCase().startsWith(query.toLowerCase())) {
+
+                // Normalize the category name to avoid Unicode differences
+                String categoryName = Normalizer.normalize(category.getName().trim(), Form.NFD);
+                categoryName = categoryName.replaceAll("[^\\p{ASCII}]", "");
+
+                Log.d("SearchQuery", "Normalized Query: " + query);
+                Log.d("CategoryName", "Normalized Category: " + categoryName);
+
+                // Convert both the category name and query text to lowercase
+                if (categoryName.contains(query)) {
                     filteredCategories.add(category);
                 }
             }
         }
 
-        // Update the contact list in the adapter
+        // Update the categories list in the adapter
         adapter.setCategories(filteredCategories);
         adapter.notifyDataSetChanged();
     }
+
+
 
     @Override
     public void afterTextChanged(Editable s) {

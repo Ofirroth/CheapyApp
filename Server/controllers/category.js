@@ -25,9 +25,23 @@ async function getCategoryById(req, res) {
   }
 }
 
+async function getSubcategories(req, res) {
+  const { id } = req.params;
+  try {
+    const subcategories = await categoryService.getSubcategoriesById(id);
+    if (!subcategories) {
+      return res.status(404).json({ message: 'Category not found' });
+    }
+    res.status(200).json(subcategories);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 
 
 module.exports = {
   getAllCategories,
   getCategoryById,
+  getSubcategories
 };
