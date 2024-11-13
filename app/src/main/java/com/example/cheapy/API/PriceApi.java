@@ -8,10 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.cheapy.Cheapy;
 import com.example.cheapy.entities.Item;
 import com.example.cheapy.entities.Price;
-import com.example.cheapy.entities.Store;
 import com.example.cheapy.entities.StoreTotalRequest;
 
-import java.io.IOException;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -23,64 +21,66 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PriceApi {
-    Retrofit retrofit;
-    PriceServiceApi priceServiceApi;
-
-    private MutableLiveData<List<Price>> responseAnswer;
+    private final PriceServiceApi priceServiceApi;
 
     public PriceApi() {
-        /////////////
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .build();
-        /////////////////
+
         String apiAddress = Cheapy.urlServer.getValue();
 
-        retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(apiAddress + "/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
 
         priceServiceApi = retrofit.create(PriceServiceApi.class);
-        responseAnswer = new MutableLiveData<>();
     }
 
-    public double getItemPriceByStore(String token, String itemId, String storeName) {
+    public void getItemPriceByStore(String token, String itemId, String storeName, MutableLiveData<Double> priceLiveData) {
         Call<Double> call = priceServiceApi.getItemPriceByStore(token, itemId, storeName);
-
-        try {
-            Response<Double> response = call.execute(); // Synchronous call
-            if (response.isSuccessful() && response.body() != null) {
-                return response.body(); // Return the price as a double
-            } else {
-                // Handle the error here (e.g., logging or notifying the user)
-                Toast.makeText(Cheapy.context, "Error:" + response.message(), Toast.LENGTH_SHORT).show();
-                return 0.0; // Default value if the response isn't successful
+        call.enqueue(new Callback<Double>() {
+            @Override
+            public void onResponse(Call<Double> call, Response<Double> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    priceLiveData.setValue(response.body()); // Update LiveData with the price
+                } else {
+                    Toast.makeText(Cheapy.context, "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                    priceLiveData.setValue(0.0); // Default value in case of error
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(Cheapy.context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            return 0.0; // Default value if there's an exception
-        }
+
+            @Override
+            public void onFailure(Call<Double> call, Throwable t) {
+                Toast.makeText(Cheapy.context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                priceLiveData.setValue(0.0); // Default value in case of failure
+            }
+        });
     }
 
-    public double getTotalPriceByStore(String token, String storeName, List<Item> items) {
+    public void getTotalPriceByStore(String token, String storeName, List<Item> items, MutableLiveData<Double> totalPriceLiveData) {
         StoreTotalRequest request = new StoreTotalRequest(storeName, items);
         Call<Double> call = priceServiceApi.getTotalPriceByStore(token, request);
 
-        try {
-            Response<Double> response = call.execute(); // Synchronous call
-            if (response.isSuccessful() && response.body() != null) {
-                return response.body(); // Return the total price as a double
-            } else {
-                return 0.0; // Return 0.0 if there's an error or no response
+        call.enqueue(new Callback<Double>() {
+            @Override
+            public void onResponse(Call<Double> call, Response<Double> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    totalPriceLiveData.postValue(response.body());  // Update LiveData with response
+                } else {
+                    totalPriceLiveData.postValue(0.0);  // Default if the response is not successful
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return 0.0; // Return 0.0 if there's an exception
-        }
+
+            @Override
+            public void onFailure(Call<Double> call, Throwable t) {
+                totalPriceLiveData.postValue(0.0);  // Set a default value on failure
+            }
+        });
     }
+
 }

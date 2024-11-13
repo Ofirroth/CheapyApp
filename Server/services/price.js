@@ -18,10 +18,12 @@ const getItemPriceByStore = async (itemId, storeName) => {
 
 const getTotalPriceByStore = async (items, storeName) => {
     try {
-        // Find all prices for the given store name and item IDs
+        if (!items || items.length === 0) {
+            throw new Error('No items provided');
+        }
+
         const itemIds = items.map(item => item._id);
 
-        // Assuming storeName is unique per store, you may need to adjust this if it's not
         const store = await Store.findOne({ name: storeName });
         if (!store) throw new Error('Store not found');
 
@@ -43,5 +45,6 @@ const getTotalPriceByStore = async (items, storeName) => {
         throw new Error(`Error calculating total price for store ${storeName}: ${error.message}`);
     }
 };
+
 
 module.exports = { getItemPriceByStore, getTotalPriceByStore };

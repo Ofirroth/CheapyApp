@@ -1,7 +1,9 @@
 package com.example.cheapy.repositories;
 
 import android.app.Application;
+import android.util.Log;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -16,7 +18,9 @@ import com.example.cheapy.entities.Category;
 import com.example.cheapy.entities.Item;
 import com.example.cheapy.entities.Store;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StoreRepository {
 
@@ -30,6 +34,12 @@ public class StoreRepository {
 
     private PriceApi priceApi;
 
+    MutableLiveData<Double> priceLiveData;
+    MutableLiveData<Double> totalPriceLiveData;
+
+    private Map<Store, MutableLiveData<Double>> totalPriceLiveDataMap;
+
+
 
     public StoreRepository(String token) {
         this.token = token;
@@ -37,6 +47,10 @@ public class StoreRepository {
         this.storeDao = db.storeDao();
         this.storeListData = new StoreListData();
         this.storeAPI = new StoreAPI();
+        this.priceApi = new PriceApi();
+        this.priceLiveData = new MutableLiveData<>();
+        this.totalPriceLiveData = new MutableLiveData<>();
+        this.totalPriceLiveDataMap = new HashMap<>();
     }
 
     public LiveData<List<Store>> getAllStores() {
@@ -52,15 +66,21 @@ public class StoreRepository {
         storeListData.postValue(storeList);
     }
 
-    public void getTotalPriceByStore(String token, List<Item> items) {
-        List <Store> stores = storeDao.getAllStores();
-        assert stores != null;
-        for (Store store: stores) {
+    public void getTotalPriceByStore(String token, List<Store> stores, List<Item> items) {
+        for (Store store : stores) {
+            MutableLiveData<Double> storeTotalPriceLiveData = new MutableLiveData<>();
+            totalPriceLiveDataMap.put(store, storeTotalPriceLiveData);
+
+            // Request total price for this store
             String storeName = store.getName();
-            double totalPrice = priceApi.getTotalPriceByStore(token, storeName, items);
-            store.setTotalPrice(totalPrice);
+            priceApi.getTotalPriceByStore(token, storeName, items, storeTotalPriceLiveData);
         }
     }
+
+    public MutableLiveData<Double> getTotalPriceLiveDataForStore(Store store) {
+        return totalPriceLiveDataMap.getOrDefault(store, new MutableLiveData<>(0.0));
+    }
+
 
     class StoreListData extends MutableLiveData<List<Store>> {
         public StoreListData() {

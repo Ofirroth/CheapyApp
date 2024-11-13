@@ -20,8 +20,7 @@ import com.example.cheapy.databinding.ActivityCheckoutPageBinding;
 import com.example.cheapy.databinding.ActivityNewCartBinding;
 import com.example.cheapy.entities.Item;
 import com.example.cheapy.entities.Store;
-import com.example.cheapy.viewModels.CartViewModel;
-import com.example.cheapy.viewModels.CartViewModelFactory;
+import com.example.cheapy.viewModels.CheckOutViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +36,13 @@ public class NewCartActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ActivityNewCartBinding binding;
 
-    private CartViewModel cartViewModel;
+    private CheckOutViewModel viewModel;
 
 
     String activeUserName;
 
     String storeName;
+    double totalPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,7 @@ public class NewCartActivity extends AppCompatActivity {
             activeUserName = getIntent().getStringExtra("activeUserName");
             userToken = getIntent().getStringExtra("token");
             storeName = getIntent().getStringExtra("store_name");
+            totalPrice = Double.parseDouble(getIntent().getStringExtra("total_price"));
 
         }
         recyclerView = binding.recyclerViewCart;
@@ -66,8 +67,7 @@ public class NewCartActivity extends AppCompatActivity {
         itemCartAdapter = new ItemCartAdapter(cartItems);
         recyclerView.setAdapter(itemCartAdapter);
 
-        CartViewModelFactory factory = new CartViewModelFactory(userToken);
-        cartViewModel = new ViewModelProvider(this, factory).get(CartViewModel.class);
+        this.viewModel = new CheckOutViewModel(this.userToken);
 
         updateCartProductList();
 
@@ -78,22 +78,13 @@ public class NewCartActivity extends AppCompatActivity {
 
     }
 
-    private void calculateTotalForSelectedStore() {
-
-        List<Item> selectedStoreItems = new ArrayList<>(CartManager.getInstance().getCartProducts());
-        cartViewModel.fetchTotalPriceByStore(userToken, selectedStoreItems);
-        cartViewModel.getTotalPriceLiveData().observe(this, total -> {
-            TextView totalPriceTextView = findViewById(R.id.totalPriceTextView);
-            totalPriceTextView.setText(storeName + ": ₪" + String.format("%.2f", total));
-        });
-    }
-
     @SuppressLint("DefaultLocale")
     private void updateCartDetails() {
 
         TextView itemCount = binding.itemCountBadge;
         itemCount.setText(String.valueOf(CartManager.getInstance().getTotalItemCount()));
-        calculateTotalForSelectedStore();
+        TextView totalPriceTextView = findViewById(R.id.totalPriceTextView);
+        totalPriceTextView.setText(storeName + ": ₪" + String.format("%.2f", totalPrice));
     }
 
     @Override
