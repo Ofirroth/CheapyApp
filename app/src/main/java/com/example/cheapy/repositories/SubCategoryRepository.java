@@ -1,5 +1,7 @@
 package com.example.cheapy.repositories;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -7,51 +9,54 @@ import com.example.cheapy.API.CategoryAPI;
 import com.example.cheapy.Dao.AppDB;
 import com.example.cheapy.Dao.CategoryDao;
 import com.example.cheapy.DatabaseManager;
-import com.example.cheapy.entities.Category;
+import com.example.cheapy.entities.SubCategory;
 
 import java.util.List;
 
-public class CategoryRepository {
-
+public class SubCategoryRepository {
     private CategoryDao categoryDao;
-    private CategoryListData categoryListData;
+    private SubListData subListData;
+    private AppDB db;
     private CategoryAPI categoryAPI;
     private String token;
-    private AppDB db;
+    private int categoryId;
 
-    public CategoryRepository(String token) {
+    public SubCategoryRepository(String token, int categoryId) {
         this.token = token;
         this.db = DatabaseManager.getDatabase();
         this.categoryDao = db.categoryDao();
-        this.categoryListData = new CategoryListData();
+        this.subListData = new SubListData();
         this.categoryAPI = new CategoryAPI();
+        this.categoryId = categoryId;
+
     }
 
-    public LiveData<List<Category>> getCategories() {
+    public LiveData<List<SubCategory>> getSubcategoriesByCategoryId() {
         reload();
-        return categoryListData;
+        return subListData;
     }
 
     public void reload() {
         CategoryAPI categoryAPI = new CategoryAPI();
-        categoryAPI.getCategories(categoryListData, token);
+        categoryAPI.fetchSubcategoriesFromCategory(token, categoryId, subListData);
         categoryDao.delete();
-        List<Category> categoryList = categoryListData.getValue();
-        categoryListData.postValue(categoryList);
+        List<SubCategory> categoryList = subListData.getValue();
+        subListData.postValue(categoryList);
     }
 
-    class CategoryListData extends MutableLiveData<List<Category>> {
-        public CategoryListData() {
+    class SubListData extends MutableLiveData<List<SubCategory>> {
+        public SubListData() {
             super();
-            setValue(categoryDao.getCategories());
+            setValue(categoryDao.getSubCategories(categoryId));
         }
 
         @Override
         protected void onActive() {
             super.onActive();
             new Thread(() -> {
-                categoryAPI.getCategories(this, token);
+                categoryAPI.fetchSubcategoriesFromCategory(token, categoryId, subListData);
             }).start();
         }
     }
 }
+

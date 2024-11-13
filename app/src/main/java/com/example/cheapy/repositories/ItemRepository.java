@@ -1,5 +1,7 @@
 package com.example.cheapy.repositories;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -31,17 +33,11 @@ public class ItemRepository {
         reload();
         return itemListData;
     }
-    public LiveData<List<Item>> getItemsByCategory(int categoryId) {
-        return itemDao.getItemsByCategory(categoryId);
+    public MutableLiveData<List<Item>> getItemsByCategory(int categoryId) {
+        MutableLiveData<List<Item>> categoryItemList = new MutableLiveData<>();
+        itemAPI.getItemsByCategory(categoryItemList, token, categoryId);
+        return categoryItemList;
     }
-
-    /**public void insertContact(String username) {
-        chatAPI.createChat(token,username,contactListData);
-    }
-
-    public  void addContact(Contact c) {
-        contactDao.insert(c);
-    }**/
 
     public void reload() {
         ItemAPI itemAPI = new ItemAPI();

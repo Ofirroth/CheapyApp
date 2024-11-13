@@ -2,21 +2,21 @@ package com.example.cheapy.entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import java.util.List;
 
 @Entity
-public class Category {
+public class SubCategory {
 
     @PrimaryKey
     private int id;
     private String name;
     private String image;
-    private boolean isExp = false;
+    private int parentId;
 
-    public Category(int id, String name, String image) {
+    public SubCategory(int id, String name, String image, int parentId) {
         this.id = id;
         this.name = name;
         this.image = image;
+        this.parentId = parentId;
     }
 
     public int getId() {
@@ -43,11 +43,11 @@ public class Category {
         this.image = image;
     }
 
-    public boolean isExp() {
-        return isExp;
+    public int getParentId() {
+        return parentId;
     }
 
-    public void setExp(boolean exp) {
-        isExp = exp;
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 }

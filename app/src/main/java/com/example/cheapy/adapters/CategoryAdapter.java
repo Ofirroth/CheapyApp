@@ -49,8 +49,6 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
             viewHolder = new ViewHolder();
             viewHolder.categoryName = convertView.findViewById(R.id.categoryNameTextView);
             viewHolder.categoryImage = convertView.findViewById(R.id.categoryImageView);
-            viewHolder.subCategoriesContainer = convertView.findViewById(R.id.subCategoriesContainer);
-            viewHolder.gridViewSubCategories = convertView.findViewById(R.id.gridViewSubCategories);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -68,30 +66,11 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
                 .load(imageResource)
                 .into(viewHolder.categoryImage);
 
-        SubCategoryAdapter subcategoryAdapter = new SubCategoryAdapter(getContext(), category.getSub());
-        viewHolder.gridViewSubCategories.setAdapter(subcategoryAdapter);
-        if (category.isExpanded()) {
-            viewHolder.subCategoriesContainer.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.subCategoriesContainer.setVisibility(View.GONE);
-        }
-
-        // Handle click to toggle expansion
-        convertView.setOnClickListener(v -> {
-            category.setExpanded(!category.isExpanded());
-            notifyDataSetChanged();  // Refresh to show/hide subcategories
-        });
-
         return convertView;
     }
 
-    // ViewHolder class to optimize the performance of the ListView
     private static class ViewHolder {
         TextView categoryName;
         ImageView categoryImage;
-        GridView gridViewSubCategories;
-        LinearLayout subCategoriesContainer;
-
-
     }
 }
