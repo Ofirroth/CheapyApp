@@ -44,7 +44,11 @@ public class CheckOutViewModel extends ViewModel {
     }
 
     public void fetchTotalPriceByStore(String token, List<Item> items) {
-           storeRepository.getTotalPriceByStore(token, items);
+        Log.d("boo", "3");
+        double d = storeRepository.getTotalPriceByStore(token, items);
+        Log.d("boo", "4");
+        totalPriceLiveData.setValue(d);
+        Log.d("boo", "5");
     }
 
 }
