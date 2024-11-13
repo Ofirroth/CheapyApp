@@ -6,7 +6,6 @@ const getItems = async (req, res) => {
         console.log(items);
         res.status(200).json(items);
     } catch (error) {
-        console.error(error);
         res.status(500).json('Internal Server Error');
     }
 };

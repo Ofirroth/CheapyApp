@@ -29,7 +29,6 @@ public class CheckOutViewModel extends ViewModel {
     public CheckOutViewModel(String token) {
         storeRepository = new StoreRepository(token);
         storesLiveData = storeRepository.getAllStores();
-        Log.d("storesLiveData:", storesLiveData.toString());
     }
 
     public LiveData<List<Store>> getStores() {
