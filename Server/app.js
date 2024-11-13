@@ -33,6 +33,9 @@ app.use('/api/Item',item);
 const store = require('./routes/store');
 app.use('/api/Store',store);
 
+const price = require('./routes/price');
+app.use('/api/Price',price);
+
 const category = require('./routes/category');
 app.use('/api/Category',category);
 

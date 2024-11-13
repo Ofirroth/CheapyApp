@@ -87,7 +87,7 @@ public class StoreAPI {
                 if (response.isSuccessful() && response.body() != null) {
                     totalPriceLiveData.setValue(response.body());
                 } else {
-                    totalPriceLiveData.setValue(0.0); // default if no response
+                    totalPriceLiveData.setValue(0.0);
                 }
             }
 

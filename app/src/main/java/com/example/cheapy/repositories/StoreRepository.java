@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.cheapy.API.CategoryAPI;
 import com.example.cheapy.API.ItemAPI;
+import com.example.cheapy.API.PriceApi;
 import com.example.cheapy.API.StoreAPI;
 import com.example.cheapy.Dao.AppDB;
 import com.example.cheapy.Dao.StoreDao;
@@ -26,6 +27,8 @@ public class StoreRepository {
     private String token;
 
     private StoreAPI storeAPI;
+
+    private PriceApi priceApi;
 
 
     public StoreRepository(String token) {
@@ -49,8 +52,14 @@ public class StoreRepository {
         storeListData.postValue(storeList);
     }
 
-    public void getTotalPriceByStore(String token, String storeName, List<Item> items, MutableLiveData<Double> totalPriceLiveData) {
-        storeAPI.getTotalPriceByStore(token, storeName, items, totalPriceLiveData);
+    public void getTotalPriceByStore(String token, List<Item> items) {
+        List <Store> stores = storeDao.getAllStores();
+        assert stores != null;
+        for (Store store: stores) {
+            String storeName = store.getName();
+            double totalPrice = priceApi.getTotalPriceByStore(token, storeName, items);
+            store.setTotalPrice(totalPrice);
+        }
     }
 
     class StoreListData extends MutableLiveData<List<Store>> {

@@ -11,7 +11,7 @@ const getItemsByCategory = async (categoryId) => {
 
 const getAllItems = async () => {
     try {
-        const items = await Item.find()
+        const items = await Item.find();
         return items;
     } catch (error) {
         throw new Error('Error fetching items');

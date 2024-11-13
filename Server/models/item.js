@@ -17,15 +17,6 @@ const Item = new Schema({
         type: String,
         required: false
     },
-    price: {
-        type: Number,
-        required: true
-    },
-    store: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Store',
-        required: false
-    },
     category: {
         type: String,
         required: true

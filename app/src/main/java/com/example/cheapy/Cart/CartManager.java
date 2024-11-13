@@ -44,7 +44,7 @@ public class CartManager {
     public void addProduct(Item item) {
         boolean productExists = false;
         for (Item i : cartItems) {
-            if ((i.getId().equals(item.getId()))){
+            if ((i.getName().equals(item.getName()))){
                 i.setQuantity(i.getQuantity() + 1);
                 Log.d("CartManager: " , String.valueOf(i.getQuantity()));
                 productExists = true;
@@ -61,7 +61,7 @@ public class CartManager {
 
     public void decreaseProductQuantity(Item item) {
         for (Item i : cartItems) {
-            if ((i.getId().equals(item.getId()))) {
+            if ((i.getName().equals(item.getName()))) {
                 int newQuantity = i.getQuantity() - 1;
                 if (newQuantity > 0) {
                     i.setQuantity(newQuantity);
@@ -90,23 +90,6 @@ public class CartManager {
         return null;
     }
 
-    public double getTotalPrice() {
-        double total = 0.0;
-            for (Item item : cartItems) {
-                total += item.getPrice() * item.getQuantity();
-            }
-        return total;
-    }
-
-    public double getTotalPriceByStore(String storeName) {
-        double total = 0.0;
-        for (Item item : cartItems) {
-            if (item.getStore().getName().equals(storeName)) {
-                total += item.getPrice() * item.getQuantity();
-            }
-        }
-        return total;
-    }
 
     public int getTotalItemCount() {
         int total = 0;

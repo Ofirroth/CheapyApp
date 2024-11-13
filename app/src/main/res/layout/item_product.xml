@@ -1,4 +1,3 @@
-<!-- Example XML for each item item -->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
@@ -6,13 +5,12 @@
     android:padding="8dp">
 
     <!-- Product Image -->
-
-    <!-- Product Name -->
     <ImageView
         android:id="@+id/productImage"
         android:layout_width="120dp"
         android:layout_height="120dp" />
 
+    <!-- Product Name -->
     <TextView
         android:id="@+id/productName"
         android:layout_width="wrap_content"
@@ -23,63 +21,45 @@
         android:textSize="14sp"
         android:textColor="@color/black" />
 
-    <!-- Product Price -->
-    <TextView
-        android:id="@+id/productPrice"
+    <!-- Quantity, Minus, and Plus Buttons in a Horizontal Layout under the Product Name -->
+    <LinearLayout
+        android:id="@+id/quantityLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/productName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
-        android:text="@string/product_price"
-        android:textSize="12sp"
-        android:textColor="@color/black" />
-
-    <!-- Quantity, Minus and Plus Buttons in a Horizontal Layout -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/productPrice"
-        android:layout_centerHorizontal="true"
         android:orientation="horizontal"
         android:layout_marginTop="8dp">
 
-        <!-- Minus Button as TextView -->
+        <!-- Minus Button as ImageView -->
         <ImageView
             android:id="@+id/minusButton"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:gravity="center"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/ic_minus"
-            android:textSize="12sp"
-            android:textColor="@color/black"
             android:contentDescription="@string/remove_from_cart"
-            android:visibility="gone"
             android:elevation="4dp" />
 
-        <!-- Product Quantity -->
+        <!-- Product Quantity TextView -->
         <TextView
             android:id="@+id/productQuantity"
-            android:layout_width="14dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
             android:gravity="center"
             android:text="@string/itemQuantity"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textColor="@color/black" />
 
-        <!-- Plus Button as TextView -->
+        <!-- Plus Button as ImageView -->
         <ImageView
             android:id="@+id/plusButton"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:gravity="center"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/ic_plus"
-            android:textSize="12sp"
-            android:textColor="@color/black"
             android:contentDescription="@string/add_to_cart"
             android:elevation="4dp" />
 
     </LinearLayout>
-
 
 </RelativeLayout>
