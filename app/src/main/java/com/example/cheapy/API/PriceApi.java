@@ -64,8 +64,8 @@ public class PriceApi {
 
     public void getTotalPriceByStore(String token, String storeName, List<Item> items, MutableLiveData<Double> totalPriceLiveData) {
         StoreTotalRequest request = new StoreTotalRequest(storeName, items);
+        Log.d("boo", "3.82");
         Call<Double> call = priceServiceApi.getTotalPriceByStore(token, request);
-
         call.enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
@@ -75,7 +75,6 @@ public class PriceApi {
                     totalPriceLiveData.postValue(0.0);  // Default if the response is not successful
                 }
             }
-
             @Override
             public void onFailure(Call<Double> call, Throwable t) {
                 totalPriceLiveData.postValue(0.0);  // Set a default value on failure

@@ -39,7 +39,6 @@ public class CategoryAPI {
     }
 
     public void getCategories(MutableLiveData<List<Category>> categoriesListData, String token) {
-        Log.d("sadasr","1");
         Call<List<Category>> call = categoryServiceAPI.getCategories(token);
         call.enqueue(new Callback<List<Category>>() {
             @Override

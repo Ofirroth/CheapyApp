@@ -70,7 +70,6 @@ public class StoreRepository {
         for (Store store : stores) {
             MutableLiveData<Double> storeTotalPriceLiveData = new MutableLiveData<>();
             totalPriceLiveDataMap.put(store, storeTotalPriceLiveData);
-
             // Request total price for this store
             String storeName = store.getName();
             priceApi.getTotalPriceByStore(token, storeName, items, storeTotalPriceLiveData);

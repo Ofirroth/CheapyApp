@@ -40,26 +40,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CheckOutActivity extends AppCompatActivity {
-
     private RecyclerView recyclerViewStores;
-
     private ActivityCheckoutPageBinding binding;
     private StoreAdapter storeAdapter;
     private Button btnProceedToCheckout;
-
     private TextView totalPrice;
     private CheckOutViewModel viewModel;
     private List<Store> listStores;
-
-
     private Store selectedStore;
-
     private AppDB db;
     private StoreDao storeDao;
-
-
     String activeUserName;
-
     String userToken;
 
     @Override
@@ -116,7 +107,6 @@ public class CheckOutActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (selectedStore != null) {
                     Intent intent = new Intent(CheckOutActivity.this, NewCartActivity.class);
-
                     intent.putExtra("store_id", selectedStore.getId());
                     intent.putExtra("store_name", selectedStore.getName());
                     intent.putExtra("user_token", userToken);
@@ -128,7 +118,6 @@ public class CheckOutActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
     private void calculateTotalForSelectedStore() {
         List<Item> selectedStoreItems = new ArrayList<>(CartManager.getInstance().getCartProducts());
@@ -147,6 +136,7 @@ public class CheckOutActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        calculateTotalForSelectedStore();
 
     }
 }

@@ -47,7 +47,6 @@ public class StoreAPI {
     }
 
     public void getAllStores(MutableLiveData<List<Store>> storesListData, String token) {
-        // Make API call for stores
         Call<List<Store>> call = storeServiceAPI.getAllStores(token);
         call.enqueue(new Callback<List<Store>>() {
             @Override
