@@ -28,7 +28,6 @@ const getTotalPriceByStoreName = async (storeName, items) => {
         }
 
         const storeItems = items.filter(item => item.storeId === store._id.toString());
-        console.log(storeItems);
 
         if (storeItems.length === 0) {
             console.warn(`No items found for store: ${storeName}`);

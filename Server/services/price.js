@@ -1,4 +1,6 @@
+const mongoose = require('mongoose');
 const Price = require('../models/price');
+const Store = require('../models/store');
 
 const getItemPriceByStore = async (itemId, storeName) => {
     try {
@@ -7,6 +9,7 @@ const getItemPriceByStore = async (itemId, storeName) => {
             throw new Error('Store not found');
          }
          const priceRecord = await Price.findOne({ itemId: itemId, storeId: store._id });
+
         if (!priceRecord) {
             throw new Error('Price record not found');
         }
@@ -22,23 +25,29 @@ const getTotalPriceByStore = async (items, storeName) => {
             throw new Error('No items provided');
         }
 
-        const itemIds = items.map(item => item._id);
+        const itemFirst = items[0];
+        itemId = itemFirst._id.toString();
+        console.log(itemId);
 
         const store = await Store.findOne({ name: storeName });
+        const storeId = store._id.toString();
+        console.log(storeId);
         if (!store) throw new Error('Store not found');
 
         const prices = await Price.find({
-            itemId: { $in: itemIds },
-            storeId: store._id
+            'itemId': itemId,
+            'storeId': storeId
         });
+        console.log(prices[0]);
 
         let totalPrice = 0;
         items.forEach(item => {
-            const priceInfo = prices.find(price => price.itemId.equals(item._id));
+            const priceInfo = prices.find(price => price.itemId.equals(item._id.toString()));
             if (priceInfo) {
                 totalPrice += priceInfo.price * item.quantity;
             }
         });
+        console.log(totalPrice);
 
         return totalPrice;
     } catch (error) {
