@@ -2,10 +2,10 @@ const priceService = require('../services/price');
 
 const getItemPriceByStore = async (req, res) => {
     try {
-        const { itemId, storeName } = req.params;
-        const price = await priceService.getItemPriceByStore(itemId, storeName);
+        const { storeId,itemId } = req.params;
+        const price = await priceService.getItemPriceByStore(storeId, itemId);
         console.log(price);
-        res.status(200).json(price);
+        res.status(200).send(totalPrice.toString());
     } catch (error) {
         console.error(error);
         res.status(500).json('Internal Server Error');
@@ -14,7 +14,7 @@ const getItemPriceByStore = async (req, res) => {
 
 const getTotalPriceByStore = async (req, res) => {
     try {
-        const { items, storeName } = req.body; // Assuming items and storeName are in the request body
+        const { items, storeName } = req.body;
         if (!items || !storeName) {
             return res.status(400).json({ error: "items or storeName not provided" });
         }

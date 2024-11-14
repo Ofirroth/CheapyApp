@@ -38,6 +38,8 @@ public class StoreRepository {
     MutableLiveData<Double> totalPriceLiveData;
 
     private Map<Store, MutableLiveData<Double>> totalPriceLiveDataMap;
+    private Map<String, MutableLiveData<Double>> ItemsStorePriceLiveDataMap;
+    MutableLiveData<Double> storeItemPriceLiveData = new MutableLiveData<>();
 
 
 
@@ -51,6 +53,7 @@ public class StoreRepository {
         this.priceLiveData = new MutableLiveData<>();
         this.totalPriceLiveData = new MutableLiveData<>();
         this.totalPriceLiveDataMap = new HashMap<>();
+        this.ItemsStorePriceLiveDataMap = new HashMap<>();
     }
 
     public LiveData<List<Store>> getAllStores() {
@@ -78,6 +81,16 @@ public class StoreRepository {
 
     public MutableLiveData<Double> getTotalPriceLiveDataForStore(Store store) {
         return totalPriceLiveDataMap.getOrDefault(store, new MutableLiveData<>(0.0));
+    }
+
+    public void getItemPriceByStore(String token, String storeId, String itemId) {
+        MutableLiveData<Double> storeItemPriceLiveData = new MutableLiveData<>();
+        ItemsStorePriceLiveDataMap.put(itemId, storeItemPriceLiveData);
+        priceApi.getItemPriceByStore(token, itemId, storeId, storeItemPriceLiveData);
+    }
+
+    public MutableLiveData<Double> getItemPriceLiveDataForStore(Item item) {
+        return ItemsStorePriceLiveDataMap.getOrDefault(item.getId(), new MutableLiveData<>(0.0));
     }
 
 

@@ -22,6 +22,7 @@ public class Item {
     private final String imageResource;
     private String category;
     private int quantity;
+    private double price;
 
     public Item(String name, String imageResource, String category, int quantity) {
         this.name = name;
@@ -68,5 +69,13 @@ public class Item {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

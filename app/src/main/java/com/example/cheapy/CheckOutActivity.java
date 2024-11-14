@@ -44,7 +44,7 @@ public class CheckOutActivity extends AppCompatActivity {
     private ActivityCheckoutPageBinding binding;
     private StoreAdapter storeAdapter;
     private Button btnProceedToCheckout;
-    private double totalPrice;
+    private double totalPrice2;
     private CheckOutViewModel viewModel;
     private List<Store> listStores;
     private Store selectedStore;
@@ -110,8 +110,8 @@ public class CheckOutActivity extends AppCompatActivity {
                     intent.putExtra("store_id", selectedStore.getId());
                     intent.putExtra("store_name", selectedStore.getName());
                     intent.putExtra("user_token", userToken);
-                    intent.putExtra("total_price", "0.00");
-                    //intent.putExtra("total_price", selectedStore.getTotalPrice());
+                    intent.putExtra("store_id", selectedStore.getId());
+                    intent.putExtra("total_price", selectedStore.getTotalPrice());
                     startActivity(intent);
                 } else {
                     Toast.makeText(CheckOutActivity.this, "Please select a store to continue.", Toast.LENGTH_SHORT).show();
@@ -127,8 +127,8 @@ public class CheckOutActivity extends AppCompatActivity {
             viewModel.getTotalPriceLiveDataForStore(store).observe(this, totalPrice -> {
                 if (totalPrice != null) {
                     store.setTotalPrice(totalPrice);
-                    Log.d("boo2", String.valueOf(store.getTotalPrice()));
-                    storeAdapter.notifyDataSetChanged();  // Notify adapter to refresh the UI
+                    totalPrice2 = totalPrice;
+                    storeAdapter.notifyDataSetChanged();
                 }
             });
         }
