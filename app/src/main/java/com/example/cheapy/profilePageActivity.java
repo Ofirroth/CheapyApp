@@ -30,6 +30,7 @@ public class profilePageActivity extends AppCompatActivity {
     String activeUserName;
     String userToken;
     String selectedCity;
+    String savedCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +90,25 @@ public class profilePageActivity extends AppCompatActivity {
     private void setUpAddressSpinner(User user) {
         Spinner addressSpinner = binding.addressSpinner;
         List<String> addressOptions = new ArrayList<>();
-        addressOptions.add("בחר כתובת");
-        if (user.getHomeAddress() != null && !user.getHomeAddress().isEmpty()) {
-            addressOptions.add("בית: " + user.getHomeAddress());
+
+        SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        savedCity = sharedPreferences.getString("selected_city", "");
+
+        if (savedCity.equals(user.getHomeAddress())) {
+            if (user.getHomeAddress() != null && !user.getHomeAddress().isEmpty()) {
+                addressOptions.add("בית: " + user.getHomeAddress());
+            }
+            if (user.getWorkAddress() != null && !user.getWorkAddress().isEmpty()) {
+                addressOptions.add("עבודה: " + user.getWorkAddress());
+            }
         }
-        if (user.getWorkAddress() != null && !user.getWorkAddress().isEmpty()) {
-            addressOptions.add("עבודה: " + user.getWorkAddress());
+        else {
+            if (user.getWorkAddress() != null && !user.getWorkAddress().isEmpty()) {
+                addressOptions.add("עבודה: " + user.getWorkAddress());
+            }
+            if (user.getHomeAddress() != null && !user.getHomeAddress().isEmpty()) {
+                addressOptions.add("בית: " + user.getHomeAddress());
+            }
         }
         // Set up ArrayAdapter with dynamic data
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, addressOptions);
@@ -105,7 +119,6 @@ public class profilePageActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedOption = parent.getItemAtPosition(position).toString();
-
                 if (selectedOption.equals("בחר כתובת")) {
                     selectedCity = null;
                 } else {
