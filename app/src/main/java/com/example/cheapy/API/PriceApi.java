@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.cheapy.Cheapy;
 import com.example.cheapy.entities.Item;
+import com.example.cheapy.entities.ItemStoreRequest;
 import com.example.cheapy.entities.Price;
 import com.example.cheapy.entities.StoreTotalRequest;
 
@@ -41,8 +42,9 @@ public class PriceApi {
         priceServiceApi = retrofit.create(PriceServiceApi.class);
     }
 
-    public void getItemPriceByStore(String token, String itemId, String storeName, MutableLiveData<Double> priceLiveData) {
-        Call<Double> call = priceServiceApi.getItemPriceByStore(token, itemId, storeName);
+    public void getItemPriceByStore(String token, String itemId, String storeId, MutableLiveData<Double> priceLiveData) {
+        ItemStoreRequest request = new ItemStoreRequest(storeId, itemId);
+        Call<Double> call = priceServiceApi.getItemPriceByStore(token, request);
         call.enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
@@ -63,27 +65,19 @@ public class PriceApi {
     }
 
     public void getTotalPriceByStore(String token, String storeName, List<Item> items, MutableLiveData<Double> totalPriceLiveData) {
-        Log.d("boo1","3.82");
         StoreTotalRequest request = new StoreTotalRequest(storeName, items);
-        Log.d("boo1","4");
         Call<Double> call = priceServiceApi.getTotalPriceByStore(token, request);
-        Log.d("boo1","4.5");
         call.enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
-                Log.d("boo1","5");
                 if (response.isSuccessful()) {
-                    Log.d("boo1",response.body().toString());
                     totalPriceLiveData.setValue(response.body());  // Update LiveData with response
                 } else {
-                    Log.d("boo1","6");
                     totalPriceLiveData.setValue(0.0);  // Default if the response is not successful
                 }
             }
             @Override
             public void onFailure(Call<Double> call, Throwable t) {
-                Log.d("boo1","7");
-                Log.d("boo1",t.getMessage());
                 totalPriceLiveData.setValue(0.0);  // Set a default value on failure
             }
         });

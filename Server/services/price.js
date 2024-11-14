@@ -2,17 +2,15 @@ const mongoose = require('mongoose');
 const Price = require('../models/price');
 const Store = require('../models/store');
 
-const getItemPriceByStore = async (itemId, storeName) => {
+const getItemPriceByStore = async (storeId, itemId) => {
     try {
-         const store = await Store.findOne({ name: storeName });
-         if (!store) {
-            throw new Error('Store not found');
+         const priceRecord = await Price.findOne({
+         'itemId': itemId,
+          'storeId': storeId
+          });
+         if (!priceRecord) {
+            throw new Error('Price not found');
          }
-         const priceRecord = await Price.findOne({ itemId: itemId, storeId: store._id });
-
-        if (!priceRecord) {
-            throw new Error('Price record not found');
-        }
         return priceRecord.price;
     } catch (error) {
         throw new Error('Error fetching items by category');

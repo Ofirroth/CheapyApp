@@ -3,6 +3,7 @@ package com.example.cheapy;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ public class NewCartActivity extends AppCompatActivity {
 
     String storeName;
     double totalPrice;
+    String storeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,9 @@ public class NewCartActivity extends AppCompatActivity {
             activeUserName = getIntent().getStringExtra("activeUserName");
             userToken = getIntent().getStringExtra("token");
             storeName = getIntent().getStringExtra("store_name");
-            totalPrice = Double.parseDouble(getIntent().getStringExtra("total_price"));
-
+            storeId = getIntent().getStringExtra("store_id");
+            totalPrice = getIntent().getDoubleExtra("total_price",0.0);
+            Log.d("boo3", String.valueOf(totalPrice));
         }
         recyclerView = binding.recyclerViewCart;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -67,11 +70,8 @@ public class NewCartActivity extends AppCompatActivity {
         recyclerView.setAdapter(itemCartAdapter);
 
         this.viewModel = new CheckOutViewModel(this.userToken);
-
         updateCartProductList();
-
         updateCartDetails();
-
         ImageButton returnHomeButton = binding.btnReturnHome;
         returnHomeButton.setOnClickListener(v -> finish());
 
@@ -87,13 +87,23 @@ public class NewCartActivity extends AppCompatActivity {
 
     @SuppressLint("DefaultLocale")
     private void updateCartDetails() {
-
         TextView itemCount = binding.itemCountBadge;
         itemCount.setText(String.valueOf(CartManager.getInstance().getTotalItemCount()));
         TextView totalPriceTextView = findViewById(R.id.totalPriceTextView);
         totalPriceTextView.setText(storeName + ": ₪" + String.format("%.2f", totalPrice));
     }
-
+    private void calculatePriceForSelectedItems() {
+        List<Item> selectedStoreItems = new ArrayList<>(CartManager.getInstance().getCartProducts());
+        for (Item item : selectedStoreItems) {
+            viewModel.fetchItemPriceByStore(userToken, storeId, item.getId());
+            viewModel.getItemPriceLiveDataForStore(item).observe(this, price -> {
+                if (price != null) {
+                    item.setPrice(price);
+                    itemCartAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();

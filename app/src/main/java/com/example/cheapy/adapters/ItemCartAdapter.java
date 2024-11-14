@@ -39,8 +39,8 @@ public class ItemCartAdapter extends RecyclerView.Adapter<ItemCartAdapter.ItemCa
     public void onBindViewHolder(@NonNull ItemCartViewHolder holder, int position) {
         Item item = cartItems.get(position);
         holder.productName.setText(item.getName());
-//        double itemTotalPrice = (item.getId() * item.getQuantity());
-//        holder.productPrice.setText(String.format("₪ %.2f", itemTotalPrice));
+        double itemTotalPrice = (item.getPrice() * item.getQuantity());
+        holder.productPrice.setText(String.format("₪ %.2f", itemTotalPrice));
         holder.productQuantity.setText(String.valueOf(item.getQuantity()));
 
         // Load image using Glide

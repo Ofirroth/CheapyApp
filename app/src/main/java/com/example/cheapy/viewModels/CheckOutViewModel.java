@@ -24,6 +24,7 @@ public class CheckOutViewModel extends ViewModel {
     private LiveData<List<Store>> storesLiveData;
 
     private MutableLiveData<Double> totalPriceLiveData = new MutableLiveData<>();
+    private MutableLiveData<Double> itemPriceData = new MutableLiveData<>();
 
 
     public CheckOutViewModel(String token) {
@@ -49,6 +50,14 @@ public class CheckOutViewModel extends ViewModel {
 
     public void fetchTotalPriceByStore(String token,List<Store> stores, List<Item> items) {
            storeRepository.getTotalPriceByStore(token, stores, items);
+    }
+
+    public LiveData<Double> getItemPriceLiveDataForStore(Item item) {
+        return storeRepository.getItemPriceLiveDataForStore(item);
+    }
+
+    public void fetchItemPriceByStore(String token,String storeId, String itemId) {
+        storeRepository.getItemPriceByStore(token, storeId, itemId);
     }
 
 }
