@@ -26,8 +26,6 @@ import com.example.cheapy.R;
 import com.example.cheapy.entities.Category;
 import com.example.cheapy.entities.Item;
 import com.example.cheapy.entities.Store;
-import com.example.cheapy.viewModels.CartViewModel;
-import com.example.cheapy.viewModels.CartViewModelFactory;
 
 import java.text.BreakIterator;
 import java.util.ArrayList;

@@ -62,7 +62,6 @@ public class NewCartActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-
         cartItems = new ArrayList<>();
         itemCartAdapter = new ItemCartAdapter(cartItems);
         recyclerView.setAdapter(itemCartAdapter);
@@ -76,6 +75,14 @@ public class NewCartActivity extends AppCompatActivity {
         ImageButton returnHomeButton = binding.btnReturnHome;
         returnHomeButton.setOnClickListener(v -> finish());
 
+        Button finishButton = binding.btnCheckout;
+        finishButton.setOnClickListener(v -> {
+            Intent nintent = new Intent(NewCartActivity.this, FinishActivity.class);
+            nintent.putExtra("activeUserName", activeUserName);
+            nintent.putExtra("token", userToken);
+            startActivity(nintent);
+
+        });
     }
 
     @SuppressLint("DefaultLocale")
