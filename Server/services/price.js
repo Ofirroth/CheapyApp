@@ -25,30 +25,23 @@ const getTotalPriceByStore = async (items, storeName) => {
             throw new Error('No items provided');
         }
 
-        const itemFirst = items[0];
-        itemId = itemFirst._id.toString();
-        console.log(itemId);
+        const itemIds = items.map(item => item._id.toString());
 
         const store = await Store.findOne({ name: storeName });
         const storeId = store._id.toString();
-        console.log(storeId);
         if (!store) throw new Error('Store not found');
 
         const prices = await Price.find({
-            'itemId': itemId,
+            'itemId': { $in: itemIds },
             'storeId': storeId
         });
-        console.log(prices[0]);
-
         let totalPrice = 0;
         items.forEach(item => {
-            const priceInfo = prices.find(price => price.itemId.equals(item._id.toString()));
+            const priceInfo = prices.find(price => price.itemId === item._id.toString());
             if (priceInfo) {
                 totalPrice += priceInfo.price * item.quantity;
             }
         });
-        console.log(totalPrice);
-
         return totalPrice;
     } catch (error) {
         throw new Error(`Error calculating total price for store ${storeName}: ${error.message}`);

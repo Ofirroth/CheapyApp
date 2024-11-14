@@ -63,21 +63,28 @@ public class PriceApi {
     }
 
     public void getTotalPriceByStore(String token, String storeName, List<Item> items, MutableLiveData<Double> totalPriceLiveData) {
+        Log.d("boo1","3.82");
         StoreTotalRequest request = new StoreTotalRequest(storeName, items);
-        Log.d("boo", "3.82");
+        Log.d("boo1","4");
         Call<Double> call = priceServiceApi.getTotalPriceByStore(token, request);
+        Log.d("boo1","4.5");
         call.enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    totalPriceLiveData.postValue(response.body());  // Update LiveData with response
+                Log.d("boo1","5");
+                if (response.isSuccessful()) {
+                    Log.d("boo1",response.body().toString());
+                    totalPriceLiveData.setValue(response.body());  // Update LiveData with response
                 } else {
-                    totalPriceLiveData.postValue(0.0);  // Default if the response is not successful
+                    Log.d("boo1","6");
+                    totalPriceLiveData.setValue(0.0);  // Default if the response is not successful
                 }
             }
             @Override
             public void onFailure(Call<Double> call, Throwable t) {
-                totalPriceLiveData.postValue(0.0);  // Set a default value on failure
+                Log.d("boo1","7");
+                Log.d("boo1",t.getMessage());
+                totalPriceLiveData.setValue(0.0);  // Set a default value on failure
             }
         });
     }
