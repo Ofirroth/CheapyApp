@@ -31,7 +31,6 @@ import com.example.cheapy.databinding.ActivityCheckoutPageBinding;
 import com.example.cheapy.databinding.HomePageBinding;
 import com.example.cheapy.entities.Item;
 import com.example.cheapy.entities.Store;
-import com.example.cheapy.viewModels.CartViewModel;
 import com.example.cheapy.viewModels.CategoryViewModel;
 import com.example.cheapy.viewModels.CheckOutViewModel;
 import com.example.cheapy.viewModels.ItemViewModel;
@@ -82,8 +81,19 @@ public class CheckOutActivity extends AppCompatActivity {
             }
         });
 
-        this.viewModel.getStores().observe(this, storeAdapter::setStores);
-        lvItems.setAdapter(storeAdapter);
+        this.viewModel.getStores().observe(this, stores -> {
+            if (stores != null && !stores.isEmpty()) {
+                storeAdapter.setStores(stores);
+                lvItems.setAdapter(storeAdapter);
+
+                listStores.clear();
+                listStores.addAll(stores);
+
+                calculateTotalForSelectedStore();
+            } else {
+                Log.d("CheckOutActivity", "Store list is empty or null.");
+            }
+        });
 
         this.btnProceedToCheckout = binding.btnProceedToCheckout;
 
@@ -100,6 +110,8 @@ public class CheckOutActivity extends AppCompatActivity {
                     intent.putExtra("store_id", selectedStore.getId());
                     intent.putExtra("store_name", selectedStore.getName());
                     intent.putExtra("user_token", userToken);
+                    intent.putExtra("total_price", "0.00");
+                    //intent.putExtra("total_price", selectedStore.getTotalPrice());
                     startActivity(intent);
                 } else {
                     Toast.makeText(CheckOutActivity.this, "Please select a store to continue.", Toast.LENGTH_SHORT).show();
@@ -108,10 +120,17 @@ public class CheckOutActivity extends AppCompatActivity {
         });
     }
     private void calculateTotalForSelectedStore() {
-        Log.d("boo", "1");
-        List<Item> selectedStoreItems = CartManager.getInstance().getCartProducts();
-        Log.d("boo", "2");
-        viewModel.fetchTotalPriceByStore(userToken, selectedStoreItems);
+        List<Item> selectedStoreItems = new ArrayList<>(CartManager.getInstance().getCartProducts());
+        viewModel.fetchTotalPriceByStore(userToken, listStores, selectedStoreItems);
+
+        for (Store store : listStores) {
+            viewModel.getTotalPriceLiveDataForStore(store).observe(this, totalPrice -> {
+                if (totalPrice != null) {
+                    store.setTotalPrice(totalPrice);  // Update total price in the store object
+                    storeAdapter.notifyDataSetChanged();  // Notify adapter to refresh the UI
+                }
+            });
+        }
     }
     @SuppressLint("NotifyDataSetChanged")
     @Override

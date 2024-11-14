@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.cheapy.R;
 import com.example.cheapy.entities.Item;
 import com.example.cheapy.entities.Store;
-import com.example.cheapy.viewModels.CartViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +17,6 @@ import java.util.stream.Collectors;
 public class CartManager {
     private static CartManager instance;
     private List<Item> cartItems;
-
-    private CartViewModel cartViewModel;
 
     private MutableLiveData<List<Item>> cartLiveData = new MutableLiveData<>();
 

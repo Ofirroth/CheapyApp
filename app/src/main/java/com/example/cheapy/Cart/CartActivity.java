@@ -17,7 +17,6 @@ import com.example.cheapy.Home_page.HomePageActivity;
 import com.example.cheapy.adapters.CartAdapter;
 import com.example.cheapy.entities.Item;
 import com.example.cheapy.R;
-import com.example.cheapy.viewModels.CartViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
