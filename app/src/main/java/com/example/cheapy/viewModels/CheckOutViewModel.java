@@ -22,6 +22,7 @@ public class CheckOutViewModel extends ViewModel {
 
     private StoreRepository storeRepository;
     private LiveData<List<Store>> storesLiveData;
+    private MutableLiveData<List<Store>> storesCityLiveData;
 
     private MutableLiveData<Double> totalPriceLiveData = new MutableLiveData<>();
     private MutableLiveData<Double> itemPriceData = new MutableLiveData<>();
@@ -35,6 +36,10 @@ public class CheckOutViewModel extends ViewModel {
     public LiveData<List<Store>> getStores() {
         reload();
         return storesLiveData;
+    }
+    public MutableLiveData<List<Store>> getStoresCity(String city) {
+        this.storesCityLiveData = storeRepository.getCityStore(city);
+        return storesCityLiveData;
     }
     public void reload() {
         this.storesLiveData = storeRepository.getAllStores();

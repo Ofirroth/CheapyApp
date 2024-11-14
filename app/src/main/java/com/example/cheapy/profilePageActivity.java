@@ -1,6 +1,7 @@
 package com.example.cheapy;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -46,13 +47,17 @@ public class profilePageActivity extends AppCompatActivity {
             int itemId = item.getItemId();
 
             if (itemId == R.id.navigationMyProfile) {
-                Intent profileIntent = new Intent(profilePageActivity.this, HomePageActivity.class);
-                startActivity(profileIntent);
                 return true;
             } else if (itemId == R.id.navigationHome) {
+                Intent homeIntent = new Intent(profilePageActivity.this, HomePageActivity.class);
+                homeIntent.putExtra("activeUserName", activeUserName);
+                homeIntent.putExtra("token", userToken);
+                startActivity(homeIntent);
                 return true;
             } else if (itemId == R.id.navigationCheckout) {
                 Intent cartIntent = new Intent(profilePageActivity.this, CartActivity.class);
+                cartIntent.putExtra("activeUserName", activeUserName);
+                cartIntent.putExtra("token", userToken);
                 startActivity(cartIntent);
                 return true;
             } else {
@@ -99,7 +104,22 @@ public class profilePageActivity extends AppCompatActivity {
         addressSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedCity = parent.getItemAtPosition(position).toString();
+                String selectedOption = parent.getItemAtPosition(position).toString();
+
+                if (selectedOption.equals("בחר כתובת")) {
+                    selectedCity = null;
+                } else {
+                    if (selectedOption.startsWith("בית: ")) {
+                        selectedCity = selectedOption.replace("בית: ", "");
+                    } else if (selectedOption.startsWith("עבודה: ")) {
+                        selectedCity = selectedOption.replace("עבודה: ", "");
+                    }
+                }
+                SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("selected_city", selectedCity);
+                editor.apply();
+                Log.d("Selected City", selectedCity != null ? selectedCity : "");
             }
 
             @Override

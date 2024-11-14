@@ -2,6 +2,7 @@ package com.example.cheapy;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +53,7 @@ public class CheckOutActivity extends AppCompatActivity {
     private StoreDao storeDao;
     String activeUserName;
     String userToken;
+    String selectedCity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,11 +83,12 @@ public class CheckOutActivity extends AppCompatActivity {
             }
         });
 
-        this.viewModel.getStores().observe(this, stores -> {
+        SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        selectedCity = sharedPreferences.getString("selected_city", ""); // Default to empty if null
+        this.viewModel.getStoresCity(selectedCity).observe(this, stores -> {
             if (stores != null && !stores.isEmpty()) {
                 storeAdapter.setStores(stores);
                 lvItems.setAdapter(storeAdapter);
-
                 listStores.clear();
                 listStores.addAll(stores);
 
@@ -128,6 +131,8 @@ public class CheckOutActivity extends AppCompatActivity {
                 if (totalPrice != null) {
                     store.setTotalPrice(totalPrice);
                     totalPrice2 = totalPrice;
+                    // Sort stores by total price each time a new price is set
+                    listStores.sort((s1, s2) -> Double.compare(s1.getTotalPrice(), s2.getTotalPrice()));
                     storeAdapter.notifyDataSetChanged();
                 }
             });

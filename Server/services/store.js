@@ -1,9 +1,9 @@
 const Store = require('../models/store');
 const Item = require('../models/item');
 
-const getStoresByAdress = async (adress) => {
+const getStoresByCity = async (city) => {
     try {
-        const stores = await Store.find({ adress }).populate('store');  // Populates store data
+        const stores = await Store.find({ city:city });
         return stores;
     } catch (error) {
         throw new Error('Error fetching stores');
@@ -42,4 +42,4 @@ const getTotalPriceByStoreName = async (storeName, items) => {
 };
 
 
-module.exports = { getStoresByAdress, getAllStores, getTotalPriceByStoreName };
+module.exports = { getStoresByCity, getAllStores, getTotalPriceByStoreName };

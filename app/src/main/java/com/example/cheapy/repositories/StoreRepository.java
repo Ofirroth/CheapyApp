@@ -27,6 +27,7 @@ public class StoreRepository {
     private StoreDao storeDao;
 
     private StoreListData storeListData;
+    private StoreListData cityStoresListData;
     private AppDB db;
     private String token;
 
@@ -59,6 +60,12 @@ public class StoreRepository {
     public LiveData<List<Store>> getAllStores() {
         reload();
         return storeListData;
+    }
+
+    public MutableLiveData<List<Store>> getCityStore(String city) {
+        MutableLiveData<List<Store>> storesCity = new MutableLiveData<>();
+        storeAPI.getStoresByCity(storesCity, token, city);
+        return storesCity;
     }
 
     public void reload() {

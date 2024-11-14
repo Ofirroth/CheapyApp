@@ -25,4 +25,18 @@ const getTotalPriceByStore = async (req, res) => {
     }
 };
 
-module.exports = { getStores, getTotalPriceByStore };
+async function getStoreByCity(req, res) {
+    const { city } = req.params;
+    try {
+        const stores = await storeService.getStoresByCity(city);
+        if (stores.length === 0) {
+            return res.status(404).json({ message: 'No stores found in the specified city' });
+        }
+        res.status(200).json(stores);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
+module.exports = { getStores, getTotalPriceByStore, getStoreByCity };
