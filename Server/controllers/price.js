@@ -19,7 +19,7 @@ const getTotalPriceByStore = async (req, res) => {
             return res.status(400).json({ error: "items or storeName not provided" });
         }
         const totalPrice = await priceService.getTotalPriceByStore(items, storeName);
-        res.status(200).json({ totalPrice });
+        res.status(200).send(totalPrice.toString());
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: error.message });

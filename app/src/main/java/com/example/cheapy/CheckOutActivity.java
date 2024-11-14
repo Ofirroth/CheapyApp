@@ -44,7 +44,7 @@ public class CheckOutActivity extends AppCompatActivity {
     private ActivityCheckoutPageBinding binding;
     private StoreAdapter storeAdapter;
     private Button btnProceedToCheckout;
-    private TextView totalPrice;
+    private double totalPrice;
     private CheckOutViewModel viewModel;
     private List<Store> listStores;
     private Store selectedStore;
@@ -126,7 +126,8 @@ public class CheckOutActivity extends AppCompatActivity {
         for (Store store : listStores) {
             viewModel.getTotalPriceLiveDataForStore(store).observe(this, totalPrice -> {
                 if (totalPrice != null) {
-                    store.setTotalPrice(totalPrice);  // Update total price in the store object
+                    store.setTotalPrice(totalPrice);
+                    Log.d("boo2", String.valueOf(store.getTotalPrice()));
                     storeAdapter.notifyDataSetChanged();  // Notify adapter to refresh the UI
                 }
             });
