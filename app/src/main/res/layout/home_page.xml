@@ -91,6 +91,7 @@
         app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/bottom_nav_menu" />
 
+    <!-- Add GridView for Products -->
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="415dp"
@@ -102,6 +103,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="חפש מוצר"
+            android:paddingLeft="8dp"
+            android:textColorHint="#bbb" />
 
         <ImageButton
             android:id="@+id/searchIcon"
@@ -123,7 +134,6 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Add GridView for Products -->
     <GridView
         android:id="@+id/gridViewProducts"
         android:layout_width="0dp"

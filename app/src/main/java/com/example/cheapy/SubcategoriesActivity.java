@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -69,7 +70,10 @@ public class SubcategoriesActivity extends AppCompatActivity implements TextWatc
                 startActivity(profileIntent);
                 return true;
             } else if (itemId == R.id.navigationHome) {
-                finish();
+                Intent homeIntent = new Intent(SubcategoriesActivity.this, HomePageActivity.class);
+                homeIntent.putExtra("activeUserName", activeUserName);
+                homeIntent.putExtra("token", userToken);
+                startActivity(homeIntent);
                 return true;
             } else if (itemId == R.id.navigationCheckout) {
                 Intent cartIntent = new Intent(SubcategoriesActivity.this, CartActivity.class);
@@ -93,6 +97,9 @@ public class SubcategoriesActivity extends AppCompatActivity implements TextWatc
         this.adapter = new SubCategoryAdapter(getApplicationContext(), this.subCategories);
         this.subCategoryViewModel.getSubcategoriesByCategoryId().observe(this, adapter::setSubCategories);
         lvCategories.setAdapter(this.adapter);
+
+        ImageButton returnHomeButton = binding.btnReturn;
+        returnHomeButton.setOnClickListener(v -> finish());
 
         lvCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
