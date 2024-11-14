@@ -23,5 +23,5 @@ public interface StoreServiceAPI {
     Call<Store> getStore(@Header("Authorization")String token,@Path("name") String name);
 
     @GET("Store/{city}")
-    Call<List<Store>> getStoresByAdress(@Header("Authorization")String token,@Path("city") String city);
+    Call<List<Store>> getStoresByCity(@Header("Authorization")String token,@Path("city") String city);
 }

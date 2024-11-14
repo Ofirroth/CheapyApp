@@ -60,7 +60,7 @@ public class CartManager {
         for (Item i : cartItems) {
             if ((i.getName().equals(item.getName()))) {
                 int newQuantity = i.getQuantity() - 1;
-                if (newQuantity > 0) {
+                if (newQuantity >= 0) {
                     i.setQuantity(newQuantity);
                 } else {
                     i.setQuantity(0);

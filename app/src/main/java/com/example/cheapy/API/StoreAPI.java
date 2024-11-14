@@ -96,9 +96,9 @@ public class StoreAPI {
             }
         });
     }
-    public void getStoresByAddress(MutableLiveData<List<Store>> storesListData, String token, String address) {
+    public void getStoresByCity(MutableLiveData<List<Store>> storesListData, String token, String city) {
         // API call to fetch stores by address
-        Call<List<Store>> call = storeServiceAPI.getStoresByAdress(token, address);
+        Call<List<Store>> call = storeServiceAPI.getStoresByCity(token, city);
         call.enqueue(new Callback<List<Store>>() {
             @Override
             public void onResponse(Call<List<Store>> call, Response<List<Store>> response) {

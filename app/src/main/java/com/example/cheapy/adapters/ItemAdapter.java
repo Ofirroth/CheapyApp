@@ -91,7 +91,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                 CartManager.getInstance().decreaseProductQuantity(item);
                 viewHolder.productQuantity.setText(String.valueOf(CartManager.getInstance().getProduct(item.getId()).getQuantity()));
 
-                if (item.getQuantity() <= 0) {
+                if (item.getQuantity() < 0) {
                     item.setQuantity(0);
                     viewHolder.productQuantity.setText("0");
                     viewHolder.minusButton.setVisibility(View.GONE);
