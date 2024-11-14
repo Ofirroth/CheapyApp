@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
+
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 
@@ -78,7 +80,10 @@ public class CategoriesActivity extends AppCompatActivity implements TextWatcher
                 startActivity(profileIntent);
                 return true;
             } else if (itemId == R.id.navigationHome) {
-                finish();
+                Intent homeIntent = new Intent(CategoriesActivity.this, HomePageActivity.class);
+                homeIntent.putExtra("activeUserName", activeUserName);
+                homeIntent.putExtra("token", userToken);
+                startActivity(homeIntent);
                 return true;
             } else if (itemId == R.id.navigationCheckout) {
                 Intent cartIntent = new Intent(CategoriesActivity.this, CartActivity.class);
@@ -102,6 +107,8 @@ public class CategoriesActivity extends AppCompatActivity implements TextWatcher
         this.viewModel.getAllCategories().observe(this, adapter::setCategories);
         lvCategories.setAdapter(this.adapter);
 
+        ImageButton returnHomeButton = binding.btnReturn;
+        returnHomeButton.setOnClickListener(v -> finish());
         lvCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

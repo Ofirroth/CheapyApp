@@ -5,6 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".NewCartActivity"
     android:background="@color/light_grey">
+    
+    <!-- App Logo in the Top Right -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCart"

@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.GridView;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -69,7 +70,10 @@ public class CategoryItemsActivity extends AppCompatActivity implements TextWatc
                 startActivity(profileIntent);
                 return true;
             } else if (itemId == R.id.navigationHome) {
-                finish();
+                Intent homeIntent = new Intent(CategoryItemsActivity.this, HomePageActivity.class);
+                homeIntent.putExtra("activeUserName", activeUserName);
+                homeIntent.putExtra("token", userToken);
+                startActivity(homeIntent);
                 return true;
             } else if (itemId == R.id.navigationCheckout) {
                 Intent cartIntent = new Intent(CategoryItemsActivity.this, CartActivity.class);
@@ -94,6 +98,9 @@ public class CategoryItemsActivity extends AppCompatActivity implements TextWatc
         this.itemAdapter = new itemListAdapter(getApplicationContext(), this.items);
         this.itemViewModel.getItemsByCategory(categoryId).observe(this, itemAdapter::setItems);
         lvCategoriesItems.setAdapter(this.itemAdapter);
+
+        ImageButton returnHomeButton = binding.btnReturn;
+        returnHomeButton.setOnClickListener(v -> finish());
     }
 
     @SuppressLint("NotifyDataSetChanged")

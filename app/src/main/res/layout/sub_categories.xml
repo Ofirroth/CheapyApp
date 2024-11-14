@@ -12,7 +12,6 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/Sign_up_container"
         android:elevation="4dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,12 +46,22 @@
         android:id="@+id/searchContainer"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/chat_searchContainer"
+        android:background="@color/my_search_background_color"
+        android:layout_marginTop="15dp"
         android:padding="8dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnReturn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_return"
+            android:contentDescription="@string/return_home"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
 
         <EditText
             android:id="@+id/searchEditText"
@@ -60,10 +69,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:hint="חפש תת קטגוריות"
-            android:paddingLeft="8dp"
-            android:textColorHint="#bbb"
-            android:textColor="@color/black"/>
+            android:hint="חפש תת קטגוריה"
+            android:layout_marginEnd="12dp"
+            android:textColorHint="#bbb" />
 
         <ImageView
             android:id="@+id/searchIcon"
