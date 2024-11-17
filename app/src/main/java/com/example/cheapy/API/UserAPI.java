@@ -81,7 +81,10 @@ public class UserAPI {
 
 
     public void signIn(String username, String password, String deviceToken, CallBackFlag callBackFlag) {
+        Log.d("SignIn","1");
+        Log.d("token", deviceToken);
         Call<ResponseBody> loginCall = userServiceAPI.login(Map.of("username", username, "password", password, "deviceToken", deviceToken));
+        Log.d("SignIn:", loginCall.toString());
         loginCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -101,6 +104,7 @@ public class UserAPI {
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 String err = t.getMessage();
+                Log.d("LoginError:", err);
                 Toast.makeText(Cheapy.context,
                         "Error:" + err, Toast.LENGTH_SHORT).show();
             }
