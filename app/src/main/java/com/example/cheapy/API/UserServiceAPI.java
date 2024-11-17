@@ -22,5 +22,8 @@ public interface UserServiceAPI {
     @GET("Users/{id}")
     Call<User> getUser (@Header("Authorization")String token, @Path("id") String username);
 
+    @GET("Users/getId/{id}")
+    Call<String> getUserId (@Header("Authorization")String token, @Path("id") String username);
+
 }
 

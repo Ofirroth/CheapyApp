@@ -145,6 +145,35 @@ public class UserAPI {
             }
         });
     }
+
+    public void getUserId(String token, String username, MutableLiveData<String> callback) {
+        Log.d("boo","7.2");
+        Log.d("boo",username);
+        Call<String> call = userServiceAPI.getUserId(token, username);
+        Log.d("boo","7.5");
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    String userId = response.body();
+                    Log.d("boo","7.7");
+                    callback.postValue(userId);
+                } else {
+                    Log.d("boo1","8");
+                    Toast.makeText(Cheapy.context,
+                            "Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d("boo1",t.getMessage());
+                Toast.makeText(Cheapy.context,
+                        "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public MutableLiveData<String> getTokenLiveData() {
         return tokenLiveData;
     }
@@ -174,5 +203,6 @@ public class UserAPI {
         }
         return;
     }
+
 }
 

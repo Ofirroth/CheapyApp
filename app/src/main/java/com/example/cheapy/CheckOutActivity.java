@@ -113,6 +113,7 @@ public class CheckOutActivity extends AppCompatActivity {
                     intent.putExtra("store_id", selectedStore.getId());
                     intent.putExtra("store_name", selectedStore.getName());
                     intent.putExtra("user_token", userToken);
+                    intent.putExtra("activeUserName", activeUserName);
                     intent.putExtra("store_id", selectedStore.getId());
                     intent.putExtra("total_price", selectedStore.getTotalPrice());
                     startActivity(intent);

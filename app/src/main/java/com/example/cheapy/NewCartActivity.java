@@ -8,11 +8,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import com.example.cheapy.Cart.CartActivity;
 import com.example.cheapy.Cart.CartManager;
 import com.example.cheapy.adapters.CartAdapter;
@@ -21,8 +25,11 @@ import com.example.cheapy.databinding.ActivityCheckoutPageBinding;
 import com.example.cheapy.databinding.ActivityNewCartBinding;
 import com.example.cheapy.entities.Item;
 import com.example.cheapy.entities.Store;
+import com.example.cheapy.viewModels.CartViewModel;
 import com.example.cheapy.viewModels.CheckOutViewModel;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,6 +45,7 @@ public class NewCartActivity extends AppCompatActivity {
     private ActivityNewCartBinding binding;
 
     private CheckOutViewModel viewModel;
+    private CartViewModel cartViewModel;
 
 
     String activeUserName;
@@ -68,7 +76,7 @@ public class NewCartActivity extends AppCompatActivity {
         cartItems = new ArrayList<>();
         itemCartAdapter = new ItemCartAdapter(cartItems);
         recyclerView.setAdapter(itemCartAdapter);
-
+        this.cartViewModel = new CartViewModel(this.userToken);
         this.viewModel = new CheckOutViewModel(this.userToken);
         updateCartProductList();
         updateCartDetails();
@@ -77,12 +85,23 @@ public class NewCartActivity extends AppCompatActivity {
 
         Button finishButton = binding.btnCheckout;
         finishButton.setOnClickListener(v -> {
-            Intent nintent = new Intent(NewCartActivity.this, FinishActivity.class);
-            nintent.putExtra("activeUserName", activeUserName);
-            nintent.putExtra("token", userToken);
-            startActivity(nintent);
-
+            saveCart();
         });
+    }
+
+    private void saveCart() {
+        Log.d("boo1","1");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Log.d("boo1","2");
+        String dateCreated = sdf.format(new Date());
+        Log.d("boo1","3");
+        Log.d("boo1",activeUserName);
+        cartViewModel.createCart(userToken, activeUserName, storeId, cartItems, totalPrice, dateCreated);
+        Log.d("boo1","4");
+        Intent finishIntent = new Intent(NewCartActivity.this, FinishActivity.class);
+        finishIntent.putExtra("activeUserName", activeUserName);
+        finishIntent.putExtra("token", userToken);
+        startActivity(finishIntent);
     }
 
     @SuppressLint("DefaultLocale")
