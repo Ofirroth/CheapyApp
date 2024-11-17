@@ -19,7 +19,7 @@ const Store = new Schema({
         required: true
     },
     searchButtonSelector: {
-        type: String,
+        type: Schema.Types.Mixed,
         required: true,
     },
     searchInputSelector: {

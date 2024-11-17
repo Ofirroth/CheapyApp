@@ -38,8 +38,11 @@ async function updatePricesFromStores() {
         try {
           console.log(`Searching for item: ${item.name} (Barcode: ${barcode})`);
 
-          // Click search button
-          await page.click(store.searchButtonSelector);
+         if (store.searchButtonSelector.role) {
+             await page.getByRole(store.searchButtonSelector.role, { name: store.searchButtonSelector.name }).click();
+         } else {
+             await page.click(store.searchButtonSelector);
+         }
 
           // Fill search input
           await page.fill(store.searchInputSelector, barcode);
@@ -54,6 +57,9 @@ async function updatePricesFromStores() {
             console.warn(`No product found for item: ${item.name}`);
             continue;
           }
+          console.warn(`product found: ${item.name}`);
+          await page.click(store.productStripSelector);
+          console.log('Clicked on the product strip.');
 
           // Extract price
           const priceText = await page.textContent(store.priceSelector).catch(() => null);

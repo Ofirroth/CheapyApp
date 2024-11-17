@@ -1,6 +1,7 @@
 const { chromium } = require('playwright');
 const Item = require('../models/item');
 const Barcode = require('../models/barcode');
+const updatePricesFromStores = require('./getPrices');
 
 async function scrapeAndSaveItems() {
   const browser = await chromium.launch({ headless: false, slowMo: 100 });
@@ -90,6 +91,7 @@ async function scrapeAndSaveItems() {
   } finally {
     await browser.close();
     console.log('Browser closed.');
+    updatePricesFromStores();
   }
 }
 
