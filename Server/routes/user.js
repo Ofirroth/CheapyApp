@@ -8,5 +8,6 @@ router.route('/')
     .get(userControllers.getAllUsers)
 
 router.route('/:username').get(userControllers.getUserByToken);
+router.route('/getId/:username').get(userControllers.getUserId);
     
 module.exports = router;

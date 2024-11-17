@@ -33,7 +33,7 @@ const getUserByToken = async (req, res) => {
             if (!result)
                 return res.status(404).json("User not found");
             else
-                return res.json(result);
+                res.status(200).send(result);
         } else {
             res.status(500).send('Internal Server Error');
         }
@@ -43,4 +43,22 @@ const getUserByToken = async (req, res) => {
     }
 }
 
-module.exports = { createUser, getAllUsers, getUserByToken }; 
+const getUserId = async (req, res) => {
+    try {
+            if (req.headers.authorization) {
+                const token = req.headers.authorization.split(" ")[1];
+                const result = await userService.getUserId(token);
+                if (!result)
+                    return res.status(404).json("User not found");
+                else
+                    return res.json(result);
+            } else {
+                res.status(500).send('Internal Server Error');
+            }
+        }
+        catch (error) {
+            res.status(500).send('Internal Server Error');
+        }
+};
+
+module.exports = { createUser, getAllUsers, getUserByToken, getUserId };

@@ -39,6 +39,9 @@ app.use('/api/Price',price);
 const category = require('./routes/category');
 app.use('/api/Category',category);
 
+const cart = require('./routes/cart');
+app.use('/api/Cart',cart);
+
 const chat = require('./routes/chat');
 const { Socket } = require('dgram');
 app.use('/api/Chats',chat);

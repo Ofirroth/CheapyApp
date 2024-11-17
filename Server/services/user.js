@@ -74,6 +74,18 @@ const getUserByName = async (userName) => {
     }
 }
 
+const getUserId = async (token) => {
+    try {
+            // Verify the token is va
+            const data = jwt.verify(token, "Some super secret key shhhhhhhhhhhhhhhhh!!!!!");
+            const user =  await User.findOne({ username: data.username });
+            return user._id;
+        }
+        catch (error) {
+            throw new Error('Internal Server Error');
+        }
+};
 
-module.exports = { createUser, getAllUsers, getUserByToken, getAllUsersPassName, getUserByName };
+
+module.exports = { createUser, getAllUsers, getUserByToken, getAllUsersPassName, getUserByName, getUserId };
 
