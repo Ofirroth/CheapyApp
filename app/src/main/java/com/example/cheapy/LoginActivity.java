@@ -88,8 +88,12 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
                 binding.editTextPassword.setError("Password is empty");
             } else {
                 try {
+                    Log.d("Login:", userAPI.toString());
+                    Log.d("LoginToken:", newToken);
                     userAPI.signIn(username, password,newToken, callback -> {
+                        Log.d("Login:", String.valueOf(callback));
                         if (callback == 200) {
+                            Log.d("Login:", String.valueOf(callback));
                             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
                             SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(Cheapy.context);
@@ -108,6 +112,7 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
                     });
                 }
                 catch (Exception e) {
+                    Log.d("Login:", e.toString());
                     Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
                 }
             }

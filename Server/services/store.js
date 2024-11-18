@@ -19,6 +19,7 @@ const getAllStores = async () => {
     }
 };
 
+
 const getStore = async (id) => {
     try {
         const store = await Store.findOne({'_id':id})
@@ -52,3 +53,4 @@ const getTotalPriceByStoreName = async (storeName, items) => {
 
 
 module.exports = { getStoresByCity, getAllStores, getTotalPriceByStoreName, getStore };
+
