@@ -16,10 +16,22 @@ const customEnv = require('custom-env');
 customEnv.env(process.env.NODE_ENV, './config');
 
 const mongoose = require('mongoose');
+const scrapeAndSaveItems = require('./playwright/createItems');
+const updatePricesFromStores = require('./playwright/getPrices');
+
 mongoose.connect(process.env.CONNECTION_STRING + "ChatDB", {
     useNewURLParser: true,
     useUnifiedTopology: true
     });
+
+mongoose.connection.on('connected', () => {
+  console.log('Connected to MongoDB');
+  //scrapeAndSaveItems();
+  //updatePricesFromStores();
+});
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
+});
 
 const users =require ('./routes/user');
 app.use('/api/Users', users);
@@ -41,6 +53,9 @@ app.use('/api/Category',category);
 
 const cart = require('./routes/cart');
 app.use('/api/Cart',cart);
+
+const barcode = require('./routes/barcode');
+app.use('/api/barcodes', barcode);
 
 const chat = require('./routes/chat');
 const { Socket } = require('dgram');
@@ -87,5 +102,6 @@ io.on("connection", (socket) => {
         socket.in(data.receiverUser).emit("receive_message",data);
     });
 })
+
 
 server.listen(process.env.PORT);

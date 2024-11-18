@@ -24,7 +24,11 @@ const Item = new Schema({
     subCategory: {
             type: String,
             required: false
-      }
+    },
+    barcode: {
+            type: String,
+            required: false
+    }
 });
 
 module.exports = mongoose.model('Item', Item);
