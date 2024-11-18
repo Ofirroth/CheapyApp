@@ -123,4 +123,36 @@ public class StoreAPI {
             }
         });
     }
+
+    public void getStore(MutableLiveData<Store> store, String token, String storeId) {
+        // API call to fetch stores by address
+        Call<Store> call = storeServiceAPI.getStore(token, storeId);
+        call.enqueue(new Callback<Store>() {
+            @Override
+            public void onResponse(Call<Store> call, Response<Store> response) {
+                if (response.isSuccessful()) {
+                    Log.d("msg11", store.getValue().getName());
+                    store.setValue(response.body());
+                } else {
+                    Log.d("msg11", response.message());
+                    Toast.makeText(Cheapy.context,
+                            "Error:" + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Store> call, Throwable t) {
+                String err = t.getMessage();
+                Log.d("msg11", err);
+                if (err != null) {
+                    Toast.makeText(Cheapy.context,
+                            "Error:" + err, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Cheapy.context,
+                            "Error:", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
 }

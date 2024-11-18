@@ -38,5 +38,18 @@ async function getStoreByCity(req, res) {
     }
 }
 
+const getStore = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const store = await storeService.getStore(id);
+        if (!store) {
+            return res.status(404).json({ message: 'Store not found' });
+        }
+        res.status(200).send(store);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
-module.exports = { getStores, getTotalPriceByStore, getStoreByCity };
+
+module.exports = { getStores, getTotalPriceByStore, getStoreByCity , getStore};

@@ -56,6 +56,8 @@
         </activity>
 
         <activity android:name=".CategoriesActivity" />
+        <activity android:name=".shoppingHistory" />
+        <activity android:name="shoppingHistoryList"/>
         <activity android:name=".profilePageActivity" />
 
         <activity android:name=".Home_page.HomePageActivity" />

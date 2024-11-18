@@ -19,6 +19,15 @@ const getAllStores = async () => {
     }
 };
 
+const getStore = async (id) => {
+    try {
+        const store = await Store.findOne({'_id':id})
+        return store;
+    } catch (error) {
+        throw new Error('Error fetching stores');
+    }
+};
+
 const getTotalPriceByStoreName = async (storeName, items) => {
     try {
         const store = await Store.findOne({ name: storeName });
@@ -42,4 +51,4 @@ const getTotalPriceByStoreName = async (storeName, items) => {
 };
 
 
-module.exports = { getStoresByCity, getAllStores, getTotalPriceByStoreName };
+module.exports = { getStoresByCity, getAllStores, getTotalPriceByStoreName, getStore };

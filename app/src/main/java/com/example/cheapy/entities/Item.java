@@ -7,9 +7,11 @@ import androidx.room.PrimaryKey;
 import com.example.cheapy.converts.itemConverter;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @Entity
 @TypeConverters(itemConverter.class)
-public class Item {
+public class Item implements Serializable {
     @SerializedName("categoryId")
     private int categoryId;
 

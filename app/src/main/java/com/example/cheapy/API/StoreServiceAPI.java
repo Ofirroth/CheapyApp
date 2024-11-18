@@ -19,8 +19,8 @@ public interface StoreServiceAPI {
     @POST("Store/getTotalPriceByStore")
     Call<Double> getTotalPriceByStore(@Header("Authorization") String token, @Body StoreTotalRequest request);
 
-    @GET("Store/{name}")
-    Call<Store> getStore(@Header("Authorization")String token,@Path("name") String name);
+    @GET("Store/getName/{id}")
+    Call<Store> getStore(@Header("Authorization")String token,@Path("id") String name);
 
     @GET("Store/{city}")
     Call<List<Store>> getStoresByCity(@Header("Authorization")String token,@Path("city") String city);

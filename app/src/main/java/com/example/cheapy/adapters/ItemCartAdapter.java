@@ -28,6 +28,14 @@ public class ItemCartAdapter extends RecyclerView.Adapter<ItemCartAdapter.ItemCa
         this.cartItems = cartItems;
     }
 
+    public void setItems(List<Item> items) {
+        cartItems.clear();
+        if (items != null) {
+            cartItems.addAll(items);
+        }
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ItemCartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
