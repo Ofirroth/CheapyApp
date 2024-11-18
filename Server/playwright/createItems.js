@@ -1,7 +1,12 @@
 const { chromium } = require('playwright');
 const Item = require('../models/item');
+const Category = require('../models/category');
+const SubCategory = require('../models/subCategory');
 const Barcode = require('../models/barcode');
 const updatePricesFromStores = require('./getPrices');
+
+let categoryCounter = 1; // Counter for category IDs
+let subCategoryCounter = 1; // Counter for subcategory IDs
 
 async function scrapeAndSaveItems() {
   const browser = await chromium.launch({ headless: false, slowMo: 100 });
@@ -21,6 +26,9 @@ async function scrapeAndSaveItems() {
 
     for (const barcodeDoc of barcodes) {
       const barcode = barcodeDoc.barcode;
+      let categoryId = null;
+      let subCategoryId = null;
+      let activeCategoryImg = null;
       try {
         console.log(`Starting search for barcode: ${barcode}`);
 
@@ -67,7 +75,6 @@ async function scrapeAndSaveItems() {
           console.error('Error while fetching the image:', err);
         }
 
-
         console.log(`Image found: ${img || 'null'}`);
 
         const breadcrumbData = await page.evaluate(() => {
@@ -82,9 +89,70 @@ async function scrapeAndSaveItems() {
         console.log('Category:', breadcrumbData.category);
         console.log('Subcategory:', breadcrumbData.subCategory);
 
+       let activeCategory = null;
+
+       try {
+
+                  const activeCategories = await page.locator('li.active');
+                  const activeCategoryCount = await activeCategories.count();
+
+                  console.log('Number of active elements found:' ,activeCategoryCount);
+
+                  if (activeCategoryCount > 1) {
+                    console.warn('Multiple active categories found. Proceeding with the first one.');
+                  }
+
+                  const activeCategoryElement = activeCategories.first();
+
+                  const activeCategory = await activeCategoryElement.locator('span').textContent();
+                  const activeCategoryImg = await activeCategoryElement.locator('.image img').getAttribute('src');
+
+                  console.log('Active category name:' ,activeCategory);
+                  console.log('Active category image:' ,activeCategoryImg);
+
+
+          if (activeCategory) {
+            const existingCategory = await Category.findOne({ name: activeCategory });
+            if (!existingCategory) {
+                categoryId = categoryCounter++;
+                const newCategory = new Category({
+                    id: categoryId,
+                    name: activeCategory,
+                    image: activeCategoryImg,
+                });
+                await newCategory.save();
+                console.log('Saved new active category:' ,activeCategory);
+            } else {
+                categoryId = existingCategory.id;
+                console.log('Active category already exists:' ,activeCategory);
+            }
+          }
+
+          if (breadcrumbData.subCategory) {
+                    let subCategory = await SubCategory.findOne({ name: breadcrumbData.subCategory });
+                    if (!subCategory) {
+                      subCategoryId = subCategoryCounter++;
+                      subCategory = new SubCategory({
+                        id: subCategoryId,
+                        name: breadcrumbData.subCategory,
+                        image: activeCategoryImg,
+                        parent: categoryId,
+                      });
+                      await subCategory.save();
+                      console.log('New subcategory saved: ${breadcrumbData.subCategory} (ID: ${subCategoryId})');
+                    } else {
+                      subCategoryId = subCategory.id;
+                      console.log('Subcategory already exists: ${breadcrumbData.subCategory} (ID: ${subCategoryId})');
+                    }
+                  }
+
+        } catch (err) {
+          console.error('Error while fetching active category:', err);
+        }
+
         const newItem = new Item({
           name: productName.trim(),
-          categoryId: 1,
+          categoryId: subCategoryId,
           itemPic: img,
           category: breadcrumbData.category,
           subCategory: breadcrumbData.subCategory || '',
@@ -92,9 +160,9 @@ async function scrapeAndSaveItems() {
         });
 
         await newItem.save();
-        console.log(`Item saved: ${newItem.name} (${barcode})`);
+        console.log('Item saved: ${newItem.name} (${barcode})');
       } catch (err) {
-        console.warn(`Error while processing barcode: ${barcode}`, err);
+        console.warn('Error while processing barcode: ${barcode}', err);
       }
     }
   } catch (err) {
