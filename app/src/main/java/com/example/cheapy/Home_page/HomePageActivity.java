@@ -54,6 +54,8 @@ public class HomePageActivity extends AppCompatActivity {
     private CartAdapter cartAdapter;
     private CartManager cartManager;
 
+    private BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +84,9 @@ public class HomePageActivity extends AppCompatActivity {
             startActivity(nintent);
         });
 
-        BottomNavigationView bottomNavigationView = binding.bottomNavigationView;
+        bottomNavigationView = binding.bottomNavigationView;
+        bottomNavigationView.setSelectedItemId(R.id.navigationHome);
+
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
 
@@ -151,6 +155,7 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
             super.onResume();
+            bottomNavigationView.setSelectedItemId(R.id.navigationHome);
 
     }
 }
