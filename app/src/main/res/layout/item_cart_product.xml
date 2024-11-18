@@ -1,22 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-    <!-- Product Image on the Right Side -->
     <ImageView
         android:id="@+id/productImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
         android:contentDescription="@string/product_image" />
 
-    <!-- Horizontal Layout for Minus Button, Quantity, and Plus Button on the Left -->
     <LinearLayout
+        android:id="@+id/quantityLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/productImage"
@@ -24,7 +22,6 @@
         android:gravity="center_vertical"
         android:layout_alignParentStart="true">
 
-        <!-- Minus Button -->
         <ImageView
             android:id="@+id/minusButton"
             android:layout_width="24dp"
@@ -33,7 +30,6 @@
             android:contentDescription="@string/remove_from_cart"
             android:src="@drawable/ic_minus" />
 
-        <!-- Product Quantity in the Center -->
         <TextView
             android:id="@+id/productQuantity"
             android:layout_width="wrap_content"
@@ -43,7 +39,6 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <!-- Plus Button -->
         <ImageView
             android:id="@+id/plusButton"
             android:layout_width="24dp"
@@ -53,17 +48,19 @@
             android:src="@drawable/ic_plus" />
     </LinearLayout>
 
-    <!-- Product Name Positioned to the Left of Product Image -->
     <TextView
         android:id="@+id/productName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/productImage"
-        android:layout_toStartOf="@id/productImage"
-        android:layout_toEndOf="@id/minusButton"
+        android:layout_below="@id/quantityLayout"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="82dp"
         android:layout_marginEnd="12dp"
+        android:layout_marginTop="-25dp"
+        android:layout_toStartOf="@id/productImage"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="@string/product_name"
         android:textColor="@color/black"
         android:textSize="18sp" />
-
 </RelativeLayout>

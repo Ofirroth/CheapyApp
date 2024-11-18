@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/light_grey">
 
-    <!-- Return Button on the Left -->
     <ImageButton
         android:id="@+id/btnReturnHome"
         android:layout_width="wrap_content"
@@ -20,7 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- App Logo on the Right -->
     <ImageView
         android:id="@+id/logo"
         android:layout_width="67dp"
@@ -33,11 +31,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Page Title under the Logo -->
-
-    <!-- GridView for list of stores -->
-
-    <!-- Checkout Button at the Bottom -->
     <TextView
         android:id="@+id/pageTitle"
         android:layout_width="wrap_content"

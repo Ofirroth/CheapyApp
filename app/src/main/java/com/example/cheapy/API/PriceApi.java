@@ -49,17 +49,17 @@ public class PriceApi {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    priceLiveData.setValue(response.body()); // Update LiveData with the price
+                    priceLiveData.setValue(response.body());
                 } else {
                     Toast.makeText(Cheapy.context, "Error: " + response.message(), Toast.LENGTH_SHORT).show();
-                    priceLiveData.setValue(0.0); // Default value in case of error
+                    priceLiveData.setValue(0.0);
                 }
             }
 
             @Override
             public void onFailure(Call<Double> call, Throwable t) {
                 Toast.makeText(Cheapy.context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                priceLiveData.setValue(0.0); // Default value in case of failure
+                priceLiveData.setValue(0.0);
             }
         });
     }
@@ -71,14 +71,14 @@ public class PriceApi {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
                 if (response.isSuccessful()) {
-                    totalPriceLiveData.setValue(response.body());  // Update LiveData with response
+                    totalPriceLiveData.setValue(response.body());
                 } else {
-                    totalPriceLiveData.setValue(0.0);  // Default if the response is not successful
+                    totalPriceLiveData.setValue(0.0);
                 }
             }
             @Override
             public void onFailure(Call<Double> call, Throwable t) {
-                totalPriceLiveData.setValue(0.0);  // Set a default value on failure
+                totalPriceLiveData.setValue(0.0);
             }
         });
     }

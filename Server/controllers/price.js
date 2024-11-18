@@ -2,10 +2,10 @@ const priceService = require('../services/price');
 
 const getItemPriceByStore = async (req, res) => {
     try {
-        const { storeId,itemId } = req.params;
+        const { storeId,itemId } = req.body;
         const price = await priceService.getItemPriceByStore(storeId, itemId);
         console.log(price);
-        res.status(200).send(totalPrice.toString());
+        res.status(200).send(price.toString());
     } catch (error) {
         console.error(error);
         res.status(500).json('Internal Server Error');
