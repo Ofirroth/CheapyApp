@@ -24,11 +24,9 @@ async function scrapeAndSaveItems() {
       try {
         console.log(`Starting search for barcode: ${barcode}`);
 
-        // Click the search button to activate the input field
         await page.getByRole('button', { name: 'חיפוש' }).click();
         console.log('Clicked the search button to activate the input field.');
 
-        // Fill the search input and press Enter
         await page.getByPlaceholder('מה אפשר למצוא בשבילך ?').fill(barcode);
         console.log(`Filled search input with barcode: ${barcode}`);
         await page.getByPlaceholder('מה אפשר למצוא בשבילך ?').press('Enter');
@@ -37,25 +35,39 @@ async function scrapeAndSaveItems() {
         const productSelector = '#productStripInfo';
         const productSelectorName = '#productStripInfo .h4ash3.ellipsis';
 
-        // Wait for product results or handle no results
         const isProductFound = await page.waitForSelector(productSelector, { timeout: 3000 }).catch(() => false);
 
         if (!isProductFound) {
           console.warn(`No product found for barcode: ${barcode}`);
-          continue; // Skip to the next barcode
+          continue;
         }
         const productName = await page.textContent(productSelectorName);
         console.log(`Product found: ${productName.trim()}`);
 
-        // Click on the product strip
         await page.click(productSelector);
         console.log('Clicked on the product strip.');
 
-        let img = await page.locator('#carousel3 img').getAttribute('src').catch(() => null);
-        if (!img) {
-          img = await page.locator('#carousel3 img').first().getAttribute('src').catch(() => null);
-          console.warn('No image found.');
+        await page.waitForTimeout(1000);
+
+        let img = null;
+        try {
+          await page.waitForSelector('.carousel-inner', { timeout: 5000 });
+
+          img = await page.locator('div.item.active img[src]').getAttribute('src').catch(() => null);
+
+          const imgCount = await page.locator('div.item.active img[src]').count();
+          console.log(`Number of matching images: ${imgCount}`);
+
+          if (!img) {
+            img = await page.locator('div.item.active img.IsImgZoomEnabled').getAttribute('src').catch(() => null);
+            console.warn('Fallback: No image found using the primary selector.');
+          }
+          console.log(`Image found: ${img || 'null'}`);
+        } catch (err) {
+          console.error('Error while fetching the image:', err);
         }
+
+
         console.log(`Image found: ${img || 'null'}`);
 
         const breadcrumbData = await page.evaluate(() => {
@@ -70,10 +82,9 @@ async function scrapeAndSaveItems() {
         console.log('Category:', breadcrumbData.category);
         console.log('Subcategory:', breadcrumbData.subCategory);
 
-        // Save the item in the database
         const newItem = new Item({
           name: productName.trim(),
-          categoryId: 1, // Replace with actual logic for category ID
+          categoryId: 1,
           itemPic: img,
           category: breadcrumbData.category,
           subCategory: breadcrumbData.subCategory || '',
