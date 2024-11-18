@@ -22,6 +22,7 @@ import com.example.cheapy.CategoriesActivity;
 import com.example.cheapy.Dao.AppDB;
 import com.example.cheapy.Dao.ItemDao;
 import com.example.cheapy.DatabaseManager;
+import com.example.cheapy.SubcategoriesActivity;
 import com.example.cheapy.adapters.CartAdapter;
 import com.example.cheapy.adapters.ItemAdapter;
 import com.example.cheapy.databinding.HomePageBinding;
@@ -65,7 +66,7 @@ public class HomePageActivity extends AppCompatActivity {
             userToken = getIntent().getStringExtra("token");
         }
 
-        ImageView toolbar = binding.menuButton;  // Get the toolbar
+        ImageView toolbar = binding.menuButton;
         toolbar.setOnClickListener(v -> {
             Intent nintent = new Intent(HomePageActivity.this, CategoriesActivity.class);
             nintent.putExtra("activeUserName", activeUserName);

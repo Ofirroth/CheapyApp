@@ -22,10 +22,17 @@ async function updatePricesFromStores() {
       return;
     }
 
+    const processedStoreNames = new Set();
+
     for (const store of stores) {
+      if (processedStoreNames.has(store.name)) {
+        console.log(`Skipping already processed store: ${store.name}`);
+        continue;
+      }
+
+      processedStoreNames.add(store.name);
 
       console.log(`Processing store: ${store.name} (${store.url})`);
-
       await page.goto(store.url, { waitUntil: 'domcontentloaded' });
 
       for (const item of items) {
@@ -75,6 +82,20 @@ async function updatePricesFromStores() {
             });
             await newPrice.save();
             console.log(`Saved price for ${item.name} at ${store.name}`);
+          }
+
+          const storesWithSameName = stores.filter(s => s.name === store.name && s._id.toString() !== store._id.toString());
+          for (const duplicateStore of storesWithSameName) {
+            const duplicatePrice = await Price.findOne({ itemId: item._id, storeId: duplicateStore._id });
+            if (!duplicatePrice) {
+              const newDuplicatePrice = new Price({
+                itemId: item._id,
+                price,
+                storeId: duplicateStore._id,
+              });
+              await newDuplicatePrice.save();
+              console.log(`Saved duplicate price for ${item.name} at ${duplicateStore.name} (Store ID: ${duplicateStore._id})`);
+            }
           }
         } catch (err) {
           console.warn(`Error processing item: ${item.name} at ${store.name}`, err);
