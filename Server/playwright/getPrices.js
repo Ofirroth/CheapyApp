@@ -25,7 +25,6 @@ async function updatePricesFromStores() {
     for (const store of stores) {
       console.log(`Processing store: ${store.name} (${store.url})`);
 
-      // Navigate to store URL
       await page.goto(store.url, { waitUntil: 'domcontentloaded' });
 
       for (const item of items) {
@@ -44,17 +43,14 @@ async function updatePricesFromStores() {
              await page.click(store.searchButtonSelector);
          }
 
-          // Fill search input
           await page.fill(store.searchInputSelector, barcode);
 
-          // Trigger search (Enter key)
           await page.press(store.searchInputSelector, 'Enter');
 
           console.warn(`product found: ${item.name}`);
           await page.click(store.productStripSelector);
           console.log('Clicked on the product strip.');
 
-          // Extract price
           const priceText = await page.textContent(store.priceSelector).catch(() => null);
           if (!priceText) {
             console.warn(`Price not found for item: ${item.name}`);
@@ -66,7 +62,6 @@ async function updatePricesFromStores() {
 
           await page.click(store.closeButtonSelector);
 
-          // Check and update/save price in the database
           const existingPrice = await Price.findOne({ itemId: item._id, storeId: store._id });
           if (existingPrice) {
             existingPrice.price = price;
