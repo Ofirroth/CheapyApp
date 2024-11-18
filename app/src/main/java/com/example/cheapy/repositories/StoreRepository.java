@@ -80,7 +80,6 @@ public class StoreRepository {
         for (Store store : stores) {
             MutableLiveData<Double> storeTotalPriceLiveData = new MutableLiveData<>();
             totalPriceLiveDataMap.put(store, storeTotalPriceLiveData);
-            // Request total price for this store
             String storeName = store.getName();
             priceApi.getTotalPriceByStore(token, storeName, items, storeTotalPriceLiveData);
         }
@@ -116,16 +115,4 @@ public class StoreRepository {
             }).start();
         }
     }
-
-//    public void insert(Store store) {
-//        db.databaseWriteExecutor.execute(() -> storeDao.insert(store));
-//    }
-//
-//    public void update(Store store) {
-//        db.databaseWriteExecutor.execute(() -> storeDao.update(store));
-//    }
-//
-//    public void delete(Store store) {
-//        db.databaseWriteExecutor.execute(() -> storeDao.delete(store));
-//    }
 }

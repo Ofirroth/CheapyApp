@@ -12,7 +12,7 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface PriceServiceApi {
-    @GET("Price/getItemPriceByStore")
+    @POST("Price/getItemPriceByStore")
     Call<Double> getItemPriceByStore(
             @Header("Authorization") String token,
             @Body ItemStoreRequest request

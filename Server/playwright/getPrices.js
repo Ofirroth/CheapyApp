@@ -23,6 +23,7 @@ async function updatePricesFromStores() {
     }
 
     for (const store of stores) {
+
       console.log(`Processing store: ${store.name} (${store.url})`);
 
       await page.goto(store.url, { waitUntil: 'domcontentloaded' });
@@ -37,17 +38,16 @@ async function updatePricesFromStores() {
         try {
           console.log(`Searching for item: ${item.name} (Barcode: ${barcode})`);
 
-         if (store.searchButtonSelector.role) {
-             await page.getByRole(store.searchButtonSelector.role, { name: store.searchButtonSelector.name }).click();
-         } else {
-             await page.click(store.searchButtonSelector);
-         }
+          if (store.searchButtonSelector.role) {
+            await page.getByRole(store.searchButtonSelector.role, { name: store.searchButtonSelector.name }).click();
+          } else {
+            await page.click(store.searchButtonSelector);
+          }
 
           await page.fill(store.searchInputSelector, barcode);
-
           await page.press(store.searchInputSelector, 'Enter');
 
-          console.warn(`product found: ${item.name}`);
+          console.warn(`Product found: ${item.name}`);
           await page.click(store.productStripSelector);
           console.log('Clicked on the product strip.');
 

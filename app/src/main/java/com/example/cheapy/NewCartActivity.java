@@ -80,6 +80,7 @@ public class NewCartActivity extends AppCompatActivity {
         this.viewModel = new CheckOutViewModel(this.userToken);
         updateCartProductList();
         updateCartDetails();
+        calculatePriceForSelectedItems();
         ImageButton returnHomeButton = binding.btnReturnHome;
         returnHomeButton.setOnClickListener(v -> finish());
 
