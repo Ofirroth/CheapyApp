@@ -4,24 +4,22 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-    <!-- Product Image -->
     <ImageView
         android:id="@+id/productImage"
         android:layout_width="120dp"
         android:layout_height="120dp" />
 
-    <!-- Product Name -->
     <TextView
         android:id="@+id/productName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxLines="1"
         android:layout_below="@id/productImage"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:textSize="14sp"
         android:textColor="@color/black" />
 
-    <!-- Quantity, Minus, and Plus Buttons in a Horizontal Layout under the Product Name -->
     <LinearLayout
         android:id="@+id/quantityLayout"
         android:layout_width="wrap_content"
@@ -31,7 +29,6 @@
         android:orientation="horizontal"
         android:layout_marginTop="8dp">
 
-        <!-- Minus Button as ImageView -->
         <ImageView
             android:id="@+id/minusButton"
             android:layout_width="20dp"
@@ -40,7 +37,6 @@
             android:contentDescription="@string/remove_from_cart"
             android:elevation="4dp" />
 
-        <!-- Product Quantity TextView -->
         <TextView
             android:id="@+id/productQuantity"
             android:layout_width="wrap_content"
@@ -51,7 +47,6 @@
             android:textSize="14sp"
             android:textColor="@color/black" />
 
-        <!-- Plus Button as ImageView -->
         <ImageView
             android:id="@+id/plusButton"
             android:layout_width="20dp"

@@ -7,7 +7,6 @@
     tools:context=".CategoriesActivity"
     android:background="@color/light_grey">
 
-    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -29,7 +28,6 @@
             android:src="@drawable/ic_menu" />
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- Logo Section -->
     <ImageView
         android:id="@+id/logo"
         android:layout_width="67dp"
@@ -41,7 +39,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Search Container -->
     <LinearLayout
         android:id="@+id/searchContainer"
         android:layout_width="match_parent"
@@ -82,7 +79,6 @@
             android:contentDescription="@string/search_icon" />
     </LinearLayout>
 
-    <!-- Categories Grid View -->
     <GridView
         android:id="@+id/gridViewCategories"
         android:layout_width="0dp"
@@ -98,7 +94,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"

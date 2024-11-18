@@ -7,12 +7,6 @@
     tools:context=".Home_page.HomePageActivity"
     android:background="@color/light_grey">
 
-    <!-- Toolbar -->
-
-    <!-- Logo ImageView -->
-
-    <!-- Buttons for My Lists and Shopping History -->
-
     <LinearLayout
         android:id="@+id/buttonContainer"
         android:layout_width="0dp"
@@ -25,14 +19,6 @@
         app:layout_constraintEnd_toEndOf="parent">
     </LinearLayout>
 
-    <!-- Categories Horizontal Scroll -->
-
-    <!-- Weekly Discounts -->
-
-    <!-- Weekly Discounts Items -->
-
-    <!-- Frequently Purchased Items -->
-
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
         android:layout_width="match_parent"
@@ -44,11 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <!-- Example category item, repeat as necessary -->
         </LinearLayout>
     </HorizontalScrollView>
-
-    <!-- Frequent Items Container -->
 
     <TextView
         android:id="@+id/tvWeeklyDiscounts"
@@ -74,7 +57,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Bottom Navigation -->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -91,7 +73,6 @@
         app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/bottom_nav_menu" />
 
-    <!-- Add GridView for Products -->
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="415dp"
