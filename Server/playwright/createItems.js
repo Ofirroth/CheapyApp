@@ -5,11 +5,11 @@ const SubCategory = require('../models/subCategory');
 const Barcode = require('../models/barcode');
 const updatePricesFromStores = require('./getPrices');
 
-let categoryCounter = 1; // Counter for category IDs
-let subCategoryCounter = 1; // Counter for subcategory IDs
+let categoryCounter = 1;
+let subCategoryCounter = 1;
 
 async function scrapeAndSaveItems() {
-  const browser = await chromium.launch({ headless: false, slowMo: 100 });
+  const browser = await chromium.launch({ headless: false });
   const page = await browser.newPage();
 
   try {

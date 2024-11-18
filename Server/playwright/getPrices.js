@@ -4,7 +4,7 @@ const Item = require('../models/item');
 const Price = require('../models/price');
 
 async function updatePricesFromStores() {
-  const browser = await chromium.launch({ headless: false, slowMo: 100 });
+  const browser = await chromium.launch({ headless: false });
   const page = await browser.newPage();
 
   try {
