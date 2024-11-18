@@ -34,6 +34,10 @@ const Store = new Schema({
         type: String,
         required: true,
     },
+    closeButtonSelector: {
+            type: String,
+            required: true,
+    },
 });
 
 module.exports = mongoose.model('Store', Store);

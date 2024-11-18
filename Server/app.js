@@ -27,7 +27,7 @@ mongoose.connect(process.env.CONNECTION_STRING + "ChatDB", {
 mongoose.connection.on('connected', () => {
   console.log('Connected to MongoDB');
   //scrapeAndSaveItems();
-  updatePricesFromStores();
+  //updatePricesFromStores();
 });
 mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error:', err);

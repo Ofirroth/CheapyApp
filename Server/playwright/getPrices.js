@@ -50,13 +50,6 @@ async function updatePricesFromStores() {
           // Trigger search (Enter key)
           await page.press(store.searchInputSelector, 'Enter');
 
-          // Wait for the product strip
-          const isProductFound = await page.waitForSelector(store.productStripSelector, { timeout: 5000 }).catch(() => false);
-
-          if (!isProductFound) {
-            console.warn(`No product found for item: ${item.name}`);
-            continue;
-          }
           console.warn(`product found: ${item.name}`);
           await page.click(store.productStripSelector);
           console.log('Clicked on the product strip.');
@@ -70,6 +63,8 @@ async function updatePricesFromStores() {
 
           const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
           console.log(`Price for ${item.name} at ${store.name}: ${price}`);
+
+          await page.click(store.closeButtonSelector);
 
           // Check and update/save price in the database
           const existingPrice = await Price.findOne({ itemId: item._id, storeId: store._id });
