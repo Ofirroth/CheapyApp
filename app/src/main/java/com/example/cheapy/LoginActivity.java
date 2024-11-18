@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(LoginActivity.this, instanceIdResult -> {
              newToken = instanceIdResult.getToken();
+             Log.d("msg - login", newToken);
         });
 
         super.onCreate(savedInstanceState);
@@ -95,7 +96,9 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
                             Log.d("Login:", String.valueOf(callback));
                             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
-                            intent.putExtra("token", "Bearer " + userToken);
+                            SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(Cheapy.context);
+                            String savedToken = sharedPreferences2.getString("auth_token", null); // Default is null if not found
+                            intent.putExtra("token", savedToken);
                             intent.putExtra("activeUserName", activeUserName);
                             isReturn.getInstance().setIsReturn(false);
                             startActivity(intent);

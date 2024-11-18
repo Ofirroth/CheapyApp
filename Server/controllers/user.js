@@ -27,13 +27,16 @@ const getAllUsers = async (req, res) => {
 const getUserByToken = async (req, res) => {
     try {
         if (req.headers.authorization) {
+
             // Extract the token from that header
             const token = req.headers.authorization.split(" ")[1];
             const result = await userService.getUserByToken(token);
-            if (!result)
+            if (!result) {
                 return res.status(404).json("User not found");
-            else
+            }
+            else {
                 res.status(200).send(result);
+            }
         } else {
             res.status(500).send('Internal Server Error');
         }
@@ -43,22 +46,25 @@ const getUserByToken = async (req, res) => {
     }
 }
 
-const getUserId = async (req, res) => {
+const getUserId = async(req, res) => {
     try {
-            if (req.headers.authorization) {
-                const token = req.headers.authorization.split(" ")[1];
-                const result = await userService.getUserId(token);
-                if (!result)
-                    return res.status(404).json("User not found");
-                else
-                    return res.json(result);
-            } else {
-                res.status(500).send('Internal Server Error');
+        if (req.headers.authorization) {
+            const token = req.headers.authorization.split(" ")[1];
+            const result = await userService.getUserId(token);
+            if (!result) {
+                res.status(404).json("User not found");
+            }
+            else {
+                res.status(200).send(result);
             }
         }
-        catch (error) {
+        else {
             res.status(500).send('Internal Server Error');
         }
-};
+    }
+    catch (error) {
+        res.status(500).send('Internal Server Error');
+    }
+}
 
 module.exports = { createUser, getAllUsers, getUserByToken, getUserId };

@@ -60,14 +60,12 @@ public class NewCartActivity extends AppCompatActivity {
         binding = ActivityNewCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Intent intent = getIntent();
-
         if (intent != null) {
             activeUserName = getIntent().getStringExtra("activeUserName");
             userToken = getIntent().getStringExtra("token");
             storeName = getIntent().getStringExtra("store_name");
             storeId = getIntent().getStringExtra("store_id");
             totalPrice = getIntent().getDoubleExtra("total_price",0.0);
-            Log.d("boo3", String.valueOf(totalPrice));
         }
         recyclerView = binding.recyclerViewCart;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -90,14 +88,9 @@ public class NewCartActivity extends AppCompatActivity {
     }
 
     private void saveCart() {
-        Log.d("boo1","1");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Log.d("boo1","2");
         String dateCreated = sdf.format(new Date());
-        Log.d("boo1","3");
-        Log.d("boo1",activeUserName);
         cartViewModel.createCart(userToken, activeUserName, storeId, cartItems, totalPrice, dateCreated);
-        Log.d("boo1","4");
         Intent finishIntent = new Intent(NewCartActivity.this, FinishActivity.class);
         finishIntent.putExtra("activeUserName", activeUserName);
         finishIntent.putExtra("token", userToken);

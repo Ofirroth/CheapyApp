@@ -91,7 +91,6 @@ public class CheckOutActivity extends AppCompatActivity {
                 lvItems.setAdapter(storeAdapter);
                 listStores.clear();
                 listStores.addAll(stores);
-
                 calculateTotalForSelectedStore();
             } else {
                 Log.d("CheckOutActivity", "Store list is empty or null.");
@@ -112,7 +111,7 @@ public class CheckOutActivity extends AppCompatActivity {
                     Intent intent = new Intent(CheckOutActivity.this, NewCartActivity.class);
                     intent.putExtra("store_id", selectedStore.getId());
                     intent.putExtra("store_name", selectedStore.getName());
-                    intent.putExtra("user_token", userToken);
+                    intent.putExtra("token", userToken);
                     intent.putExtra("activeUserName", activeUserName);
                     intent.putExtra("store_id", selectedStore.getId());
                     intent.putExtra("total_price", selectedStore.getTotalPrice());

@@ -1,5 +1,8 @@
 package com.example.cheapy.API;
+import androidx.preference.PreferenceManager;
 
+
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -93,6 +96,12 @@ public class UserAPI {
                         String token = response.body().string();
                         setToken(token);
                         setActiveUserName(username);
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Cheapy.context);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("auth_token", "Bearer " + token); // Save token with 'Bearer ' prefix
+                        editor.apply();
+
+
                     } catch (IOException e) {
                         Toast.makeText(Cheapy.context,
                                 "Error with the server", Toast.LENGTH_SHORT).show();;
@@ -151,19 +160,18 @@ public class UserAPI {
     }
 
     public void getUserId(String token, String username, MutableLiveData<String> callback) {
-        Log.d("boo","7.2");
-        Log.d("boo",username);
         Call<String> call = userServiceAPI.getUserId(token, username);
-        Log.d("boo","7.5");
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     String userId = response.body();
-                    Log.d("boo","7.7");
                     callback.postValue(userId);
                 } else {
-                    Log.d("boo1","8");
+                    Log.d("boo", "30 - Response failed");
+                    Log.d("boo", "Status Code: " + response.code());
+                    Log.d("boo", "Error Message: " + response.message());
+                    Log.d("boo", "Error Body: " + response.errorBody());
                     Toast.makeText(Cheapy.context,
                             "Error", Toast.LENGTH_SHORT).show();
                 }
@@ -171,7 +179,6 @@ public class UserAPI {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.d("boo1",t.getMessage());
                 Toast.makeText(Cheapy.context,
                         "Error", Toast.LENGTH_SHORT).show();
             }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -28,6 +29,7 @@ import com.example.cheapy.entities.Item;
 import com.example.cheapy.R;
 import com.example.cheapy.entities.Store;
 import com.example.cheapy.profilePageActivity;
+import com.example.cheapy.shoppingHistory;
 import com.example.cheapy.viewModels.ItemViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -66,6 +68,14 @@ public class HomePageActivity extends AppCompatActivity {
         ImageView toolbar = binding.menuButton;  // Get the toolbar
         toolbar.setOnClickListener(v -> {
             Intent nintent = new Intent(HomePageActivity.this, CategoriesActivity.class);
+            nintent.putExtra("activeUserName", activeUserName);
+            nintent.putExtra("token", userToken);
+            startActivity(nintent);
+        });
+
+        Button history = binding.btnShoppingHistory;
+        history.setOnClickListener(v -> {
+            Intent nintent = new Intent(HomePageActivity.this, shoppingHistory.class);
             nintent.putExtra("activeUserName", activeUserName);
             nintent.putExtra("token", userToken);
             startActivity(nintent);

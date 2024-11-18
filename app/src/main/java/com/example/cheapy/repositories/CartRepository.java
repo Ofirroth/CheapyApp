@@ -1,5 +1,7 @@
 package com.example.cheapy.repositories;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -9,6 +11,7 @@ import com.example.cheapy.Dao.CartDao;
 import com.example.cheapy.DatabaseManager;
 import com.example.cheapy.entities.Cart;
 import com.example.cheapy.entities.Item;
+import com.example.cheapy.entities.shoppingListHistoryItem;
 
 import java.util.List;
 
@@ -27,9 +30,10 @@ public class CartRepository {
     }
 
     // Get all items in the cart from the database or API
-    public LiveData<List<Item>> getCartItems() {
-        reload();
-        return new CartItemListData();
+    public MutableLiveData<List<Item>> getCartItems(String cartId) {
+        MutableLiveData<List<Item>> cartUserList = new MutableLiveData<>();
+        cartAPI.getCartItems(cartUserList, token, cartId);
+        return cartUserList;
     }
 
     // Save the cart to the server
@@ -37,6 +41,19 @@ public class CartRepository {
         cartAPI.createCart(token, cart);
     }
 
+    public MutableLiveData<List<shoppingListHistoryItem>> getUserCart(String userName) {
+        MutableLiveData<List<shoppingListHistoryItem>> cartUserList = new MutableLiveData<>();
+        cartAPI.getUserCarts(cartUserList, token, userName);
+        return cartUserList;
+    }
+    public MutableLiveData<List<Item>> getSpecificCart(String cartId) {
+        Log.d("msgrepo","4");
+        MutableLiveData<List<Item>> cartList = new MutableLiveData<>();
+        Log.d("msgrepo","5");
+        cartAPI.getCartItems(cartList, token, cartId);
+        Log.d("msgrepo","6");
+        return cartList;
+    }
     // Reload the cart from the API and update the local database
     private void reload() {
         //cartAPI.getCartItems(new CartItemListData(), token);
