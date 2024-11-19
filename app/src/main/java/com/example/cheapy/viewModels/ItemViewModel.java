@@ -16,21 +16,25 @@ public class ItemViewModel extends ViewModel {
     private LiveData<List<Item>> categoryItems;
     public ItemViewModel(String token) {
             this.itemsRepository = new ItemRepository(token);
-            this.items = itemsRepository.getItems();
+            //this.items = itemsRepository.getRecoItems(userId);
         }
 
-        public LiveData<List<Item>> getItems() {
+       /* public LiveData<List<Item>> getItems() {
             reload();
             return this.items;
-        }
+        }*/
 
+    public LiveData<List<Item>> getRecoItems(String username) {
+        reload(username);
+        return this.items;
+    }
     public LiveData<List<Item>> getItemsByCategory(int categoryId) {
         categoryItems = itemsRepository.getItemsByCategory(categoryId);
         return categoryItems;
     }
 
 
-        public void reload() {
-            this.items = itemsRepository.getItems();
+        public void reload(String username) {
+            this.items = itemsRepository.getRecoItems(username);
         }
 }
