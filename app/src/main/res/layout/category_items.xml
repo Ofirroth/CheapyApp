@@ -19,13 +19,13 @@
         android:layout_marginTop="8dp">
 
         <ImageButton
-            android:id="@+id/menuButton"
+            android:id="@+id/btnReturn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/menu"
-            android:padding="16dp"
-            android:src="@drawable/ic_menu" />
+            android:src="@drawable/ic_return"
+            android:contentDescription="@string/return_home"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <ImageView
@@ -50,14 +50,6 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
-        <ImageButton
-            android:id="@+id/btnReturn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_return"
-            android:contentDescription="@string/return_home"
-            android:background="?attr/selectableItemBackgroundBorderless" />
 
 
         <EditText
