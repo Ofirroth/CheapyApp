@@ -1,4 +1,3 @@
-
 const express = require('express');
 var app = express();
 
@@ -18,19 +17,26 @@ customEnv.env(process.env.NODE_ENV, './config');
 const mongoose = require('mongoose');
 const scrapeAndSaveItems = require('./playwright/createItems');
 const updatePricesFromStores = require('./playwright/getPrices');
+const saveMatrixToCSV = require('./recommendationSystem/finalMatrix');
+const pythonShell = require('python-shell');
 
 mongoose.connect(process.env.CONNECTION_STRING + "ChatDB", {
     useNewURLParser: true,
     useUnifiedTopology: true
     });
 
-mongoose.connection.on('connected', () => {
+mongoose.connection.on('connected', async () => {
   console.log('Connected to MongoDB');
-  scrapeAndSaveItems();
+  await saveMatrixToCSV();
+  //scrapeAndSaveItems();
   //updatePricesFromStores();
 });
 mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+   console.log('MongoDB disconnected');
 });
 
 const users =require ('./routes/user');
@@ -56,6 +62,9 @@ app.use('/api/Cart',cart);
 
 const barcode = require('./routes/barcode');
 app.use('/api/barcodes', barcode);
+
+const reco = require('./routes/reco');
+app.use('/api/recommended', reco);
 
 const chat = require('./routes/chat');
 const { Socket } = require('dgram');

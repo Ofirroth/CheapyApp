@@ -3,11 +3,14 @@ package com.example.cheapy.Home_page;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +19,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cheapy.API.UserAPI;
 import com.example.cheapy.Cart.CartActivity;
 import com.example.cheapy.Cart.CartManager;
 import com.example.cheapy.CategoriesActivity;
@@ -26,9 +30,11 @@ import com.example.cheapy.SubcategoriesActivity;
 import com.example.cheapy.adapters.CartAdapter;
 import com.example.cheapy.adapters.ItemAdapter;
 import com.example.cheapy.databinding.HomePageBinding;
+import com.example.cheapy.entities.Cart;
 import com.example.cheapy.entities.Item;
 import com.example.cheapy.R;
 import com.example.cheapy.entities.Store;
+import com.example.cheapy.entities.User;
 import com.example.cheapy.profilePageActivity;
 import com.example.cheapy.shoppingHistory;
 import com.example.cheapy.viewModels.ItemViewModel;
@@ -50,10 +56,6 @@ public class HomePageActivity extends AppCompatActivity {
 
     private ItemViewModel viewModel;
     private List<Item> items;
-
-    private CartAdapter cartAdapter;
-    private CartManager cartManager;
-
     private BottomNavigationView bottomNavigationView;
 
     @Override
@@ -116,7 +118,20 @@ public class HomePageActivity extends AppCompatActivity {
 
         GridView lvItems = binding.gridViewProducts;
         adapter = new ItemAdapter(getApplicationContext(), this.items);
-        this.viewModel.getItems().observe(this, adapter::setItems);;
+        //this.viewModel.getRecoItems(this.activeUserName).observe(this,adapter::setItems);
+        //this.viewModel.getItems().observe(this, adapter::setItems);;
+
+        ProgressBar progressBar = binding.progressLoading;
+        progressBar.setVisibility(View.VISIBLE);
+        this.viewModel.getRecoItems(this.activeUserName).observe(this, items -> {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    progressBar.setVisibility(View.GONE);
+                }
+            }, 3000);
+            adapter.setItems(items);
+        });
         lvItems.setAdapter(adapter);
 
         CartManager.getInstance().getCartLiveData().observe(this, updatedItems -> {
@@ -130,25 +145,6 @@ public class HomePageActivity extends AppCompatActivity {
             }
             adapter.notifyDataSetChanged();  // Refresh the adapter
         });
-
-        //adapter.setNightMode(isNightMode);
-        //viewModel.getItems().observe(this, adapter::setItems);
-        //lvItems.setClickable(true);
-        //binding.searchEditText.addTextChangedListener(this);
-        //MutableLiveData<String> contactFirebase = SingeltonFireBase.getContactFirebase();
-        //MutableLiveData<Message> messageMutableLiveData = SingeltonFireBase.getMessageFirebase();
-
-        /**messageMutableLiveData.observe(this,contacts -> {
-            if(contacts!=null) {
-                viewModel.getContacts();
-            }
-        });
-        contactFirebase.observe(this,contact -> {
-            if (contact != null) {
-                //viewModel.addContact(contact);
-                viewModel.getContacts();
-            }
-        });**/
     }
 
     @SuppressLint("NotifyDataSetChanged")

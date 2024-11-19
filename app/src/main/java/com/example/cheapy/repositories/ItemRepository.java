@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.cheapy.API.ItemAPI;
+import com.example.cheapy.API.recommendationAPI;
 import com.example.cheapy.Dao.AppDB;
 import com.example.cheapy.Dao.ItemDao;
 import com.example.cheapy.DatabaseManager;
@@ -29,8 +30,12 @@ public class ItemRepository {
         this.itemAPI = new ItemAPI();
     }
 
-    public LiveData<List<Item>> getItems() {
+    /*public LiveData<List<Item>> getItems() {
         reload();
+        return itemListData;
+    }*/
+    public LiveData<List<Item>> getRecoItems(String userId) {
+        reload(userId);
         return itemListData;
     }
     public MutableLiveData<List<Item>> getItemsByCategory(int categoryId) {
@@ -39,9 +44,12 @@ public class ItemRepository {
         return categoryItemList;
     }
 
-    public void reload() {
-        ItemAPI itemAPI = new ItemAPI();
-        itemAPI.getItems(itemListData, token);
+    public void reload(String username) {
+        //ItemAPI itemAPI = new ItemAPI();
+        //itemAPI.getItems(itemListData, token);
+        recommendationAPI reco = new recommendationAPI();
+        reco.getRecommendedItems(itemListData,token,username);
+        Log.d("boo", username);
         itemDao.delete();
         List<Item> itemsList = itemListData.getValue();
         itemListData.postValue(itemsList);
@@ -51,16 +59,6 @@ public class ItemRepository {
     class ItemListData extends MutableLiveData<List<Item>> {
         public ItemListData() {
             super();
-            setValue(itemDao.getItems());
-
-        }
-
-        @Override
-        protected void onActive() {
-            super.onActive();
-            new Thread(() -> {
-                itemAPI.getItems(this,token);
-            }).start();
         }
     }
 

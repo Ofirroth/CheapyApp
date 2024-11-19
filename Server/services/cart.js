@@ -54,3 +54,14 @@ exports.getSpecCart = async (cartId) => {
     throw new Error('Error fetching cart by ID: ' + error.message);
   }
 };
+
+// Function to fetch all carts from the database
+exports.fetchCartData = async () => {
+  try {
+    const carts = await Cart.find();
+    return carts;
+  } catch (error) {
+  console.log("boo");
+    console.error('Error fetching carts:', error);
+  }
+}
