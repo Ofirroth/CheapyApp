@@ -8,17 +8,13 @@ async function updatePricesFromStores() {
   const page = await browser.newPage();
 
   try {
-    console.log('Fetching store configurations...');
     const stores = await Store.find({});
     if (!stores.length) {
-      console.log('No stores found.');
       return;
     }
 
-    console.log('Fetching items...');
     const items = await Item.find({});
     if (!items.length) {
-      console.log('No items found.');
       return;
     }
 
@@ -26,24 +22,40 @@ async function updatePricesFromStores() {
 
     for (const store of stores) {
       if (processedStoreNames.has(store.name)) {
-        console.log(`Skipping already processed store: ${store.name}`);
         continue;
       }
-
       processedStoreNames.add(store.name);
 
-      console.log(`Processing store: ${store.name} (${store.url})`);
       await page.goto(store.url, { waitUntil: 'domcontentloaded' });
+
+      if (store.url === "https://yochananof.co.il/") {
+
+        try {
+          const button = page.locator(
+            'button.MuiButtonBase-root.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeMedium.MuiButton-outlinedSizeMedium.muirtl-12hcy0p'
+          ).filter({ hasText: 'הזמנות מבצעי הרשת והזמנות פיקאפ' });
+
+          await button.waitFor({ state: 'visible', timeout: 5000 });
+
+          await button.click();
+        } catch (error) {
+          const fallbackButton = page.getByRole('button', { name: 'הזמנות מבצעי הרשת והזמנות פיקאפ' });
+          const box = await fallbackButton.boundingBox();
+          if (box) {
+            await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+          } else {
+          }
+        }
+      }
 
       for (const item of items) {
         const barcode = item.barcode;
+        //Item has no barcode skipping
         if (!barcode) {
-          console.warn(`Item ${item.name} has no barcode, skipping.`);
           continue;
         }
 
         try {
-          console.log(`Searching for item: ${item.name} (Barcode: ${barcode})`);
 
           if (store.searchButtonSelector.role) {
             await page.getByRole(store.searchButtonSelector.role, { name: store.searchButtonSelector.name }).click();
@@ -54,59 +66,59 @@ async function updatePricesFromStores() {
           await page.fill(store.searchInputSelector, barcode);
           await page.press(store.searchInputSelector, 'Enter');
 
-          console.warn(`Product found: ${item.name}`);
-          await page.click(store.productStripSelector);
-          console.log('Clicked on the product strip.');
-
-          const priceText = await page.textContent(store.priceSelector).catch(() => null);
-          if (!priceText) {
-            console.warn(`Price not found for item: ${item.name}`);
-            continue;
+          if (store.name === "יוחננוף") {
+            await page.click(store.searchButtonSelector);
+            await page.waitForTimeout(3000);
           }
 
-          const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
-          console.log(`Price for ${item.name} at ${store.name}: ${price}`);
-
-          await page.click(store.closeButtonSelector);
-
-          const existingPrice = await Price.findOne({ itemId: item._id, storeId: store._id });
-          if (existingPrice) {
-            existingPrice.price = price;
-            await existingPrice.save();
-            console.log(`Updated price for ${item.name} at ${store.name}`);
-          } else {
-            const newPrice = new Price({
-              itemId: item._id,
-              price,
-              storeId: store._id,
-            });
-            await newPrice.save();
-            console.log(`Saved price for ${item.name} at ${store.name}`);
+          try {
+            const productStrip = page.locator(store.productStripSelector).nth(0);
+            await productStrip.click();
+          } catch (error) {
           }
 
-          const storesWithSameName = stores.filter(s => s.name === store.name && s._id.toString() !== store._id.toString());
-          for (const duplicateStore of storesWithSameName) {
-            const duplicatePrice = await Price.findOne({ itemId: item._id, storeId: duplicateStore._id });
-            if (!duplicatePrice) {
-              const newDuplicatePrice = new Price({
+          const priceText = null;
+          try {
+            const priceText = await page.textContent(store.priceSelector);
+            const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
+
+            const existingPrice = await Price.findOne({ itemId: item._id, storeId: store._id });
+            if (existingPrice) {
+              existingPrice.price = price;
+              await existingPrice.save();
+            } else {
+              const newPrice = new Price({
                 itemId: item._id,
                 price,
-                storeId: duplicateStore._id,
+                storeId: store._id,
               });
-              await newDuplicatePrice.save();
-              console.log(`Saved duplicate price for ${item.name} at ${duplicateStore.name} (Store ID: ${duplicateStore._id})`);
+              await newPrice.save();
             }
+
+            const storesWithSameName = stores.filter(
+              s => s.name === store.name && s._id.toString() !== store._id.toString()
+            );
+            for (const duplicateStore of storesWithSameName) {
+              const duplicatePrice = await Price.findOne({ itemId: item._id, storeId: duplicateStore._id });
+              if (!duplicatePrice) {
+                const newDuplicatePrice = new Price({
+                  itemId: item._id,
+                  price,
+                  storeId: duplicateStore._id,
+                });
+                await newDuplicatePrice.save();
+              }
+            }
+          } catch (error) {
           }
+          await page.click(store.closeButtonSelector);
         } catch (err) {
-          console.warn(`Error processing item: ${item.name} at ${store.name}`, err);
         }
       }
     }
   } catch (err) {
-    console.error('Error during scraping:', err);
   } finally {
     await browser.close();
-    console.log('Browser closed.');
   }
 }
 
