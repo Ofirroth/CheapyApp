@@ -39,7 +39,7 @@
         android:layout_marginEnd="22dp"
         android:text="בחר חנות"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
