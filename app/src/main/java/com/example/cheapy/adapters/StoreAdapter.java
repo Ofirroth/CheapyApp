@@ -2,35 +2,22 @@ package com.example.cheapy.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.cheapy.Cart.CartManager;
 import com.example.cheapy.R;
-import com.example.cheapy.entities.Category;
-import com.example.cheapy.entities.Item;
 import com.example.cheapy.entities.Store;
 
-import java.text.BreakIterator;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class StoreAdapter extends ArrayAdapter<Store> {
 
@@ -76,7 +63,7 @@ public class StoreAdapter extends ArrayAdapter<Store> {
         notifyDataSetChanged();
     }
 
-    @SuppressLint("DefaultLocale")
+    @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Check if the convertView is null, if so, inflate a new view
@@ -85,6 +72,7 @@ public class StoreAdapter extends ArrayAdapter<Store> {
             viewHolder = new StoreAdapter.ViewHolder();
             viewHolder.storeName = convertView.findViewById(R.id.storeNameTextView);
             viewHolder.storeCity = convertView.findViewById(R.id.storeCityTextView);
+            viewHolder.storeLocation = convertView.findViewById(R.id.storeLocationTextView);
             viewHolder.storeImage = convertView.findViewById(R.id.storeImageView);
             viewHolder.storeTotalPrice = convertView.findViewById(R.id.storeTotalPriceTextView);
             viewHolder.btnSelectStore = convertView.findViewById(R.id.radioButtonSelectStore);
@@ -97,6 +85,9 @@ public class StoreAdapter extends ArrayAdapter<Store> {
 
         viewHolder.storeName.setText(store.getName());
         viewHolder.storeCity.setText(store.getCity());
+
+        viewHolder.storeLocation.setText(store.getNameLocation());
+
         if (viewHolder != null && viewHolder.storeTotalPrice != null) {
             viewHolder.storeTotalPrice.setText(String.format("₪ %.2f", store.getTotalPrice()));
         }
@@ -109,10 +100,10 @@ public class StoreAdapter extends ArrayAdapter<Store> {
         viewHolder.btnSelectStore.setChecked(position == selectedPosition);
 
         View.OnClickListener selectStoreListener = view -> {
-            selectedPosition = position == selectedPosition ? -1 : position; // Toggle selection
+            selectedPosition = position == selectedPosition ? -1 : position;
             notifyDataSetChanged();
             if (listener != null) {
-                listener.onStoreSelected(selectedPosition == -1 ? null : store); // Send selected store or null
+                listener.onStoreSelected(selectedPosition == -1 ? null : store);
             }
         };
 
@@ -124,7 +115,7 @@ public class StoreAdapter extends ArrayAdapter<Store> {
     }
     // ViewHolder class to optimize the performance of the ListView
     private static class ViewHolder {
-        TextView storeName, storeCity, storeTotalPrice;
+        TextView storeName, storeCity, storeTotalPrice, storeLocation;
         ImageView storeImage;
 
         RadioButton btnSelectStore;

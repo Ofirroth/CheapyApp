@@ -134,7 +134,7 @@ public class UserAPI {
                     String homeAddress = response.body().getHomeAddress();
                     String mail = response.body().getMail();
                     String phone = response.body().getPhone();
-                    User u = new User(username, display, pic, homeAddress, workAddress, mail, phone);
+                    User u = new User(username, display, pic, homeAddress, workAddress, mail, phone, 0.0, 0.0);
                     setUser(u);
                 }
                 else {

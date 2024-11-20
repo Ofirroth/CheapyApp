@@ -53,6 +53,8 @@ public class profilePageActivity extends AppCompatActivity {
     String selectedCity;
     String savedCity;
 
+    String currentLocation;
+
     double userLatitude;
     double userLongitude;
 
@@ -60,6 +62,10 @@ public class profilePageActivity extends AppCompatActivity {
 
     Location userHome;
     User user;
+
+    SharedPreferences sharedPreferences;
+
+    SharedPreferences.Editor editor;
 
 
     private static final int LOCATION_REQUEST_CODE = 100;
@@ -205,6 +211,7 @@ public class profilePageActivity extends AppCompatActivity {
             // Fallback to coordinates if fetching address fails
             currentAddress = "Lat: " + latitude + ", Lon: " + longitude;
         }
+        currentLocation = currentAddress;
         return currentAddress;
     }
 
@@ -213,7 +220,7 @@ public class profilePageActivity extends AppCompatActivity {
         Spinner addressSpinner = binding.addressSpinner;
         List<String> addressOptions = new ArrayList<>();
 
-        SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         savedCity = sharedPreferences.getString("selected_city", "");
 
         if (savedCity.equals(user.getHomeAddress())) {
@@ -249,9 +256,10 @@ public class profilePageActivity extends AppCompatActivity {
                         selectedCity = selectedOption.replace("עבודה: ", "");
                     }
                 }
-                SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+                sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+                editor = sharedPreferences.edit();
                 editor.putString("selected_city", selectedCity);
+                editor.putString("location_name", currentLocation);
                 editor.apply();
                 Log.d("Selected City", selectedCity != null ? selectedCity : "");
             }
@@ -309,12 +317,17 @@ public class profilePageActivity extends AppCompatActivity {
     }
 
     private void updateAddressSpinnerWithLocation(double latitude, double longitude, User user) {
+        user.setUserLatitude(latitude);
+        user.setUserLongitude(longitude);
+        editor.putString("user_latitude", String.valueOf(userLatitude));
+        editor.putString("user_longitude", String.valueOf(userLongitude));
+        editor.apply();
         Spinner addressSpinner = binding.addressSpinner;
         List<String> addressOptions = new ArrayList<>();
 
         // Add current location
         String currentAddress = fetchCurrentAddress(latitude, longitude);
-        addressOptions.add("Current Location: " + currentAddress);
+        addressOptions.add(currentAddress);
 
         // Add predefined "Home" and "Work" addresses
         if (user.getHomeAddress() != null && !user.getHomeAddress().isEmpty()) {
@@ -371,10 +384,10 @@ public class profilePageActivity extends AppCompatActivity {
         public void onLocationResult(@NonNull LocationResult locationResult) {
             // Iterate through all the received locations
             for (Location location : locationResult.getLocations()) {
-                userLongitude = location.getLatitude();
-                userLatitude = location.getLongitude();
+                userLatitude = location.getLatitude();
+                userLongitude = location.getLongitude();
                 Log.d("LocationCallback", "New location: " + userLongitude + ", " + userLatitude);
-                handleLocation(userLongitude, userLatitude);
+                handleLocation(userLatitude, userLongitude);
                 stopLocationUpdates();
                 break;
             }

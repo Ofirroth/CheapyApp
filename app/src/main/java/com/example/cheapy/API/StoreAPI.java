@@ -103,7 +103,16 @@ public class StoreAPI {
             @Override
             public void onResponse(Call<List<Store>> call, Response<List<Store>> response) {
                 if (response.isSuccessful()) {
-                    storesListData.setValue(response.body());
+                    Log.d("RawResponse", response.raw().toString());
+                    Log.d("ResponseBody", response.body().toString());
+                    List<Store> stores = response.body();
+                    storesListData.setValue(stores);
+
+                    if (stores != null && !stores.isEmpty() && stores.get(0).getNameLocation() != null) {
+                        Log.d("StoreLocation", stores.get(0).getNameLocation());
+                    } else {
+                        Log.d("StoreLocation", "Location is null.");
+                    }
                 } else {
                     Toast.makeText(Cheapy.context,
                             "Error:" + response.message(), Toast.LENGTH_SHORT).show();

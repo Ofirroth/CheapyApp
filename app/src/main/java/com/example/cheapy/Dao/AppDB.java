@@ -19,9 +19,8 @@ import com.example.cheapy.entities.Store;
 import com.example.cheapy.entities.StoreTotalRequest;
 import com.example.cheapy.entities.SubCategory;
 import com.example.cheapy.entities.shoppingListHistoryItem;
-import com.example.cheapy.shoppingHistory;
 
-@Database(entities = {Category.class, Item.class, Store.class, SubCategory.class,StoreTotalRequest.class, Price.class, Cart.class, shoppingListHistoryItem.class}, version = 16)
+@Database(entities = {Category.class, Item.class, Store.class, SubCategory.class,StoreTotalRequest.class, Price.class, Cart.class, shoppingListHistoryItem.class}, version = 18)
 @TypeConverters({userConvert.class, itemConverter.class, storeConverter.class, categoryConverter.class, subCategoryConverter.class, stringListConverter.class, cartConverter.class})
  public abstract class AppDB extends RoomDatabase {
     public static final String DATABASE_NAME = "27018ChatDB.db";
