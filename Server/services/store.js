@@ -14,6 +14,7 @@ const getAllStores = async () => {
     try {
         const stores = await Store.find()
         return stores;
+        console.log(stores);
     } catch (error) {
         throw new Error('Error fetching stores');
     }

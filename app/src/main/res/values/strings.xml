@@ -86,5 +86,6 @@
     <string name="itemQuantity">0</string>
     <string name="cart_icon">מספר מוצרים</string>
     <string name="finish_string">תודה שקניתם Cheapy</string>
+    <string name="filter_by_location">filter by location</string>
 
 </resources>

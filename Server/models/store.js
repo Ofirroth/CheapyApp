@@ -10,6 +10,18 @@ const Store = new Schema({
         type: String,
         required: true
     },
+    nameLocation: {
+           type: String,
+           required: true
+    },
+    latitude: {
+            type: Number,
+            required: true
+    },
+    longitude: {
+            type: Number,
+            required: true
+    },
     image: {
         type: String,
         required: true

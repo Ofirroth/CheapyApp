@@ -10,7 +10,11 @@ public class User {
     private String mail;
     private String phone;
 
-    public User( String username,String displayName, String profilePic, String homeAddress, String workAddress, String mail, String phone) {
+    private double userLatitude;
+
+    private double userLongitude;
+
+    public User( String username,String displayName, String profilePic, String homeAddress, String workAddress, String mail, String phone, double userLatitude, double userLongitude) {
         this.displayName = displayName;
         this.profilePic = profilePic;
         this.username=username;
@@ -18,6 +22,8 @@ public class User {
         this.workAddress = workAddress;
         this.phone = phone;
         this.mail = mail;
+        this.userLatitude = userLatitude;
+        this.userLongitude = userLongitude;
     }
 
 
@@ -39,6 +45,22 @@ public class User {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public double getUserLatitude() {
+        return userLatitude;
+    }
+
+    public void setUserLatitude(double userLatitude) {
+        this.userLatitude = userLatitude;
+    }
+
+    public double getUserLongitude() {
+        return userLongitude;
+    }
+
+    public void setUserLongitude(double userLongitude) {
+        this.userLongitude = userLongitude;
     }
 
     public void setDisplayName(String displayName) {

@@ -1,11 +1,14 @@
 import numpy as np
 import pandas as pd
+import os
 import sys
 from sklearn.neighbors import NearestNeighbors
 import json
 
 # Load the user-item matrix from the CSV file
-df = pd.read_csv('C:/Users/EliTotah/AndroidStudioProjects/CheapyApp2/Server/user_item_matrix.csv')
+base_path = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(base_path, "Server", "user_item_matrix.csv")
+df = pd.read_csv('./user_item_matrix.csv')
 
 # Remove the userId column to create the user-item matrix
 user_item_matrix = df.drop('userId', axis=1).fillna(0)  # Replace NaNs with 0 (no interaction)
