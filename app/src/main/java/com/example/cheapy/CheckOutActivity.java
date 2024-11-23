@@ -119,11 +119,12 @@ public class CheckOutActivity extends AppCompatActivity {
 
         btnFilterByLocation.setOnClickListener(view -> {
             if (isFilteredByLocation) {
-                // Reset to original list sorted by price
                 storeAdapter.setStores(originalList); // Restore the full list
                 originalList.sort((s1, s2) -> Double.compare(s1.getTotalPrice(), s2.getTotalPrice()));
                 storeAdapter.notifyDataSetChanged();
-                isFilteredByLocation = false; // Toggle off
+                isFilteredByLocation = false;
+                listStores.sort((s1, s2) -> Double.compare(s1.getTotalPrice(), s2.getTotalPrice()));
+                storeAdapter.notifyDataSetChanged();
                 Toast.makeText(this, "Reset to price-based sorting.", Toast.LENGTH_SHORT).show();
             } else {
                 // Apply location filtering
