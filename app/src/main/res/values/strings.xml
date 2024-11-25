@@ -57,6 +57,9 @@
     <string name="add_filter">add filter</string>
     <string name="my_lists">My Lists</string>
     <string name="shopping_history">Shopping History</string>
+    <string name="home_label">בית: </string>
+    <string name="work_label">עבודה: </string>
+    <string name="choose_adress">בחר כתובת </string>
     <string name="filter">filter</string>
     <string name="search">search</string>
     <string name="frequently_purchased_items">Frequently Purchased Items</string>

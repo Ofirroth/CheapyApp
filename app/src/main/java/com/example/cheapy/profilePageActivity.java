@@ -21,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,9 +57,6 @@ public class profilePageActivity extends AppCompatActivity {
     double userLatitude;
     double userLongitude;
 
-    Location userWork;
-
-    Location userHome;
     User user;
 
     SharedPreferences sharedPreferences;
@@ -81,6 +77,23 @@ public class profilePageActivity extends AppCompatActivity {
             activeUserName = getIntent().getStringExtra("activeUserName");
             userToken = getIntent().getStringExtra("token");
         }
+
+        setupBottomNavigation();
+
+        fetchUserDetails();
+
+        ImageButton returnHomeButton = binding.btnReturnHome;
+        returnHomeButton.setOnClickListener(v -> finish());
+
+    }
+    // Centralized error handler for logging and user notification
+    private void showError(String message) {
+        Log.e("Error", message);
+        showError(message);
+    }
+
+    // Handles BottomNavigationView behavior
+    private void setupBottomNavigation() {
         BottomNavigationView bottomNavigationView = binding.bottomNavigationView;
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -88,72 +101,94 @@ public class profilePageActivity extends AppCompatActivity {
             if (itemId == R.id.navigationMyProfile) {
                 return true;
             } else if (itemId == R.id.navigationHome) {
-                Intent homeIntent = new Intent(profilePageActivity.this, HomePageActivity.class);
-                homeIntent.putExtra("activeUserName", activeUserName);
-                homeIntent.putExtra("token", userToken);
-                homeIntent.putExtra("latitude", userLatitude);
-                homeIntent.putExtra("longitude", userLongitude);
-                homeIntent.putExtra("selectedCity", selectedCity);
-                startActivity(homeIntent);
+                navigateToHomePage();
                 return true;
             } else if (itemId == R.id.navigationCheckout) {
-                Intent cartIntent = new Intent(profilePageActivity.this, CartActivity.class);
-                cartIntent.putExtra("activeUserName", activeUserName);
-                cartIntent.putExtra("token", userToken);
-                cartIntent.putExtra("latitude", userLatitude);
-                cartIntent.putExtra("longitude", userLongitude);
-                cartIntent.putExtra("selectedCity", selectedCity);
-                startActivity(cartIntent);
+                navigateToCartPage();
                 return true;
             } else {
                 return false;
             }
         });
+    }
 
+
+    // Navigates to Home Page
+    private void navigateToHomePage() {
+        Intent homeIntent = new Intent(profilePageActivity.this, HomePageActivity.class);
+        passUserDetailsToIntent(homeIntent);
+        startActivity(homeIntent);
+    }
+
+    // Navigates to Cart Page
+    private void navigateToCartPage() {
+        Intent cartIntent = new Intent(profilePageActivity.this, CartActivity.class);
+        passUserDetailsToIntent(cartIntent);
+        startActivity(cartIntent);
+    }
+
+    // Passes user details to an Intent
+    private void passUserDetailsToIntent(Intent intent) {
+        intent.putExtra("activeUserName", activeUserName);
+        intent.putExtra("token", userToken);
+        intent.putExtra("latitude", userLatitude);
+        intent.putExtra("longitude", userLongitude);
+        intent.putExtra("selectedCity", selectedCity);
+    }
+
+    // Fetch user details and update UI
+    private void fetchUserDetails() {
         UserAPI userAPI = new UserAPI();
         userAPI.getUserDetails(activeUserName, userToken, callback -> {
-            if(callback == 200) {
-                User u = userAPI.getUser();
-                user = u;
-                if (u!=null) {
-                    binding.userDisplayName.setText(u.getDisplayName());
-                    binding.userImage.setImageBitmap(decodeImage(u.getProfilePic()));
-                    binding.userMail.setText(u.getMail());
-                    binding.userPhone.setText(u.getPhone());
-                    setUpAddressSpinner(u);
+            if (callback == 200) {
+                user = userAPI.getUser();
+                if (user != null) {
+                    updateUserUI(user);
+                } else {
+                    showError("Failed to load user details.");
                 }
-                else {
-                    //error
-                }
-            }
-            else {
-                //error
+            } else {
+                showError("Error fetching user details from API.");
             }
         });
-
-        ImageButton returnHomeButton = binding.btnReturnHome;
-        returnHomeButton.setOnClickListener(v -> finish());
     }
+
+    // Updates the UI with user information
+    private void updateUserUI(User user) {
+        binding.userDisplayName.setText(user.getDisplayName());
+        binding.userImage.setImageBitmap(decodeImage(user.getProfilePic()));
+        binding.userMail.setText(user.getMail());
+        binding.userPhone.setText(user.getPhone());
+        setUpAddressSpinner(user);
+    }
+
+
+
+    // Handles location switch toggle
     public void onSwitchClick(View view) {
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switchLocation = (Switch) view;
+        @SuppressLint("UseSwitchCompatOrMaterialCode")
+        Switch switchLocation = (Switch) view;
         boolean isChecked = switchLocation.isChecked();
 
         if (isChecked) {
-            requestLocationPermission();
+            requestLocationPermission(); // Request location access
         } else {
-            stopLocationUpdates();
-            restoreStaticSpinnerData();
+            stopLocationUpdates(); // Stop location updates if toggled off
+            restoreStaticSpinnerData(); // Restore static spinner data
         }
     }
 
+
+    // Requests location permissions from the user
     private void requestLocationPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Request location permissions
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     LOCATION_REQUEST_CODE);
         } else {
-            checkLocationServicesEnabled();
+            checkLocationServicesEnabled(); // Check if location services are enabled
         }
     }
 
@@ -175,7 +210,7 @@ public class profilePageActivity extends AppCompatActivity {
                             Log.e("LocationServices", "Error starting resolution for location services.");
                         }
                     } else {
-                        Toast.makeText(this, "Please enable location services.", Toast.LENGTH_SHORT).show();
+                        showError("Please enable location services.");
                     }
                 });
     }
@@ -189,11 +224,11 @@ public class profilePageActivity extends AppCompatActivity {
                     setUpAddressSpinner(u);
                 }
                 else {
-                    //error
+                    showError("Failed to load user details.");
                 }
             }
             else {
-                //error
+                showError("Error fetching user details from API.");
             }
         });
     }
@@ -225,18 +260,18 @@ public class profilePageActivity extends AppCompatActivity {
 
         if (savedCity.equals(user.getHomeAddress())) {
             if (user.getHomeAddress() != null && !user.getHomeAddress().isEmpty()) {
-                addressOptions.add("בית: " + user.getHomeAddress());
+                addressOptions.add(getString(R.string.home_label) + user.getHomeAddress());
             }
             if (user.getWorkAddress() != null && !user.getWorkAddress().isEmpty()) {
-                addressOptions.add("עבודה: " + user.getWorkAddress());
+                addressOptions.add(getString(R.string.home_label) + user.getWorkAddress());
             }
         }
         else {
             if (user.getWorkAddress() != null && !user.getWorkAddress().isEmpty()) {
-                addressOptions.add("עבודה: " + user.getWorkAddress());
+                addressOptions.add(getString(R.string.home_label) + user.getWorkAddress());
             }
             if (user.getHomeAddress() != null && !user.getHomeAddress().isEmpty()) {
-                addressOptions.add("בית: " + user.getHomeAddress());
+                addressOptions.add(getString(R.string.home_label) + user.getHomeAddress());
             }
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, addressOptions);
@@ -247,13 +282,13 @@ public class profilePageActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedOption = parent.getItemAtPosition(position).toString();
-                if (selectedOption.equals("בחר כתובת")) {
+                if (selectedOption.equals(getString(R.string.choose_adress))) {
                     selectedCity = null;
                 } else {
-                    if (selectedOption.startsWith("בית: ")) {
-                        selectedCity = selectedOption.replace("בית: ", "");
-                    } else if (selectedOption.startsWith("עבודה: ")) {
-                        selectedCity = selectedOption.replace("עבודה: ", "");
+                    if (selectedOption.startsWith(getString(R.string.home_label))) {
+                        selectedCity = selectedOption.replace(getString(R.string.home_label), "");
+                    } else if (selectedOption.startsWith(getString(R.string.work_label))) {
+                        selectedCity = selectedOption.replace(getString(R.string.home_label), "");
                     }
                 }
                 sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
@@ -275,8 +310,7 @@ public class profilePageActivity extends AppCompatActivity {
             byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
         } catch (Exception e) {
-            Toast.makeText(Cheapy.context,
-                    "Error:" + e.getMessage(), Toast.LENGTH_SHORT).show();;
+            showError(e.getMessage());
         }
         return null;
     }
@@ -295,24 +329,21 @@ public class profilePageActivity extends AppCompatActivity {
 
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(location -> {
-                    requestNewLocationData();
-//                    if (location != null) {
-//                         userLatitude = location.getLatitude();
-//                         userLongitude = location.getLongitude();
-//                        Log.d("LocationSuccess", "Latitude: " + userLatitude + ", Longitude: " + userLongitude);
-//                        handleLocation(userLatitude, userLongitude);
-//                    } else {
-//                        Log.e("LocationError", "Location is null. Requesting new location...");
-//                        requestNewLocationData();
-//                    }
+                    if (location != null) {
+                         userLatitude = location.getLatitude();
+                         userLongitude = location.getLongitude();
+                        Log.d("LocationSuccess", "Latitude: " + userLatitude + ", Longitude: " + userLongitude);
+                        handleLocation(userLatitude, userLongitude);
+                    } else {
+                        Log.e("LocationError", "Location is null. Requesting new location...");
+                        requestNewLocationData();
+                    }
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("LocationError", "Failed to fetch location: " + e.getMessage());
-                    Toast.makeText(this, "Failed to fetch location: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    showError(e.getMessage());
                 });
     }
     private void handleLocation(double latitude, double longitude) {
-        Log.d("User Location", "Latitude: " + latitude + ", Longitude: " + longitude);
         updateAddressSpinnerWithLocation(latitude, longitude, user);
     }
 
@@ -395,21 +426,6 @@ public class profilePageActivity extends AppCompatActivity {
     };
 
 
-
-    private List<String> fetchNearbyAddresses(double latitude, double longitude) {
-        List<String> addresses = new ArrayList<>();
-        Geocoder geocoder = new Geocoder(this);
-        try {
-            List<Address> results = geocoder.getFromLocation(latitude, longitude, 5);
-            for (Address address : results) {
-                addresses.add(address.getAddressLine(0));
-            }
-        } catch (Exception e) {
-            Log.e("Geocoder Error", e.getMessage());
-        }
-        return addresses;
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -420,7 +436,7 @@ public class profilePageActivity extends AppCompatActivity {
                 fetchUserLocation();
             } else {
                 // Permission denied
-                Toast.makeText(this, "Location permission is required to suggest nearby stores.", Toast.LENGTH_SHORT).show();
+                showError("Location permission is required to suggest nearby stores.");
             }
         }
     }
