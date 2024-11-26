@@ -47,6 +47,13 @@ async function scrapeAndSaveItems() {
         }
 
         const productName = await page.textContent(productSelectorName); // Get the product name
+
+        // Check if the item already exists
+        const existingItem = await Item.findOne({ name: productName.trim() });
+                if (existingItem) {
+                  console.log(`Item with name "${productName.trim()}" already exists.`);
+                  continue; // Skip creating this item
+                }
         await page.click(productSelector); // Click the product to view its details
         await page.waitForTimeout(1000); // Allow time for the details page to load
 

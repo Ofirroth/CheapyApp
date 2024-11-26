@@ -16,7 +16,6 @@ customEnv.env(process.env.NODE_ENV, './config');
 
 const mongoose = require('mongoose');
 const scrapeAndSaveItems = require('./playwright/createItems');
-const updatePricesFromStores = require('./playwright/getPrices');
 const saveMatrixToCSV = require('./recommendationSystem/finalMatrix');
 const pythonShell = require('python-shell');
 
@@ -29,7 +28,6 @@ mongoose.connection.on('connected', async () => {
   console.log('Connected to MongoDB');
   await saveMatrixToCSV();
   //scrapeAndSaveItems();
-  //updatePricesFromStores();
 });
 mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error:', err);
