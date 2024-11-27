@@ -19,7 +19,7 @@ knn.fit(user_item_matrix) # Fit the model with the user-item matrix
 # Function to recommend top N items for a given user
 def recommend_items(user_index, user_item_matrix, knn, top_n=numNeig):
     # Find the nearest neighbors of the given user
-    distances, indices = knn.kneighbors(user_item_matrix.iloc[user_index].values.reshape(1, -1))
+    distances, indices = knn.kneighbors(user_item_matrix.iloc[[user_index]])
 
     # Get the indices of the most similar users (excluding the user itself)
     similar_users = indices.flatten()[1:]  # Exclude the user itself (index 0)
