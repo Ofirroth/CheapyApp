@@ -14,6 +14,7 @@ import com.example.cheapy.entities.Item;
 
 import java.util.List;
 
+// Repository class to handle data operations for items
 public class ItemRepository {
 
     private ItemDao itemDao;
@@ -29,33 +30,29 @@ public class ItemRepository {
         this.itemListData= new ItemListData();
         this.itemAPI = new ItemAPI();
     }
-
-    /*public LiveData<List<Item>> getItems() {
-        reload();
-        return itemListData;
-    }*/
+    // Fetch recommended items for a user, observing the data via LiveData
     public LiveData<List<Item>> getRecoItems(String userId) {
         reload(userId);
         return itemListData;
     }
+
+    // Fetch items by category, updating a MutableLiveData instance
     public MutableLiveData<List<Item>> getItemsByCategory(int categoryId) {
         MutableLiveData<List<Item>> categoryItemList = new MutableLiveData<>();
         itemAPI.getItemsByCategory(categoryItemList, token, categoryId);
         return categoryItemList;
     }
 
+    // Reload recommended items for the specified user
     public void reload(String username) {
-        //ItemAPI itemAPI = new ItemAPI();
-        //itemAPI.getItems(itemListData, token);
         recommendationAPI reco = new recommendationAPI();
         reco.getRecommendedItems(itemListData,token,username);
-        Log.d("boo", username);
-        itemDao.delete();
-        List<Item> itemsList = itemListData.getValue();
-        itemListData.postValue(itemsList);
+        itemDao.delete(); // Clear existing items in the local database
+        List<Item> itemsList = itemListData.getValue(); // Get current items from LiveData
+        itemListData.postValue(itemsList); // Update LiveData with new items
     }
 
-
+    // Custom LiveData class for handling item lists
     class ItemListData extends MutableLiveData<List<Item>> {
         public ItemListData() {
             super();

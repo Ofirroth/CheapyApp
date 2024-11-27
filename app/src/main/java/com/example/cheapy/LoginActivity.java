@@ -68,14 +68,6 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
             startActivity(intent);
         });
 
-        FloatingActionButton settingsButton = binding.settingsButton;
-        settingsButton.setOnClickListener(v -> {
-            // Start the SettingActivity
-            Intent intentSettings = new Intent(LoginActivity.this, SettingActivity.class);
-            intentSettings.putExtra("camefrom","login");
-            startActivity(intentSettings);
-        });
-
         binding.loginButton.setOnClickListener(view -> {
             // Get username and password from the UI
             String username = binding.editTextUsername.getText().toString();
