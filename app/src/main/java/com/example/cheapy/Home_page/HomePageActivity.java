@@ -118,18 +118,19 @@ public class HomePageActivity extends AppCompatActivity {
 
         GridView lvItems = binding.gridViewProducts;
         adapter = new ItemAdapter(getApplicationContext(), this.items);
-        //this.viewModel.getRecoItems(this.activeUserName).observe(this,adapter::setItems);
-        //this.viewModel.getItems().observe(this, adapter::setItems);;
-
         ProgressBar progressBar = binding.progressLoading;
         progressBar.setVisibility(View.VISIBLE);
+
+        // Observing the recommended items for the active user from the ViewModel
         this.viewModel.getRecoItems(this.activeUserName).observe(this, items -> {
             new Handler().postDelayed(new Runnable() {
                 @Override
+                // Hiding the progress bar after the delay
                 public void run() {
                     progressBar.setVisibility(View.GONE);
                 }
             }, 3000);
+            // Setting the retrieved items to the adapter
             adapter.setItems(items);
         });
         lvItems.setAdapter(adapter);

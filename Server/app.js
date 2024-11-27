@@ -64,12 +64,7 @@ app.use('/api/barcodes', barcode);
 const reco = require('./routes/reco');
 app.use('/api/recommended', reco);
 
-const chat = require('./routes/chat');
-const { Socket } = require('dgram');
-app.use('/api/Chats',chat);
-
 app.use('/',express.static('public'));
-app.use('/Chat',express.static('public'));
 app.use('/SignUp',express.static('public'));
 
 app.use(cors());
@@ -90,25 +85,5 @@ const serviceAccount = require('./cheapy-firebase.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     });
-
-io.on("connection", (socket) => {
-    socket.on("join_chat", (data) => {
-        socket.join(data);
-        socketMap.set(data,socket);
-        delete tokenMap.get(data);
-    });
-
-    socket.on("add-contact",(username) => {
-        if(!socket.in(username)){
-            return;
-        }
-        socket.in(username).emit("add-contact");
-    })
-    socket.on("send_message", (data) => {
-        console.log(data);
-        socket.in(data.receiverUser).emit("receive_message",data);
-    });
-})
-
 
 server.listen(process.env.PORT);

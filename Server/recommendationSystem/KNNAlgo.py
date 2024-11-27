@@ -1,24 +1,23 @@
 import numpy as np
 import pandas as pd
-import os
 import sys
 from sklearn.neighbors import NearestNeighbors
 import json
 
-# Load the user-item matrix from the CSV file
-base_path = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(base_path, "Server", "user_item_matrix.csv")
+# Read the CSV file into a pandas DataFrame
 df = pd.read_csv('./user_item_matrix.csv')
 
 # Remove the userId column to create the user-item matrix
 user_item_matrix = df.drop('userId', axis=1).fillna(0)  # Replace NaNs with 0 (no interaction)
 
-n_neighbors = min(6, len(user_item_matrix))  # Adjust n_neighbors to the number of samples in the matrix
-knn = NearestNeighbors(n_neighbors=n_neighbors, metric='cosine')  # Use cosine similarity
-knn.fit(user_item_matrix)
+numNeig = 6
+# Set the number of neighbors to use for the recommendation algorithm
+n_neighbors = min(numNeig, len(user_item_matrix))  # Ensure the number of neighbors doesn't exceed the number of available users
+knn = NearestNeighbors(n_neighbors=n_neighbors, metric='cosine')  # Initialize NearestNeighbors with cosine similarity
+knn.fit(user_item_matrix) # Fit the model with the user-item matrix
 
 # Function to recommend top N items for a given user
-def recommend_items(user_index, user_item_matrix, knn, top_n=6):
+def recommend_items(user_index, user_item_matrix, knn, top_n=numNeig):
     # Find the nearest neighbors of the given user
     distances, indices = knn.kneighbors(user_item_matrix.iloc[user_index].values.reshape(1, -1))
 
@@ -28,7 +27,7 @@ def recommend_items(user_index, user_item_matrix, knn, top_n=6):
     # Aggregate the ratings of the similar users
     aggregated_ratings = np.mean(user_item_matrix.iloc[similar_users], axis=0)
 
-    # Get the top N items based on aggregated ratings
+    # Sort the items based on the aggregated ratings and return the top N items
     top_items = np.argsort(aggregated_ratings)[::-1][:top_n]
 
     return top_items
@@ -41,11 +40,12 @@ if len(sys.argv) > 1:
         if userId not in df['userId'].astype(str).values:
             raise ValueError("Invalid userId")
         user_index = df[df['userId'] == userId].index[0]  # Get the index of the user in the matrix
-        recommended_items = recommend_items(user_index, user_item_matrix, knn, top_n=6)
+        # Get the recommended items for the user
+        recommended_items = recommend_items(user_index, user_item_matrix, knn, top_n=numNeig)
 
         # Map item indices to item names
         item_names = df.columns[1:]  # Assuming the first column is the userId
-        recommended_item_names = [item_names[i] for i in recommended_items]
+        recommended_item_names = [item_names[i] for i in recommended_items] # get items names
 
         # Ensure that the output is a valid UTF-8 encoded JSON
         result = json.dumps({'recommendedItems': recommended_item_names}, ensure_ascii=False)  # ensure_ascii=False to support non-ASCII characters

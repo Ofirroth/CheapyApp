@@ -329,15 +329,16 @@ public class profilePageActivity extends AppCompatActivity {
 
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(location -> {
-                    if (location != null) {
-                         userLatitude = location.getLatitude();
-                         userLongitude = location.getLongitude();
-                        Log.d("LocationSuccess", "Latitude: " + userLatitude + ", Longitude: " + userLongitude);
-                        handleLocation(userLatitude, userLongitude);
-                    } else {
-                        Log.e("LocationError", "Location is null. Requesting new location...");
-                        requestNewLocationData();
-                    }
+                    requestNewLocationData();
+//                    if (location != null) {
+//                         userLatitude = location.getLatitude();
+//                         userLongitude = location.getLongitude();
+//                        Log.d("LocationSuccess", "Latitude: " + userLatitude + ", Longitude: " + userLongitude);
+//                        handleLocation(userLatitude, userLongitude);
+//                    } else {
+//                        Log.e("LocationError", "Location is null. Requesting new location...");
+//                        requestNewLocationData();
+//                    }
                 })
                 .addOnFailureListener(e -> {
                     showError(e.getMessage());
