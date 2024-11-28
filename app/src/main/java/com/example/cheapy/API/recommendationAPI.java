@@ -34,54 +34,55 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
+// API class for handling recommendations using Retrofit
 public class recommendationAPI {
     Retrofit retrofit;
     recommendationServiceApi recommendationServiceapi;
 
-    private MutableLiveData responeAnswer;
-
+    // Constructor to initialize Retrofit and API interface
     public recommendationAPI() {
         /////////////
+        // Logging interceptor for debugging API calls
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        // OkHttpClient with interceptor
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .build();
         /////////////////
+        // Base URL for the API
         String apiAddress = Cheapy.urlServer.getValue();
-
+        // Initializing Retrofit instance
         retrofit = new Retrofit.Builder()
                 .baseUrl(apiAddress + "/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
-
+        // Creating API service interface
         recommendationServiceapi = retrofit.create(recommendationServiceApi.class);
-        responeAnswer = new MutableLiveData<>();
     }
 
+    // Fetch recommended items for a user
     public void getRecommendedItems(MutableLiveData<List<Item>> itemsListData, String token, String username) {
-        Log.d("boo","8");
+        // API call to get recommended items
         Call<List<Item>> call = recommendationServiceapi.getRecommended(token, username);
-        Log.d("boo","9");
+        // Enqueueing the call asynchronously
         call.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("boo","10");
+                    // If the response is successful, update the LiveData
                     itemsListData.setValue(response.body());
                 } else {
-                    Log.d("boo","11");
+                    // Show error message if the response is not successful
                     Toast.makeText(Cheapy.context, "Error:" + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Item>> call, Throwable t) {
+                // Handle call failure and show error message
                 String err = t.getMessage();
-                Log.d("boo","12");
-                Log.d("boo",err);
                 if (err != null) {
                     Toast.makeText(Cheapy.context, "Error:" + err, Toast.LENGTH_SHORT).show();
                 } else {
