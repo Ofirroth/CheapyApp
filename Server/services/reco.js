@@ -1,6 +1,7 @@
 const { spawn } = require('child_process');
 const userService = require('../services/user');
 const Item = require('../models/item');
+const saveMatrixToCSV = require('../recommendationSystem/finalMatrix');
 
 // Function to get recommended items for a given username
 const getRecommended = async (username) => {
@@ -8,6 +9,7 @@ const getRecommended = async (username) => {
         // Fetch user details based on the username
         const user = await userService.getUserByName(username);
         const userId = user._id.toString();  // Convert ObjectId to string
+        await saveMatrixToCSV();
 
         return new Promise((resolve, reject) => {
             // Spawn a Python process to run the recommendation algorithm with userId as a parameter
@@ -39,9 +41,9 @@ const getRecommended = async (username) => {
                     // find recommended items by name
                     const items = await Item.find({ name: { $in: recommendedItemNames } });
                     // Remove duplicates based on the name field
-                    const uniqueItems = [...new Map(items.map(item => [item.name, item])).values()];
+                    //const uniqueItems = [...new Map(items.map(item => [item.name, item])).values()];
                     // Resolve the promise with the unique recommended items
-                    resolve(uniqueItems);
+                    resolve(items);
                 } catch (error) {
                     console.log('JSON parsing error:', error);
                     reject('Error processing recommendations');

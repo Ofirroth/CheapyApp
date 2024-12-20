@@ -25,10 +25,10 @@ def recommend_items(user_index, user_item_matrix, knn, top_n=numNeig):
     similar_users = indices.flatten()[1:]  # Exclude the user itself (index 0)
 
     # Aggregate the ratings of the similar users
-    aggregated_ratings = np.mean(user_item_matrix.iloc[similar_users], axis=0)
+    ratings = np.mean(user_item_matrix.iloc[similar_users], axis=0)
 
     # Sort the items based on the aggregated ratings and return the top N items
-    top_items = np.argsort(aggregated_ratings)[::-1][:top_n]
+    top_items = np.argsort(ratings)[::-1][:top_n]
 
     return top_items
 
@@ -39,7 +39,7 @@ if len(sys.argv) > 1:
         # Ensure the userId exists in the dataset
         if userId not in df['userId'].astype(str).values:
             raise ValueError("Invalid userId")
-        user_index = df[df['userId'] == userId].index[0]  # Get the index of the user in the matrix
+        user_index = df.query('userId == @userId').index[0] # Get the index of the user in the matrix
         # Get the recommended items for the user
         recommended_items = recommend_items(user_index, user_item_matrix, knn, top_n=numNeig)
 

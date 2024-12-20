@@ -153,7 +153,7 @@ public class HomePageActivity extends AppCompatActivity {
     protected void onResume() {
             super.onResume();
             bottomNavigationView.setSelectedItemId(R.id.navigationHome);
-
+            this.viewModel.reload(this.activeUserName);
     }
 }
 
