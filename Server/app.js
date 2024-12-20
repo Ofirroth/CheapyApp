@@ -26,8 +26,7 @@ mongoose.connect(process.env.CONNECTION_STRING + "ChatDB", {
 
 mongoose.connection.on('connected', async () => {
   console.log('Connected to MongoDB');
-  await saveMatrixToCSV();
-  scrapeAndSaveItems();
+  //scrapeAndSaveItems();
 });
 mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error:', err);
